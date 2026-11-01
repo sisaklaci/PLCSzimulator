@@ -1,0 +1,675 @@
+{
+  "lang_code": "PL",
+  "footer_title": "PLC-symulator - Podręcznik użytkownika",
+  "doc_title": "PLC-symulator",
+  "doc_subtitle": "Podręcznik użytkownika",
+  "author_line": "Autor: Sisak László (helmetsoft.com)",
+  "disclaimer": "BEZPŁATNY do celów edukacyjnych - zakaz wprowadzania do obrotu handlowego",
+  "version_line": "Wydanie 2. - rozszerzone o rozdziały: Programy przykładowe, GRAFCET, Impulsy zegarowe (bity zegarowe) oraz Drukowanie/dokumentacja",
+  "toc_heading": "Spis treści",
+  "sections": [
+    {
+      "num": "1",
+      "title": "Wprowadzenie",
+      "intro": "PLC-symulator to bezpłatna aplikacja edukacyjna, która prezentuje działanie programowalnych sterowników logicznych (PLC) za pomocą czterech, swobodnie łączonych widoków programowania: schemat drabinkowy (ladder, LD), schemat blokowy funkcji (FBD), sekwencyjny schemat funkcjonalny (GRAFCET/SFC) oraz w pełni konfigurowalny, atrakcyjny interfejs operatorski (HMI). Program symuluje działanie PLC w czasie rzeczywistym, w oparciu o cykliczne wykonywanie programu (cykl skanowania), a napisaną logikę tłumaczy również na format listy instrukcji najpopularniejszych producentów przemysłowych - dzięki temu program napisany w symulatorze może służyć jako materiał dydaktyczny, demonstracja lub nawet podstawa do przeniesienia na rzeczywisty sterownik PLC.",
+      "items": [
+        "**Edytor schematu drabinkowego**: styki, cewki, Set/Reset, timery (TON), liczniki (CTU), gałęzie równoległe",
+        "**Schemat blokowy funkcji (FBD)**: AND/OR/NOT/XOR, zatrzask SR, TON, CTU, detektory zbocza narastającego/opadającego (R_TRIG/F_TRIG)",
+        "**GRAFCET (sekwencyjny schemat funkcjonalny)**: kroki, przejścia, warunki przejścia (receptywności), akcje - a także unikalna funkcja automatycznego generowania programu drabinkowego z zaprojektowanej sekwencji",
+        "**Impulsy zegarowe (bity zegarowe)**: wewnętrzne przekaźniki migające z dowolną częstotliwością i współczynnikiem wypełnienia 50%, do mrugania i sterowania sekwencyjnego",
+        "Swobodnie projektowany, wieloekranowy interfejs HMI, z 12 różnymi typami elementów i animacją w czasie rzeczywistym",
+        "**Biblioteka programów przykładowych**: 9 gotowych, natychmiast wczytywalnych demonstracji przemysłowych i edukacyjnych",
+        "**Eksport kodu maszynowego**: IEC Instruction List, Siemens STL, Mitsubishi, Allen-Bradley - z pełną tabelą zgodności z producentami",
+        "Automatyczne **sprawdzanie programu** oraz **wyszukiwanie odwołań** w celu wykrycia typowych błędów",
+        "**Drukowanie i eksport do PDF**, a także generator pełnej dokumentacji projektu dostępny jednym kliknięciem",
+        "Wielopoziomowe **Wycofanie/Powtórzenie** dla całego projektu (drabinka, HMI, FBD, GRAFCET, impulsy zegarowe, etykiety)",
+        "Interfejs użytkownika dostępny w 6 językach: węgierski, angielski, niemiecki, hiszpański, francuski, polski"
+      ]
+    },
+    {
+      "num": "2",
+      "title": "Wymagania systemowe i uruchamianie",
+      "intro": "Program zawiera własne, wbudowane środowisko wykonawcze Java (JRE), więc nie jest wymagana osobna instalacja Java.",
+      "items": [
+        "Uruchamianie: kliknij dwukrotnie plik **PlcSzimulator.exe**",
+        "Połączenie z internetem nie jest wymagane - program działa całkowicie lokalnie, na komputerze użytkownika",
+        "Okno można zmieniać wielkość i przesuwać, jak w każdej aplikacji systemu Windows",
+        "Pliki projektów zapisuje się i otwiera z rozszerzeniem **.plc**",
+        "Podczas działania program nie wysyła i nie odbiera żadnych danych przez sieć"
+      ]
+    },
+    {
+      "num": "3",
+      "title": "Przegląd interfejsu użytkownika",
+      "intro": "W górnej części okna znajduje się pasek wyboru języka z flagami, pod nim główny pasek narzędzi, w środku zakładki Schemat drabinkowy / HMI / Schemat blokowy (FBD) / GRAFCET, po prawej stronie panel wejść/wyjść (stan wejść, wyjść, timerów i liczników), a na dole pasek stanu.",
+      "items": [
+        "**Menu**: Plik, Edycja, Kod maszynowy, Sprawdzanie, Pomoc",
+        "**Pasek narzędzi**: przyciski Start / Stop / Krok / Reset, Wycofanie / Powtórzenie, wybór czasu cyklu, przyciski do zarządzania sieciami, wybór powiększenia",
+        {
+          "text": "**Zakładki**: można swobodnie przełączać się między czterema widokami, które operują na tej samej pamięci I/Q/M/T/C:",
+          "sub": [
+            "**Schemat drabinkowy** - tradycyjny edytor logiki przekaźnikowej (ladder)",
+            "**HMI** - projektant interfejsu operatorskiego i wizualizacja na żywo",
+            "**Schemat blokowy (FBD)** - edytor logiki blokowej",
+            "**GRAFCET** - edytor sekwencyjnego schematu funkcjonalnego (SFC)"
+          ]
+        },
+        "**Panel I/O**: aktualny stan wejść (I), wyjść (Q), przekaźników wewnętrznych (M) oraz timerów (T) i liczników (C), odświeżany na żywo podczas pracy",
+        "**Pasek stanu**: wyświetla wynik ostatniej operacji oraz liczbę wykonanych cykli skanowania podczas pracy"
+      ]
+    },
+    {
+      "num": "4",
+      "title": "Zmiana języka",
+      "intro": "Klikając na odręcznie narysowane flagi państw widoczne w górnej części okna, można natychmiast zmienić język programu: węgierski, angielski, niemiecki, hiszpański, francuski lub polski.",
+      "items": [
+        "Flaga aktualnie wybranego języka jest oznaczona niebieską ramką",
+        "Przy zmianie języka program całkowicie odbudowuje okno, ale zachowuje wczytany projekt: sieci, ekrany HMI, blokki FBD, diagram GRAFCET oraz ustawienia impulsów zegarowych",
+        "Jeśli wczytany program jest jeszcze początkowym domyślnym demo lub wbudowanym przykładem, który nie został jeszcze edytowany, powiązane z nim teksty opisowe (komentarze sieci, etykiety HMI) automatycznie wyświetlają się na nowo w wybranym języku",
+        "Gdy użytkownik faktycznie dokona jakiejkolwiek edycji programu (nawet pojedynczej sieci), program od tego momentu zachowuje własne, ewentualnie wielojęzyczne teksty - zmiana języka już ich nie tłumaczy, zmienia się tylko język gotowych elementów interfejsu programu (menu, przyciski, okna dialogowe)",
+        "Przy zmianie języka zawsze zachowane zostają: przypisane nazwy etykiet i komentarze, ścieżka aktualnego pliku, stan czasu wykonania PLC, czas cyklu, licznik skanowania oraz poziom powiększenia"
+      ]
+    },
+    {
+      "num": "5",
+      "title": "Operacje na plikach",
+      "intro": "Menu **Plik** zawiera następujące operacje:",
+      "items": [
+        "**Nowy program**: usuwa aktualne sieci, HMI, FBD, GRAFCET, impulsy zegarowe i etykiety (wymaga potwierdzenia)",
+        "**Otwórz...**: wczytanie wcześniej zapisanego projektu .plc",
+        "**Zapisz** / **Zapisz jako...**: zapis całego projektu (program drabinkowy, etykiety, wszystkie ekrany HMI, blokki FBD, diagram GRAFCET, impulsy zegarowe) do jednego pliku .plc",
+        "Podmenu **Programy przykładowe**: wbudowana biblioteka programów, zob. rozdział 6",
+        "**Drukuj / eksport do PDF...** oraz **Drukuj dokumentację projektu...**: zob. rozdział 18",
+        "**Zamknij**: zamyka program"
+      ],
+      "note": "Plik .plc jest formatem serializacji Java (nie jest to format tekstowy ani XML) i można go otworzyć wyłącznie tym programem. Program jest kompatybilny ze starszym, jednoekranowym formatem HMI, a także ze starszymi plikami bez HMI/FBD/GRAFCET, zawierającymi jedynie program drabinkowy - brakujące części są wówczas wczytywane w pustym stanie początkowym."
+    },
+    {
+      "num": "6",
+      "title": "Programy przykładowe (biblioteka programów)",
+      "intro": "W podmenu **Plik → Programy przykładowe** znajduje się 9 gotowych, natychmiast wczytywalnych programów demonstracyjnych. Każdy przykład buduje jednocześnie kompletny program drabinkowy, odpowiadający mu ekran HMI, niewielki ilustracyjny fragment schematu blokowego funkcji oraz ilustracyjny diagram GRAFCET - te dwa ostatnie służą zademonstrowaniu danego typu blokku/koncepcji programu, na odrębnych bitach niezależnych od rzeczywistych wyjść, dlatego nie wpływają na główne działanie przykładu. Wczytanie przykładu usuwa aktualny program (wymaga potwierdzenia).",
+      "table": {
+        "header": [
+          "Nazwa przykładu",
+          "Co demonstruje"
+        ],
+        "col_widths": [
+          0.3,
+          0.7
+        ],
+        "rows": [
+          [
+            "Rozruch silnika (domyślne demo)",
+            "Samopodtrzymujący się rozruch silnika; 3-sekundowe opóźnienie włączenia (TON); lampka sygnalizacyjna po zakończeniu opóźnienia; zliczanie rozruchów (CTU) i sygnalizacja po 5 rozruchach"
+          ],
+          [
+            "Rozruch silnika gwiazda-trójkąt",
+            "Klasyczny układ rozruchu gwiazda-trójkąt: stycznik główny, 3-sekundowy czas przełączania, sterowanie stycznikiem gwiazdy, a następnie trójkąta"
+          ],
+          [
+            "Sekwencyjny rozruch przenośników",
+            "Opóźniony, następujący po sobie rozruch trzech przenośników taśmowych (sekwencyjna logika rozruchu)"
+          ],
+          [
+            "Cela robotyczna (załadunek/wyładunek bloków silnika)",
+            "Ta sama logika sterowania, co w przykładzie z przenośnikami, ale z atrakcyjnym interfejsem HMI: animacja ramion robotów Fanuc i Kuka, przenośników taśmowych i przedmiotów obrabianych"
+          ],
+          [
+            "Sygnalizacja świetlna (automat stanów)",
+            "Klasyczny automat stanów oparty na Set/Reset: czerwone (4 s) - żółte (1 s) - zielone (3 s) - czerwone... cykliczna zmiana faz"
+          ],
+          [
+            "Winda (2-piętrowa)",
+            "Pełne sterowanie windą: przyciski wezwania, czasy otwierania drzwi, czas przejazdu, animacja drzwi i sygnalizacja ruchu kabiny"
+          ],
+          [
+            "Skrzyżowanie z przejściem dla pieszych",
+            "Zmiana faz sygnalizacji świetlnej z przyciskiem wezwania dla pieszych: zielone dla pieszych włącza się tylko po wezwaniu, w fazie czerwonego dla samochodów"
+          ],
+          [
+            "Migająca lampka (z impulsem zegarowym)",
+            "Najprostsza demonstracja impulsu zegarowego: pojedyncza sieć, która bezpośrednio wyprowadza bit zegarowy 1 Hz na lampkę HMI"
+          ],
+          [
+            "Światło biegnące (z impulsem zegarowym)",
+            "8-pozycyjny, okrążający rząd świateł (tzw. układ „licznika Johnsona”), przesuwany impulsem zegarowym (bitem zegarowym) - szczegółowo opisany w rozdziale 14"
+          ]
+        ]
+      },
+      "note": "Przykłady „Villogó lámpa” i „Futófény” zostały stworzone specjalnie w celu zademonstrowania funkcji Impulsów zegarowych (bitów zegarowych) - warto zacząć od nich, jeśli chce się poznać tę funkcję."
+    },
+    {
+      "num": "7",
+      "title": "Edycja schematu drabinkowego",
+      "intro": "Schemat drabinkowy składa się z sieci (rungs). Każda sieć zawiera połączony szeregowo przedczłon, opcjonalne gałęzie równoległe, połączony szeregowo poczłon oraz wyjście.",
+      "items": [
+        "**Nowy styk**: kliknij w miejsce oznaczone przerywanym „+”",
+        "**Edycja / usuwanie styku**: kliknij istniejący styk. Typ: Normalnie otwarty (NO) lub Normalnie zamknięty (NC); typ operandu: Wejście (I), Wyjście (Q), Przekaźnik wewnętrzny (M), Timer zakończony (T.DN) lub Licznik zakończony (C.DN); indeks: 0-15 dla I/Q/M, 0-7 dla T.DN/C.DN",
+        "**Dodanie gałęzi równoległej**: kliknij przerywany wiersz „+ gałąź” pod siecią",
+        "**Usuwanie gałęzi**: kliknij czerwony znak X widoczny na początku gałęzi",
+        {
+          "text": "**Edycja wyjścia**: kliknij wyjście (cewka / timer / licznik). Celem może być Wyjście (Q) lub Przekaźnik wewnętrzny (M), dostępne typy:",
+          "sub": [
+            "**Cewka** - opcjonalnie z negacją (cewka NOT)",
+            "**Set** - włącza bit docelowy (ustawia na prawdę), dopóki warunek jest spełniony",
+            "**Reset** - wyłącza bit docelowy (ustawia na fałsz), dopóki warunek jest spełniony",
+            "**Timer (TON)** - indeks T (0-7) oraz czas zadany (preset, 0-3 600 000 ms, z krokiem 100 ms)",
+            "**Licznik (CTU)** - indeks C (0-7) oraz zadana liczba (preset, 1-100 000)"
+          ]
+        },
+        "**Zaznaczanie sieci**: kliknij lewy pasek sieci",
+        "**Komentarz sieci**: edytowalny po dwukrotnym kliknięciu na pasek; przy tworzeniu nowej sieci program sam o niego pyta",
+        "**Przesuwanie sieci**: zaznaczoną sieć można przesuwać przyciskami **▲ Góra** / **▼ Dół** na pasku narzędzi",
+        "**Kopiowanie / wklejanie sieci**: przyciski **Kopiuj sieć** / **Wklej sieć** pozwalają skopiować całą sieć (jest ona wstawiana zawsze po zaznaczonej sieci)",
+        "**Kopiowanie / wklejanie styku**: Ctrl+kliknięcie na istniejącym styku kopiuje go do schowka; Ctrl+kliknięcie w wolnym miejscu „+” wkleja go",
+        "**Dodanie nowej sieci**: przyciskiem **+ Sieć** lub za pomocą przerywanego wiersza na dole listy; przy dodawaniu nowego wyjścia program automatycznie proponuje jako cel pierwszy wolny indeks Q",
+        "**Usuwanie sieci**: zaznacz sieć, a następnie kliknij przycisk **Usuń sieć**"
+      ],
+      "note": "Powiększenie (zob. rozdział 20) wpływa również na schemat drabinkowy - w większych projektach warto je zmniejszyć dla lepszej przejrzystości."
+    },
+    {
+      "num": "8",
+      "title": "Etykiety (tagi)",
+      "intro": "Każdy adres I/Q/M/T/C można opatrzyć opisową nazwą i komentarzem, aby program był łatwiejszy do odczytania i udokumentowania.",
+      "items": [
+        "Otwieranie: menu **Edycja** → **Edytuj tagi...**",
+        "Wyświetlana tabela zawiera wszystkie 64 adresy pamięci (16 wejść, 16 wyjść, 16 przekaźników wewnętrznych, 8 timerów, 8 liczników); dla każdego wiersza można podać Nazwę i Komentarz",
+        "Podane nazwy wyświetlają się na schemacie drabinkowym, panelu I/O, HMI, w FBD, w eksporcie kodu maszynowego (jako komentarz na końcu wiersza), na liście rozwijanej wyszukiwania odwołań oraz w wydrukowanej dokumentacji projektu",
+        "Po zatrzymaniu kursora myszy nad elementem (podpowiedź, tooltip) wyświetlany jest pełny adres, podana nazwa oraz komentarz",
+        "Pozostawienie pola nazwy/komentarza pustym powoduje usunięcie wiersza z listy przy zapisie"
+      ]
+    },
+    {
+      "num": "9",
+      "title": "Sterowanie symulacją",
+      "intro": "Symulacja działa w oparciu o cykliczne (skanowane) wykonywanie programu, tak jak w rzeczywistym PLC: w każdym cyklu (skanie) program kolejno wykonuje całą logikę, a następnie zaczyna od nowa.",
+      "items": [
+        "**Start**: uruchamia cykliczne wykonywanie programu z ustawionym czasem cyklu",
+        "**Stop**: zatrzymuje symulację",
+        "**Krok**: w stanie zatrzymanym wykonuje jeden cykl skanowania - przydatne do śledzenia logiki krok po kroku",
+        "**Reset**: usuwa stan wyjść, przekaźników wewnętrznych, timerów i liczników, a także resetuje wewnętrzną fazę generatorów impulsów zegarowych oraz kroki GRAFCET do stanu początkowego",
+        "**Czas cyklu**: na pasku narzędzi można wybrać 50, 100, 150, 250, 500 lub 1000 milisekund (domyślnie: 150 ms)",
+        "Klikając przyciski wejść (panel I/O), można włączać i wyłączać wejścia, również podczas pracy",
+        "Podczas pracy przewody i styki sygnalizują kolorem stan pod napięciem (przewodzący)",
+        {
+          "text": "Jeden cykl skanowania przebiega w ściśle określonej, ustalonej kolejności:",
+          "sub": [
+            "1. Wykonanie generatorów impulsów zegarowych (zob. rozdział 14)",
+            "2. Wykonanie sieci schematu drabinkowego, od góry do dołu",
+            "3. Wykonanie schematu blokowego funkcji (FBD), w kolejności blokków na liście",
+            "4. Wykonanie GRAFCET",
+            "5. Próbkowanie trendów HMI, odświeżanie wskaźników"
+          ]
+        }
+      ],
+      "note": "Ponieważ wykonywanie odbywa się w ustalonej kolejności, połączenie „odwołujące się w przód” (np. blokk FBD korzystający z wyjścia blokku występującego później na liście) uwidacznia się z opóźnieniem jednego pełnego cyklu skanowania. To samo dotyczy impulsu zegarowego: wpływ bitu sterowanego nim na drabinkę i FBD widać dopiero w kolejnych cyklach."
+    },
+    {
+      "num": "10",
+      "title": "Wycofanie i Powtórzenie",
+      "intro": "Program prowadzi pełną historię wycofywania operacji edycyjnych, obejmującą cały projekt.",
+      "items": [
+        "**Ctrl+Z**: wycofanie, **Ctrl+Y**: powtórzenie - dostępne również przyciskami na pasku narzędzi, działają zarówno w głównym oknie, jak i w odłączonym oknie HMI",
+        "Funkcja działa jednolicie dla drabinki, etykiet, wszystkich ekranów HMI, FBD, GRAFCET oraz ustawień impulsów zegarowych - wszystkimi zmianami zarządza jeden wspólny stos wycofywania",
+        "Głębokość historii wynosi 60 kroków",
+        "Utworzenie nowego programu lub otwarcie pliku usuwa dotychczasową historię"
+      ],
+      "note": "Wycofanie NIE obejmuje stanu PLC w czasie wykonania (aktualnych wartości I/Q/M/T/C), czasu cyklu, powiększenia oraz stanu pracy/zatrzymania - są to ustawienia dotyczące wykonania, a nie edycji. Każda faktyczna edycja (nawet zmiana jednego styku) „odłącza” program od wczytanego programu przykładowego, nawet jeśli zmiana zostanie następnie wycofana."
+    },
+    {
+      "num": "11",
+      "title": "Interfejs HMI",
+      "intro": "Na zakładce **HMI** (Human-Machine Interface) można swobodnie zaprojektować atrakcyjny interfejs operatorski dla działającego programu PLC, korzystając z 12 różnych typów elementów.",
+      "items": [
+        "**Tryb edycji**: włączany / wyłączany przełącznikiem **Edycja HMI**",
+        "**Umieszczanie nowego elementu**: wybierz typ z listy rozwijanej, a następnie kliknij na obszarze roboczym",
+        "**Przesuwanie / zmiana rozmiaru elementu**: przeciągnij element lub jego prawy dolny narożnik",
+        "**Edycja właściwości**: po dwukrotnym kliknięciu elementu - dla każdego typu elementu można ustawić powiązany adres I/Q/M/T/C, dwa swobodnie wybierane kolory (stan włączony / wyłączony), rozmiar czcionki (8-48 pt) oraz ustawienia charakterystyczne dla danego typu (zob. tabela poniżej)",
+        "Przycisk **Usuń zaznaczony element** na pasku edycji",
+        {
+          "text": "**Obsługa wielu ekranów**: za pomocą listy rozwijanej Ekran można przełączać się między ekranami HMI; przyciski obsługi:",
+          "sub": [
+            "**+ Nowy ekran** - tworzenie nowego, pustego ekranu z oknem dialogowym żądającym nazwy",
+            "**Zmień nazwę...** - zmiana nazwy wybranego ekranu",
+            "**Usuń ekran** - przynajmniej jeden ekran musi zawsze pozostać"
+          ]
+        },
+        "Przełącznik **W osobnym oknie**: przenosi HMI do samodzielnego, przesuwanego okna, dzięki czemu można je wyświetlić jednocześnie, obok schematu drabinkowego (lub innego widoku) - po zamknięciu okna HMI wraca na pierwotną zakładkę",
+        "Podczas pracy, BEZ trybu edycji, przyciski reagują na kliknięcie na żywo, a lampki, wskaźniki i animowane elementy śledzą na żywo logikę PLC"
+      ],
+      "table": {
+        "header": [
+          "Typ elementu",
+          "Opis i najważniejsze właściwości"
+        ],
+        "col_widths": [
+          0.22,
+          0.78
+        ],
+        "rows": [
+          [
+            "Lampka",
+            "Okrągła lampka sygnalizacyjna: świeci kolorem włączonym, gdy powiązany bit jest prawdziwy, w przeciwnym razie kolorem wyłączonym"
+          ],
+          [
+            "Przycisk",
+            "Klikalny przycisk, dwa tryby: **Przełącznik** - zmienia stan bitu po kliknięciu; **Chwilowy** - bit jest prawdziwy tylko podczas przytrzymania przycisku. Ma sens tylko dla celu Wejście (I) lub Przekaźnik wewnętrzny (M)"
+          ],
+          [
+            "Wyświetlacz",
+            "Wyświetlacz numeryczny typu „LCD”: zwykle pokazuje wartość bitu 0/1; w trybie „Wartość liczbowa” dla Timera/Licznika wyświetla wartość aktualną/ustawioną (np. „1234 / 2000 ms”) zamiast bitu zakończenia"
+          ],
+          [
+            "Etykieta",
+            "Prosty, statyczny tekst, do celów dekoracyjnych lub opisowych"
+          ],
+          [
+            "Prostokąt",
+            "Wypełniony prostokąt dekoracyjny/grupujący z ramką, z opcjonalnym podpisem"
+          ],
+          [
+            "Trend",
+            "Wykres w czasie przedstawiający ostatnie 120 punktów próbkowania na wykresie liniowym (stan bitu lub aktualna wartość Timera/Licznika)"
+          ],
+          [
+            "Zebra",
+            "Wzór pasiastego przejścia dla pieszych; element czysto dekoracyjny, automatycznie z pasami poziomymi lub pionowymi w zależności od proporcji"
+          ],
+          [
+            "Drzwi",
+            "Drzwi złożone z dwóch przesuwnych paneli, które otwierają i zamykają się animowanie, w ciągu ok. pół sekundy, zgodnie ze stanem powiązanego bitu"
+          ],
+          [
+            "Przenośnik taśmowy",
+            "Realistyczna animacja przenośnika taśmowego z poruszającym się wzorem, a podczas działania z ikonami przedmiotów obrabianych przesuwających się na taśmie"
+          ],
+          [
+            "Czujnik",
+            "Rysunek optycznego czujnika zbliżeniowego, w stanie aktywnym z pulsującym konusem światła i świecącą diodą LED; możliwość obrotu o 0/90/180/270 stopni"
+          ],
+          [
+            "Robot Fanuc",
+            "Animacja dwuramiennego, przegubowego robota przemysłowego (kolorystyka żółta), z ciągłym ruchem wahadłowym, dopóki powiązany bit jest prawdziwy; możliwość odbicia w płaszczyźnie poziomej"
+          ],
+          [
+            "Robot Kuka",
+            "Ta sama animacja ruchu, w kolorystyce charakterystycznej dla Kuka (pomarańczowa)"
+          ]
+        ]
+      },
+      "note": "Widgety Drzwi, Przenośnik taśmowy, Czujnik oraz dwa widgety ramion robotów animują się według ciągłego, niezależnego od cyklu skanowania timera animacji (40 ms) - elementy te animują się także wtedy, gdy symulacja PLC jest aktualnie zatrzymana, o ile powiązany bit jest prawdziwy."
+    },
+    {
+      "num": "12",
+      "title": "Schemat blokowy funkcji (FBD)",
+      "intro": "Na zakładce **Schemat blokowy (FBD)** można zbudować logikę blokową, odrębną od drabinki, która korzysta z tej samej pamięci I/Q/M/T/C, co schemat drabinkowy, zarówno do odczytu, jak i do zapisu - oba widoki można swobodnie łączyć w ramach tego samego projektu.",
+      "items": [
+        "**Tryb edycji**: włączany przełącznikiem **Edycja FBD**; nowy blokk umieszcza się, wybierając go z listy rozwijanej, a następnie klikając na obszarze roboczym - program natychmiast otwiera okno dialogowe właściwości blokku",
+        "**Przesuwanie blokku**: przeciągnij ze środka blokku (nie z punktów wejściowych/wyjściowych)",
+        "**Okablowanie**: kliknij punkt wyjściowy blokku (okrąg po prawej stronie), a następnie wejście docelowe (okrąg po lewej stronie); nowe kliknięcie na punkcie wejściowym w każdej chwili nadpisuje wcześniejsze połączenie",
+        "**Rozłączanie przewodu**: kliknij już podłączony punkt wejściowy (jeśli żadne okablowanie nie jest aktualnie w trakcie)",
+        "**Właściwości blokku**: edytowalne po dwukrotnym kliknięciu (typ, podpis, liczba wejść 2-8 dla AND/OR, powiązany adres I/Q/M/T.DN/C.DN, indeks T i preset dla TON, indeks C i preset dla CTU)",
+        "Przycisk **Usuń zaznaczony blokk** na pasku edycji"
+      ],
+      "table": {
+        "header": [
+          "Typ blokku",
+          "Działanie"
+        ],
+        "col_widths": [
+          0.22,
+          0.78
+        ],
+        "rows": [
+          [
+            "Wejście",
+            "Brak wejścia; wyjście jest aktualną wartością powiązanego bitu I/Q/M/T.DN/C.DN"
+          ],
+          [
+            "Wyjście",
+            "Jedno wejście; jego wartość jest zapisywana do bitu Wyjście (Q) lub Przekaźnik wewnętrzny (M)"
+          ],
+          [
+            "AND",
+            "2-8 wejść, połączenie logiczne I"
+          ],
+          [
+            "OR",
+            "2-8 wejść, połączenie logiczne LUB"
+          ],
+          [
+            "NOT",
+            "Jedno wejście, negacja"
+          ],
+          [
+            "XOR",
+            "Dokładnie 2 wejścia, połączenie logiczne LUB wykluczające"
+          ],
+          [
+            "Zatrzask SR",
+            "Dwa wejścia (S, R); zatrzask z dominacją Reset: jeśli R jest prawdziwe, wyjście jest fałszywe; w przeciwnym razie, jeśli S jest prawdziwe, wyjście jest prawdziwe; jeśli oba są fałszywe, wyjście zachowuje poprzednią wartość"
+          ],
+          [
+            "TON",
+            "Timer z opóźnieniem włączenia, z własnym indeksem T (0-7) i ustawieniem czasu zadanego (ms)"
+          ],
+          [
+            "CTU",
+            "Licznik zliczający w górę, z wejściami CU (zliczanie) i R (reset), z własnym indeksem C (0-7) i ustawieniem zadanej liczby"
+          ],
+          [
+            "R_TRIG (P)",
+            "Detektor zbocza narastającego: prawdziwy dokładnie jeden cykl skanowania przy przejściu wejścia 0→1"
+          ],
+          [
+            "F_TRIG (N)",
+            "Detektor zbocza opadającego: prawdziwy dokładnie jeden cykl skanowania przy przejściu wejścia 1→0"
+          ]
+        ]
+      },
+      "note": "Blokki TON i CTU korzystają z tej samej pamięci timerów i liczników (T0-T7, C0-C7), co odpowiadające im wyjścia schematu drabinkowego - jeśli ten sam indeks jest sterowany w obu widokach, konflikt zostanie zgłoszony przez funkcję Sprawdzania programu (rozdział 15). Blokki są zawsze wykonywane w kolejności, w jakiej zostały umieszczone na obszarze roboczym, w każdym cyklu skanowania."
+    },
+    {
+      "num": "13",
+      "title": "GRAFCET (sekwencyjny schemat funkcjonalny)",
+      "intro": "Na zakładce **GRAFCET** można projektować procesy sekwencyjne, przebiegające krok po kroku, za pomocą przejrzystej notacji graficznej zgodnej z normą IEC 60848: diagram składa się z kroków oraz przejść (warunkowych zmian) między nimi.",
+      "items": [
+        "**Tryb edycji**: włączany przełącznikiem **Edycja GRAFCET**; nowy element (Krok lub Przejście) umieszcza się, wybierając go z listy rozwijanej i klikając na obszarze roboczym",
+        "**Edycja kroku**: podanie podpisu, pole wyboru „Krok początkowy” (krok początkowy jest rysowany z podwójną ramką, zgodnie ze standardową notacją) oraz dowolna liczba przypisanych akcji",
+        "**Edycja przejścia**: warunek (receptywność) można zbudować z dowolnej liczby styków połączonych logicznym ORAZ (ten sam edytor, co dla styków drabinki: każdy adres I/Q/M/T.DN/C.DN, typ Normalnie otwarty lub Normalnie zamknięty)",
+        "**Okablowanie**: punkt wyjściowy kroku można połączyć z punktem wejściowym przejścia, a punkt wyjściowy przejścia z punktem wejściowym kroku; przejście może mieć wiele kroków źródłowych i wiele kroków docelowych, co umożliwia budowanie sekwencji rozgałęzionych i zbiegających się",
+        "Podczas pracy aktywne kroki i przejścia gotowe do zadziałania są wyświetlane w kolorze zielonym (kolor pod napięciem)",
+        "**Usuń zaznaczony element**: usuwa krok/przejście oraz wszystkie powiązane z nim połączenia"
+      ],
+      "subsections": [
+        {
+          "title": "13.1 Typy akcji",
+          "intro": "Do każdego kroku można przypisać dowolną liczbę akcji, które sterują wyjściami, gdy krok jest aktywny:",
+          "table": {
+            "header": [
+              "Typ akcji",
+              "Działanie"
+            ],
+            "col_widths": [
+              0.25,
+              0.75
+            ],
+            "rows": [
+              [
+                "Ciągła",
+                "Dopóki krok jest aktywny, bit docelowy jest stale prawdziwy; w momencie dezaktywacji kroku natychmiast przechodzi na fałsz"
+              ],
+              [
+                "Set",
+                "Dopóki krok jest aktywny, bit docelowy jest ustawiany (na prawdę) - o jego zresetowanie trzeba zadbać odrębnie, na przykład akcją Reset innego kroku"
+              ],
+              [
+                "Reset",
+                "Dopóki krok jest aktywny, bit docelowy jest resetowany (na fałsz)"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "13.2 Przebieg wykonania",
+          "intro": "W każdym cyklu skanowania program działa zgodnie z synchroniczną semantyką GRAFCET: najpierw wyszukuje wszystkie przejścia, których wszystkie kroki źródłowe są aktywne I których warunek jest prawdziwy, a następnie - jednocześnie, w jednym kroku - dezaktywuje odpowiednie kroki źródłowe i aktywuje kroki docelowe. **Reset** (rozdział 9) przywraca wszystkie kroki do konfiguracji początkowej."
+        },
+        {
+          "title": "13.3 Generowanie drabinki z GRAFCET",
+          "intro": "Jedną z unikalnych funkcji zakładki GRAFCET jest przycisk **Generuj drabinkę...**: automatycznie przekształca zaprojektowaną sekwencję w rzeczywiste, wykonywalne sieci schematu drabinkowego.",
+          "items": [
+            "Funkcja automatycznie przypisuje każdemu krokowi GRAFCET wolny (niewykorzystywany gdzie indziej) bit Przekaźnika wewnętrznego (M) i prosi o potwierdzenie, wyświetlając tabelę przypisań",
+            "Dla każdego kroku generowana jest sieć aktywująca (ustawia bit M kroku, gdy spełnione są przychodzące przejścia), sieć dezaktywująca (usuwa bit M kroku przy wyjściu) oraz dodatkowa sieć na każdą akcję przypisaną do kroku",
+            "Wygenerowane sieci są dołączane na końcu programu drabinkowego",
+            "Po wygenerowaniu zakładka GRAFCET staje się wyłącznie podglądem wizualnym - od tego momentu rzeczywiste sterowanie realizują wygenerowane sieci drabinkowe, aby obie reprezentacje nie rywalizowały o to samo wyjście"
+          ],
+          "note": "Funkcja wymaga przynajmniej jednego kroku i dokładnie jednego zaznaczonego „Kroku początkowego”. Przy liczbie kroków większej niż 16 może nie wystarczyć wolnych bitów przekaźników wewnętrznych (M) do przypisania - w takim przypadku program zgłosi błąd."
+        }
+      ]
+    },
+    {
+      "num": "14",
+      "title": "Impulsy zegarowe (bity zegarowe)",
+      "intro": "Generatory impulsów zegarowych tworzą bity przekaźników wewnętrznych (M), które program automatycznie przełącza z ustawioną częstotliwością, z dokładnie 50-procentowym współczynnikiem wypełnienia (symetryczny sygnał prostokątny) - typowe zastosowania to migające lampki sygnalizacyjne, sygnały taktujące lub logika przesuwana krok po kroku (np. typu „bieżące światło”).",
+      "items": [
+        "Otwieranie: menu **Edycja** → **Edytuj impulsy zegarowe (bity zegarowe)...**",
+        "W wyświetlanej liście każdy wiersz opisuje generator w formacie „adres M - częstotliwość Hz” (np. „M1.7 - 1.0 Hz”)",
+        "Listą zarządza się przyciskami **+ Dodaj** / **Edytuj...** / **Usuń**",
+        "Dla każdego wiersza można ustawić: **Cel (indeks M)** - który przekaźnik wewnętrzny przełącza generator (0-15), oraz **Częstotliwość (Hz)** - od 0,1 do 50,0 Hz, z krokiem 0,1 Hz",
+        "Ustawiony bit można wykorzystać jako styk w każdym elemencie drabinki, FBD lub HMI, dokładnie tak jak każdy inny przekaźnik wewnętrzny",
+        "Program nie pozwala, aby dwa generatory celowały w ten sam bit M (odmawia zapisu z komunikatem o błędzie)"
+      ],
+      "note": "WAŻNE: wybranego bitu M NIE wolno zapisywać żadną inną cewką, operacją Set/Reset ani blokkiem Wyjście FBD, ani w drabince, ani w FBD - jeśli jednak tak się stanie, operacja wykonana jako ostatnia w danym cyklu skanowania nadpisze drugą, a bit nie będzie wizualnie migał. Taki konflikt jest automatycznie wykrywany przez funkcję Sprawdzania programu (rozdział 15). Przy wyborze nowego bitu M warto wybrać bit o wysokim indeksie, jeszcze niewykorzystany w programie (np. M1.6, M1.7). Ustawienie działa tylko przy uruchomionej symulacji (Start lub Krok) - samo zamknięcie okna dialogowego nie uruchamia migania."
+    },
+    {
+      "num": "15",
+      "title": "Sprawdzanie programu",
+      "intro": "Opcja **Sprawdź program...** w menu **Sprawdzanie** automatycznie przeszukuje cały projekt w poszukiwaniu typowych błędów i wyświetla znalezione problemy w przewijanej liście.",
+      "items": [
+        "**Wielokrotny bezpośredni zapis na to samo wyjście (Błąd)**: zgłasza, gdy adres Q lub M jest zapisywany bezpośrednio z więcej niż jednego miejsca - liczy się zarówno cewka drabinki, blokk Wyjście FBD, jak i generator impulsu zegarowego - ponieważ w każdym cyklu skanowania obowiązuje tylko ostatnio wykonany zapis",
+        "**Wielokrotne sterowanie tym samym timerem/licznikiem (Błąd)**: zgłasza, gdy ten sam indeks T lub C jest sterowany przez więcej niż jedną sieć lub blokk FBD",
+        "**Niepodłączone wejścia FBD (Ostrzeżenie)**: zgłasza, gdy wejście blokku FBD nie jest podłączone (podczas pracy przyjmuje wartość fałszywą)",
+        "**Odwołanie do samego siebie w FBD (Błąd)**: zgłasza, gdy wejście blokku odwołuje się (pośrednio lub bezpośrednio) do samego siebie"
+      ],
+      "note": "Jeśli nie zostanie znaleziony żaden problem, program wyświetla komunikat „Nie znaleziono problemów z odwołaniami.”. Zamierzone wielokrotne użycie wyjść typu Set/Reset (np. w automatach stanów, jak w przykładzie Sygnalizacja świetlna) NIE jest zgłaszane jako błąd przez sprawdzanie - tylko bezwarunkowe, bezpośrednie zapisy (typu cewka)."
+    },
+    {
+      "num": "16",
+      "title": "Wyszukiwanie odwołań",
+      "intro": "Opcja **Znajdź odwołania...** w menu **Sprawdzanie** umożliwia wyszukanie, w których miejscach projektu występuje dany adres - szczególnie przydatne dla przejrzystości większych, wielokrotnie edytowanych programów.",
+      "items": [
+        "Wybierz szukany adres z listy rozwijanej (jeśli przypisano mu etykietę, wyświetlana jest również jej nazwa)",
+        "Program wyświetla wszystkie wystąpienia: w schemacie drabinkowym (dla każdej sieci, ze wskazaniem, czy występuje w przedczłonie, gałęzi, poczłonie lub jako wyjście), w FBD (dla każdego blokku, z typem i podpisem), a także na każdym ekranie HMI (z typem elementu i podpisem)",
+        "Przy zmianie wyboru lista jest automatycznie odświeżana"
+      ]
+    },
+    {
+      "num": "17",
+      "title": "Eksport kodu maszynowego",
+      "intro": "Opcja **Zobacz kod maszynowy...** w menu **Kod maszynowy** umożliwia automatyczne przetłumaczenie napisanego programu drabinkowego na dialekty listy instrukcji wielu producentów przemysłowych.",
+      "items": [
+        "**Instruction List (IEC 61131-3)**: dla sterowników Omron, Hitachi, Schneider Electric, Beckhoff, Keyence, Panasonic, Delta",
+        "**Siemens STL (AWL)**: dla sterowników Siemens S7-200 / 300 / 400 / 1200 / 1500",
+        "**Lista instrukcji Mitsubishi FX/Q**: dla sterowników Mitsubishi Electric FX, Q, L, iQ-F, iQ-R",
+        "**Zestaw instrukcji Allen-Bradley (SLC-500)**: dla sterowników Rockwell MicroLogix, SLC-500, CompactLogix/ControlLogix",
+        "Przyciski **Kopiuj do schowka** i **Zapisz do pliku .txt...** umożliwiają eksport wygenerowanego kodu do dalszego wykorzystania",
+        "Przycisk **Zgodność z producentami...**: pełna tabela przeglądowa producentów PLC i ich języków programowania, w tym niewspieranych języków sterowników robotów"
+      ],
+      "table": {
+        "header": [
+          "Producent",
+          "Typowe sterowniki",
+          "Język",
+          "Status w tym symulatorze"
+        ],
+        "col_widths": [
+          0.22,
+          0.3,
+          0.2,
+          0.28
+        ],
+        "rows": [
+          [
+            "Siemens",
+            "S7-200/300/400/1200/1500",
+            "STL / AWL",
+            "W pełni wspierany"
+          ],
+          [
+            "Mitsubishi Electric",
+            "FX, Q, L, iQ-F, iQ-R",
+            "IL",
+            "Zgodny z widokiem IEC IL"
+          ],
+          [
+            "Omron",
+            "CP, CJ, CS, NX",
+            "IL",
+            "Zgodny z widokiem IEC IL"
+          ],
+          [
+            "Hitachi",
+            "EH, H-series",
+            "Instruction List",
+            "Zgodny z widokiem IEC IL"
+          ],
+          [
+            "Allen-Bradley / Rockwell",
+            "MicroLogix, CompactLogix, ControlLogix",
+            "Instruction List / SLC",
+            "W pełni wspierany"
+          ],
+          [
+            "Schneider Electric",
+            "Modicon M340/M580/Premium",
+            "IL",
+            "Zgodny z widokiem IEC IL"
+          ],
+          [
+            "Beckhoff",
+            "TwinCAT / IPC",
+            "IL, ST",
+            "Zgodny z widokiem IEC IL"
+          ],
+          [
+            "Keyence",
+            "KV series",
+            "Instruction / mnemonic",
+            "Zgodny z widokiem IEC IL"
+          ],
+          [
+            "Panasonic",
+            "FP series",
+            "FP Instruction List",
+            "Zgodny z widokiem IEC IL"
+          ],
+          [
+            "Delta",
+            "DVP, AS series",
+            "Instruction List",
+            "Zgodny z widokiem IEC IL"
+          ],
+          [
+            "Yaskawa",
+            "MPiec, VIPA itd.",
+            "format producenta",
+            "Niewspierany - format niestandardowy"
+          ],
+          [
+            "FANUC",
+            "CNC / sterowniki robotów",
+            "własne języki sterowania",
+            "Niewspierany - język robota"
+          ],
+          [
+            "Kawasaki",
+            "sterowniki robotów",
+            "język AS",
+            "Niewspierany - język robota"
+          ],
+          [
+            "ABB",
+            "sterowniki robotów",
+            "RAPID",
+            "Niewspierany - język robota"
+          ]
+        ]
+      },
+      "note": "Logika schematu blokowego funkcji (FBD) występuje w eksporcie kodu maszynowego wyłącznie w widoku IEC Instruction List oraz Siemens STL. Widgety ramion robotów widoczne na HMI (Fanuc, Kuka) są wyłącznie ilustracją wizualną - eksport odpowiadających im języków sterowania robotów nie został zaimplementowany."
+    },
+    {
+      "num": "18",
+      "title": "Drukowanie i dokumentacja projektu",
+      "intro": "Program korzysta z natywnego okna dialogowego drukowania systemu Windows; aby zapisać do PDF, wybierz jako drukarkę wbudowaną wirtualną drukarkę Windows **„Microsoft Print to PDF”**.",
+      "subsections": [
+        {
+          "title": "18.1 Drukowanie / eksport do PDF",
+          "intro": "W oknie **Plik → Drukuj / eksport do PDF...** dostępne są cztery przyciski, każdy drukuje całą (nie tylko widoczną, przewiniętą) zawartość danego widoku w orientacji poziomej (landscape), proporcjonalnie zmniejszoną do jednej strony:",
+          "items": [
+            "Drukuj schemat drabinkowy...",
+            "Drukuj HMI... (drukuje aktualnie wybrany ekran HMI)",
+            "Drukuj schemat blokowy (FBD)...",
+            "Drukuj GRAFCET..."
+          ]
+        },
+        {
+          "title": "18.2 Drukowanie dokumentacji projektu",
+          "intro": "Opcja **Plik → Drukuj dokumentację projektu...** generuje w jednym zadaniu drukowania, w orientacji pionowej (portrait), na wielu stronach, kompletną, gotową dokumentację projektu:",
+          "items": [
+            "Strona tytułowa - nazwa pliku projektu oraz data/godzina utworzenia",
+            "Lista etykiet - tylko faktycznie nazwane adresy I/Q/M/T/C, z kolumnami Adres / Nazwa / Komentarz, w razie potrzeby podzielona na kilka stron",
+            "Cały schemat drabinkowy dopasowany do jednej strony",
+            "Cały ekran HMI dopasowany do jednej strony",
+            "Schemat blokowy funkcji - tylko jeśli w projekcie znajduje się przynajmniej jeden blokk FBD",
+            "Diagram GRAFCET - tylko jeśli w projekcie znajduje się przynajmniej jeden krok GRAFCET"
+          ]
+        }
+      ]
+    },
+    {
+      "num": "19",
+      "title": "System adresowania I/O",
+      "intro": "Symulator stosuje klasyczne adresowanie PLC w formacie bajt.bit, z ustalonym zakresem pamięci.",
+      "table": {
+        "header": [
+          "Obszar pamięci",
+          "Liczba",
+          "Zakres adresów"
+        ],
+        "col_widths": [
+          0.3,
+          0.2,
+          0.5
+        ],
+        "rows": [
+          [
+            "Wejścia (I)",
+            "16 bitów",
+            "I0.0 - I0.7, I1.0 - I1.7"
+          ],
+          [
+            "Wyjścia (Q)",
+            "16 bitów",
+            "Q0.0 - Q0.7, Q1.0 - Q1.7"
+          ],
+          [
+            "Przekaźniki wewnętrzne (M)",
+            "16 bitów",
+            "M0.0 - M0.7, M1.0 - M1.7"
+          ],
+          [
+            "Timery (T)",
+            "8 szt.",
+            "T0 - T7 (bit zakończenia: T.DN)"
+          ],
+          [
+            "Liczniki (C)",
+            "8 szt.",
+            "C0 - C7 (bit zakończenia: C.DN)"
+          ]
+        ]
+      },
+      "note": "W eksporcie kodu maszynowego adresowanie jest zgodne z konwencją danego producenta: w widoku IEC Instruction List w formacie %IX0.0 / %QX0.0 / %MX0.0, w widoku Allen-Bradley w formacie I:0/N / O:0/N / B3:0/N / T4:N / C5:N, a w widoku Mitsubishi za pomocą prostej dziesiętnej indeksacji X/Y/M/T/C."
+    },
+    {
+      "num": "20",
+      "title": "Powiększenie i inne funkcje dodatkowe",
+      "items": [
+        "**Powiększenie**: listą rozwijaną na pasku narzędzi można ustawić 50%, 75%, 100%, 125%, 150% lub 200%; dotyczy jednocześnie schematu drabinkowego, HMI i widoku schematu blokowego (widok GRAFCET także się dopasowuje, z własnym wewnętrznym skalowaniem)",
+        "Obszar roboczy schematu drabinkowego, HMI, FBD i GRAFCET można przewijać niezależnie, jeśli zawartość jest większa od widocznego obszaru",
+        "**Skróty klawiszowe**: Ctrl+Z - Wycofanie, Ctrl+Y - Powtórzenie; obie działają zarówno w głównym oknie, jak i w odłączonym oknie HMI"
+      ]
+    },
+    {
+      "num": "21",
+      "title": "O programie i licencja",
+      "intro": "Program został stworzony przez Sisak László (helmetsoft.com) specjalnie do celów edukacyjnych związanych z PLC.",
+      "items": [
+        "Korzystanie z programu jest **BEZPŁATNE**",
+        "Zakaz wprowadzania do obrotu handlowego i sprzedaży",
+        "Informacje te można w każdej chwili wyświetlić w programie, wybierając **O programie** w menu **Pomoc**",
+        "Wbudowane okno **Pomoc → Użycie** podsumowuje podstawową obsługę edycji schematu drabinkowego, symulacji oraz schematu blokowego funkcji bezpośrednio w programie; niniejszy podręcznik jest znacznie bardziej szczegółowy i obejmuje również funkcje GRAFCET, impulsów zegarowych, programów przykładowych oraz drukowania/dokumentacji"
+      ]
+    }
+  ]
+}

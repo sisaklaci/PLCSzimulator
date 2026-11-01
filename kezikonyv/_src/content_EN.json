@@ -1,0 +1,675 @@
+{
+  "lang_code": "EN",
+  "footer_title": "PLC Simulator - User Manual",
+  "doc_title": "PLC Simulator",
+  "doc_subtitle": "User Manual",
+  "author_line": "Written by: Sisak László (helmetsoft.com)",
+  "disclaimer": "FREE for educational use - not for commercial distribution or sale",
+  "version_line": "2nd edition - extended with chapters on Sample Programs, GRAFCET, Clock Pulses (clock bits), and Printing/Documentation",
+  "toc_heading": "Table of Contents",
+  "sections": [
+    {
+      "num": "1",
+      "title": "Introduction",
+      "intro": "PLC Simulator is a free educational application that demonstrates the operation of programmable logic controllers (PLCs) through four freely combinable programming views: ladder diagram (LD), function block diagram (FBD), sequential function chart (GRAFCET/SFC), and a freely designable, visually rich operator interface (HMI). The program simulates PLC operation using real-time, cyclic (scan-based) evaluation, and also translates the written logic into the instruction-list format used by the most common industrial manufacturers - so a program built in the simulator can serve directly as teaching material, as a demonstration, or even as the basis for porting to a real PLC.",
+      "items": [
+        "**Ladder diagram editor**: contacts, coils, Set/Reset, timers (TON), counters (CTU), parallel branches",
+        "**Function block diagram (FBD)**: AND/OR/NOT/XOR, SR latch, TON, CTU, rising/falling edge detectors (R_TRIG/F_TRIG)",
+        "**GRAFCET (sequential function chart)**: steps, transitions, receptivities, actions - and, uniquely, automatic ladder program generation from the designed sequence",
+        "**Clock pulses (clock bits)**: internal relays that blink at any chosen frequency with a 50% duty cycle, for flashing and timing applications",
+        "A freely designable, multi-screen HMI interface with 12 different element types and real-time animation",
+        "**Sample program library**: 9 ready-to-load industrial and educational demonstrations",
+        "**Machine code export**: IEC Instruction List, Siemens STL, Mitsubishi, Allen-Bradley - with a full vendor compatibility table",
+        "Automatic **program check** and **cross-reference search** to catch typical mistakes",
+        "**Printing and PDF export**, plus a one-click, complete project documentation generator",
+        "Multi-step **Undo/Redo** for the entire project (ladder, HMI, FBD, GRAFCET, clock pulses, tags)",
+        "The user interface is available in 6 languages: Hungarian, English, German, Spanish, French, and Polish"
+      ]
+    },
+    {
+      "num": "2",
+      "title": "System requirements and startup",
+      "intro": "The program ships with its own, embedded Java runtime environment (JRE), so no separate Java installation is required.",
+      "items": [
+        "To start the program, double-click the **PlcSzimulator.exe** file",
+        "No internet connection is required; the program runs entirely locally on your computer",
+        "The window can be resized and moved like any other Windows application",
+        "Project files are saved and opened with the **.plc** extension",
+        "The program does not send or receive any data over a network while running"
+      ]
+    },
+    {
+      "num": "3",
+      "title": "Overview of the user interface",
+      "intro": "At the top of the window is a row of language-selector flags, below that the main toolbar, in the center the Ladder Diagram / HMI / Function Block (FBD) / GRAFCET tabs, on the right the I/O panel (showing the status of inputs, outputs, timers, and counters), and at the bottom the status bar.",
+      "items": [
+        "**Menu bar**: File, Edit, Machine code, Check, Help",
+        "**Toolbar**: Start / Stop / Step / Reset buttons, Undo / Redo, cycle-time selector, network handling buttons, zoom selector",
+        {
+          "text": "**Tabs**: freely switch between four views, all working on the same I/Q/M/T/C memory:",
+          "sub": [
+            "**Ladder diagram** - the traditional relay-logic (ladder) editor",
+            "**HMI** - the operator-interface designer and live visualization",
+            "**Function block (FBD)** - the block-based logic editor",
+            "**GRAFCET** - the sequential function chart (SFC) editor"
+          ]
+        },
+        "**I/O panel**: the current status of Inputs (I), Outputs (Q), Internal relays (M), as well as Timers (T) and Counters (C), updated live while the simulation runs",
+        "**Status bar**: shows the result of the last operation and, while running, the number of scan cycles executed"
+      ]
+    },
+    {
+      "num": "4",
+      "title": "Switching language",
+      "intro": "Clicking any of the hand-drawn national flags at the top of the window instantly switches the program's language: Hungarian, English, German, Spanish, French, or Polish.",
+      "items": [
+        "The current language's flag is marked with a blue border",
+        "When switching language, the program completely rebuilds the window but keeps the loaded project: the networks, HMI screens, FBD blocks, the GRAFCET diagram, and the clock-pulse settings",
+        "If the loaded program is still the initial default demo, or a built-in sample that has not yet been edited, its explanatory texts (network comments, HMI labels) are automatically redisplayed in the newly selected language",
+        "As soon as the user actually edits anything in the program (even a single network), the program thereafter keeps its own, possibly mixed-language texts - from that point on, switching language no longer translates them, and only the language of the program's ready-made interface elements (menus, buttons, dialogs) changes",
+        "The following always survive a language switch: the assigned tag names and comments, the current file path, the PLC's runtime state, the cycle time, the scan counter, and the zoom level"
+      ]
+    },
+    {
+      "num": "5",
+      "title": "File operations",
+      "intro": "The **File** menu provides the following operations:",
+      "items": [
+        "**New program**: clears the current networks, the HMI, the FBD, the GRAFCET, the clock pulses, and the tags (asks for confirmation)",
+        "**Open...**: loads a previously saved .plc project",
+        "**Save** / **Save as...**: saves the entire project (ladder program, tags, all HMI screens, FBD blocks, GRAFCET diagram, clock pulses) into a single .plc file",
+        "**Sample programs** submenu: the built-in program library, see Chapter 6",
+        "**Print / PDF export...** and **Print project documentation...**: see Chapter 18",
+        "**Exit**: closes the program"
+      ],
+      "note": "The .plc file uses a Java serialization format (not text-based, not XML) and can only be opened by this program. The program remains backward-compatible with the earlier, single-screen HMI format, as well as with older files that contain only a ladder program and no HMI/FBD/GRAFCET data - in those cases, the missing parts are loaded in their empty default state."
+    },
+    {
+      "num": "6",
+      "title": "Sample programs (program library)",
+      "intro": "The **File → Sample programs** submenu contains 9 ready-to-load demonstration programs. Each sample simultaneously builds a complete ladder program, a matching HMI screen, a small illustrative function block fragment, and an illustrative GRAFCET diagram - the latter two serve only to demonstrate the given block type or concept, on separate bits that are independent of the actual outputs, so they do not affect the sample's main operation. Loading a sample clears the current program (asks for confirmation).",
+      "table": {
+        "header": [
+          "Sample name",
+          "What it demonstrates"
+        ],
+        "col_widths": [
+          0.3,
+          0.7
+        ],
+        "rows": [
+          [
+            "Motor start (default demo)",
+            "Self-sustaining motor start; 3-second on-delay (TON); indicator lamp when the delay elapses; counting the number of starts (CTU) and signaling after 5 starts"
+          ],
+          [
+            "Star-delta motor start",
+            "Classic star-delta starting circuit: main contactor, 3-second switchover time, star contactor followed by delta contactor control"
+          ],
+          [
+            "Conveyor sequential start",
+            "Sequential, delayed start of three conveyor belts, one after another (sequential starting logic)"
+          ],
+          [
+            "Robot cell (engine block loading and unloading)",
+            "The same control logic as the conveyor sample, but with a visually rich HMI: animated Fanuc and Kuka robot arms, conveyor belts, and workpieces"
+          ],
+          [
+            "Traffic light (state machine)",
+            "A classic Set/Reset-based state machine: red (4 s) - yellow (1 s) - green (3 s) - red... cyclic phase changes"
+          ],
+          [
+            "Elevator (2-floor)",
+            "A complete elevator control: call buttons, door-open times, travel time, door animation, and cab-movement indication"
+          ],
+          [
+            "Intersection with pedestrian crossing",
+            "Traffic-light phase changes with a pedestrian call button: the pedestrian green only switches on when called, during the red phase for vehicles"
+          ],
+          [
+            "Flashing lamp (with clock pulse)",
+            "The simplest clock-pulse demonstration: a single network that routes the 1 Hz clock bit directly to an HMI lamp"
+          ],
+          [
+            "Chaser light (with clock pulse)",
+            "An 8-position rotating light sequence (a so-called „Johnson counter” arrangement), stepped by a clock pulse (clock bit) - see Chapter 14 for details"
+          ]
+        ]
+      },
+      "note": "The „Villogó lámpa” (Blinking lamp) and „Futófény” (Running light) samples were created specifically to demonstrate the Clock pulses (clock bits) feature - these are a good starting point if you want to learn about this feature."
+    },
+    {
+      "num": "7",
+      "title": "Editing the ladder diagram",
+      "intro": "The ladder diagram is built from networks (rungs). Each network consists of a series-connected prefix, optional parallel branches, a series-connected suffix, and an output.",
+      "items": [
+        "**New contact**: click on a dashed “+” placeholder",
+        "**Edit / delete a contact**: click on an existing contact. Type: Normally open (NO) or Normally closed (NC); operand type: Input (I), Output (Q), Internal relay (M), Timer done (T.DN), or Counter done (C.DN); index: 0-15 for I/Q/M, 0-7 for T.DN/C.DN",
+        "**Add a parallel branch**: click the dashed “+ branch” row below the network",
+        "**Delete a branch**: click the red X mark at the start of the branch",
+        {
+          "text": "**Edit an output**: click on the output (coil / timer / counter). The target can be an Output (Q) or an Internal relay (M); the available types are:",
+          "sub": [
+            "**Coil** - can optionally be negated (NOT coil)",
+            "**Set** - turns the target bit on (true) while the condition is met",
+            "**Reset** - turns the target bit off (false) while the condition is met",
+            "**Timer (TON)** - T-index (0-7) and preset time (0-3,600,000 ms, in 100 ms steps)",
+            "**Counter (CTU)** - C-index (0-7) and preset count (1-100,000)"
+          ]
+        },
+        "**Select a network**: click on the bar at the left edge of the network",
+        "**Network comment**: double-click the bar to edit it; the program also prompts for one when a new network is created",
+        "**Moving networks**: use the **▲ Up** / **▼ Down** toolbar buttons to reposition the selected network",
+        "**Copy / paste a network**: the **Copy network** / **Paste network** buttons duplicate an entire network (it is always inserted right after the selected network)",
+        "**Copy / paste a contact**: Ctrl+click an existing contact to copy it to the clipboard; Ctrl+click an empty “+” placeholder to paste it",
+        "**Add a new network**: use the **+ Network** button, or the dashed row at the bottom of the list; when a new output is created, the program automatically suggests the first free Q index as the target",
+        "**Delete a network**: select the network, then click the **Delete network** button"
+      ],
+      "note": "Zoom (see Chapter 20) also affects the ladder diagram - for larger projects, it is worth zooming out for better overview."
+    },
+    {
+      "num": "8",
+      "title": "Tags",
+      "intro": "Every I/Q/M/T/C address can be given a descriptive name and a comment, making the program easier to read and document.",
+      "items": [
+        "To open: **Edit** menu → **Edit tags...**",
+        "The table that appears lists all 64 memory addresses (16 inputs, 16 outputs, 16 internal relays, 8 timers, 8 counters); a Name and a Comment can be entered for each row",
+        "The names entered appear on the ladder diagram, the I/O panel, the HMI, the FBD, the machine code export (as end-of-line comments), the cross-reference search drop-down, and the printed project documentation",
+        "Hovering the mouse over an element (tooltip) shows the full address, the assigned name, and the comment",
+        "A name/comment left blank is removed from the list upon saving"
+      ]
+    },
+    {
+      "num": "9",
+      "title": "Controlling the simulation",
+      "intro": "The simulation runs using cyclic (scan-based) evaluation, just as a real PLC does: in every cycle (scan), the program evaluates the entire logic in sequence, then starts over.",
+      "items": [
+        "**Start**: starts cyclic evaluation at the configured cycle time",
+        "**Stop**: halts the simulation",
+        "**Step**: while stopped, executes a single scan cycle - useful for following the logic step by step",
+        "**Reset**: clears the state of the outputs, internal relays, timers, and counters, and resets the internal phase of the clock-pulse generators and the GRAFCET steps to their initial state",
+        "**Cycle time**: selectable on the toolbar as 50, 100, 150, 250, 500, or 1000 milliseconds (default: 150 ms)",
+        "Clicking the input buttons (I/O panel) toggles inputs on and off, even while the simulation is running",
+        "While running, wires and contacts are highlighted in color to indicate the energized (conducting) state",
+        {
+          "text": "A single scan cycle proceeds in a fixed, precise order:",
+          "sub": [
+            "1. Evaluation of the clock-pulse generators (see Chapter 14)",
+            "2. Evaluation of the ladder diagram networks, from top to bottom",
+            "3. Evaluation of the function block diagram (FBD), in the order the blocks appear in the list",
+            "4. Evaluation of the GRAFCET",
+            "5. Sampling of HMI trends, refreshing of displays"
+          ]
+        }
+      ],
+      "note": "Because evaluation happens in a fixed order, a “forward” reference (e.g. an FBD block that uses the output of a block appearing later in the list) only takes effect after a full scan-cycle delay. The same applies to clock pulses: the effect of a bit driven by a clock pulse only appears in the ladder and the FBD on subsequent cycles."
+    },
+    {
+      "num": "10",
+      "title": "Undo and Redo",
+      "intro": "The program maintains a complete undo history for editing operations, covering the entire project.",
+      "items": [
+        "**Ctrl+Z**: undo, **Ctrl+Y**: redo - also available via the toolbar buttons, and works both in the main window and in the detached HMI window",
+        "This function applies uniformly to the ladder diagram, the tags, all HMI screens, the FBD, the GRAFCET, and the clock-pulse settings - a single, shared undo stack manages all of them",
+        "The history depth is 60 steps",
+        "Creating a new program or opening a file clears the history accumulated so far"
+      ],
+      "note": "Undo does NOT cover the runtime PLC state (the current values of I/Q/M/T/C), the cycle time, the zoom level, or the run/stop state - these are runtime settings rather than editing operations. Any actual edit (even changing a single contact) “detaches” the program from the loaded sample program, even if that edit is later undone."
+    },
+    {
+      "num": "11",
+      "title": "The HMI interface",
+      "intro": "On the **HMI** (Human-Machine Interface) tab, you can freely design a visually rich operator interface for the running PLC program, using 12 different element types.",
+      "items": [
+        "**Edit mode**: toggled on / off with the **Edit HMI** toggle button",
+        "**Placing a new element**: select the type from the drop-down list, then click on the canvas",
+        "**Moving / resizing an element**: drag the element itself, or its bottom-right corner",
+        "**Editing properties**: double-click the element - for every element type you can set the bound I/Q/M/T/C address, the two freely chosen colors (on / off state), the font size (8-48 pt), and settings specific to that type (see the table below)",
+        "**Delete selected element** button on the editing toolbar",
+        {
+          "text": "**Managing multiple screens**: switch between HMI screens with the Screen drop-down; the control buttons are:",
+          "sub": [
+            "**+ New screen** - creates a new, empty screen, prompting for a name",
+            "**Rename...** - renames the selected screen",
+            "**Delete screen** - at least one screen must always remain"
+          ]
+        },
+        "**Detached window** toggle: moves the HMI into its own, movable window, so it can be viewed side by side with the ladder diagram (or any other view) at the same time - closing the window returns the HMI to its original tab",
+        "While running, WITHOUT edit mode, buttons react live to clicks, and lamps, displays, and animated elements follow the PLC logic in real time"
+      ],
+      "table": {
+        "header": [
+          "Element type",
+          "Description and key properties"
+        ],
+        "col_widths": [
+          0.22,
+          0.78
+        ],
+        "rows": [
+          [
+            "Lamp",
+            "A round indicator light: lit in the “on” color when the bound bit is true, otherwise shown in the “off” color"
+          ],
+          [
+            "Button",
+            "A clickable button with two modes: **Toggle** - switches the bit on click; **Momentary** - the bit is true only while the button is held down. Only meaningful for an Input (I) or Internal relay (M) target"
+          ],
+          [
+            "Display",
+            "An “LCD”-style numeric display: by default shows the bit's value as 0/1; in “Numeric value” mode, for a Timer/Counter it shows the current/preset value (e.g. “1234 / 2000 ms”) instead of the done bit"
+          ],
+          [
+            "Label",
+            "Simple, static text, for decoration or explanation"
+          ],
+          [
+            "Rectangle",
+            "A filled, bordered decorative/grouping rectangle, with an optional caption"
+          ],
+          [
+            "Trend",
+            "A chart over time, plotting the last 120 sampled points as a line graph (bit state, or the current value of a Timer/Counter)"
+          ],
+          [
+            "Zebra",
+            "A striped pedestrian-crossing pattern; a purely decorative element, with the stripes automatically oriented horizontally or vertically depending on its aspect ratio"
+          ],
+          [
+            "Door",
+            "A door made of two sliding panels that opens and closes with animation, over about half a second, according to the state of the bound bit"
+          ],
+          [
+            "Conveyor belt",
+            "A realistic conveyor-belt animation with a moving pattern, with workpiece icons traveling along the belt while running"
+          ],
+          [
+            "Sensor",
+            "A drawing of an optical proximity sensor, with a pulsing light cone and a lit LED when active; can be rotated by 0/90/180/270 degrees"
+          ],
+          [
+            "Fanuc robot",
+            "A two-armed, articulated industrial robot arm animation (yellow coloring) with continuous swinging motion while the bound bit is true; can be mirrored horizontally"
+          ],
+          [
+            "Kuka robot",
+            "The same motion animation, in Kuka-style orange coloring"
+          ]
+        ]
+      },
+      "note": "The Door, Conveyor belt, Sensor, and the two robot-arm widgets move according to a continuous animation timer (40 ms) that is independent of the scan cycle - these elements keep animating even while the PLC simulation is stopped, as long as the bound bit is true."
+    },
+    {
+      "num": "12",
+      "title": "Function block diagram (FBD)",
+      "intro": "On the **Function block (FBD)** tab, you can build block-based logic that differs from the ladder diagram but reads and writes the same I/Q/M/T/C memory as the ladder diagram - the two views can be freely combined within the same project.",
+      "items": [
+        "**Edit mode**: enabled with the **Edit FBD** toggle button; a new block is placed by selecting it from the drop-down and clicking on the canvas - the program immediately opens the block's properties dialog",
+        "**Moving a block**: drag it from inside the block body (not from the input/output pins)",
+        "**Wiring**: click an output pin of a block (circle on the right), then the target input pin (circle on the left); clicking a new source on an input pin that is already wired always overwrites the previous connection",
+        "**Removing a wire**: click an already-wired input pin (while no wiring is currently in progress)",
+        "**Block properties**: edit by double-clicking (type, caption, number of inputs for AND/OR between 2 and 8, bound I/Q/M/T.DN/C.DN address, T-index and preset for TON, C-index and preset for CTU)",
+        "**Delete selected block** button on the editing toolbar"
+      ],
+      "table": {
+        "header": [
+          "Block type",
+          "Operation"
+        ],
+        "col_widths": [
+          0.22,
+          0.78
+        ],
+        "rows": [
+          [
+            "Input",
+            "Has no input; its output is the current value of the bound I/Q/M/T.DN/C.DN bit"
+          ],
+          [
+            "Output",
+            "Has one input; writes its value to an Output (Q) or Internal relay (M) bit"
+          ],
+          [
+            "AND",
+            "2-8 inputs, logical AND"
+          ],
+          [
+            "OR",
+            "2-8 inputs, logical OR"
+          ],
+          [
+            "NOT",
+            "One input, negation"
+          ],
+          [
+            "XOR",
+            "Exactly 2 inputs, exclusive OR"
+          ],
+          [
+            "SR latch",
+            "Two inputs (S, R); a reset-dominant latch: if R is true, the output is false; otherwise if S is true, the output is true; if both are false, the output retains its previous value"
+          ],
+          [
+            "TON",
+            "An on-delay timer with its own T-index (0-7) and preset time (ms)"
+          ],
+          [
+            "CTU",
+            "An up-counter with CU (count) and R (reset) inputs, with its own C-index (0-7) and preset count"
+          ],
+          [
+            "R_TRIG (P)",
+            "Rising-edge detector: true for exactly one scan cycle on the input's 0→1 transition"
+          ],
+          [
+            "F_TRIG (N)",
+            "Falling-edge detector: true for exactly one scan cycle on the input's 1→0 transition"
+          ]
+        ]
+      },
+      "note": "The TON and CTU blocks use the same timer and counter memory (T0-T7, C0-C7) as the corresponding outputs in the ladder diagram - if the same index is driven in both views, this conflict is flagged by the Program check feature (Chapter 15). Blocks are always evaluated in the order they were placed on the canvas, once per scan cycle."
+    },
+    {
+      "num": "13",
+      "title": "GRAFCET (sequential function chart)",
+      "intro": "On the **GRAFCET** tab, sequential, step-by-step processes can be designed using the clear graphical notation of IEC 60848: the chart is built from steps and the transitions (conditional changeovers) between them.",
+      "items": [
+        "**Edit mode**: enabled with the **Edit GRAFCET** toggle button; a new element (Step or Transition) is placed by selecting it from the drop-down and clicking on the canvas",
+        "**Editing a step**: enter a caption, the “Initial step” checkbox (the initial step is drawn with a double border, per the standard notation), and any number of assigned actions",
+        "**Editing a transition**: the condition (receptivity) is composed of any number of AND-connected contacts (the same editor as for ladder contacts: any I/Q/M/T.DN/C.DN, normally open or normally closed)",
+        "**Wiring**: a step's output pin can be connected to a transition's input pin, and a transition's output pin can be connected to a step's input pin; a transition can have multiple source steps and multiple target steps, allowing both diverging and converging sequences to be built",
+        "While running, active steps and transitions ready to fire are shown in green (the energized color)",
+        "**Delete selected element**: deletes the step/transition along with every connection pointing to it"
+      ],
+      "subsections": [
+        {
+          "title": "13.1 Action types",
+          "intro": "Any number of actions can be assigned to each step, controlling outputs while the step is active:",
+          "table": {
+            "header": [
+              "Action type",
+              "Effect"
+            ],
+            "col_widths": [
+              0.25,
+              0.75
+            ],
+            "rows": [
+              [
+                "Continuous",
+                "While the step is active, the target bit is continuously true; it switches to false immediately when the step becomes inactive"
+              ],
+              [
+                "Set",
+                "While the step is active, it sets the target bit (to true) - resetting it must be handled separately, for example with a Reset action on another step"
+              ],
+              [
+                "Reset",
+                "While the step is active, it resets the target bit (to false)"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "13.2 Evaluation sequence",
+          "intro": "In every scan cycle, the program works according to synchronous GRAFCET semantics: it first finds every transition whose source steps are all active AND whose condition is true, and then - all at once, in a single step - deactivates the affected source steps and activates the target steps. **Reset** (Chapter 9) returns every step to its initial configuration."
+        },
+        {
+          "title": "13.3 Generating a ladder diagram from GRAFCET",
+          "intro": "One of the unique features of the GRAFCET tab is the **Generate ladder...** button: it automatically converts the designed sequence into real, executable ladder diagram networks.",
+          "items": [
+            "The function automatically assigns a free (not used anywhere else) Internal relay (M) bit to each GRAFCET step, and asks for confirmation while displaying the assignment table",
+            "For each step, the function generates an activation network (sets the step's M bit when the incoming transitions are satisfied), a deactivation network (clears the step's M bit when the exit condition occurs), and one additional network for each action assigned to the step",
+            "The generated networks are appended to the end of the ladder program",
+            "After generation, the GRAFCET tab becomes a purely visual preview - from that point on, actual control is performed by the generated ladder networks, so the two representations do not compete for the same output"
+          ],
+          "note": "The function requires at least one step and exactly one designated “Initial step.” With more than 16 steps, there may not be enough free internal relay (M) bits available for the assignment, in which case the program reports an error."
+        }
+      ]
+    },
+    {
+      "num": "14",
+      "title": "Clock pulses (clock bits)",
+      "intro": "Clock-pulse generators create internal relay (M) bits that the program automatically switches on and off at the configured frequency, with exactly a 50% duty cycle (a symmetric square wave) - typical uses include flashing indicator lamps, timing signals, or implementing step-by-step (running-light-style) logic.",
+      "items": [
+        "To open: **Edit** menu → **Edit clock pulses (clock bits)...**",
+        "In the list that appears, each row shows one generator in “M-address - frequency Hz” format (e.g. “M1.7 - 1.0 Hz”)",
+        "The list is managed with the **+ Add** / **Edit...** / **Delete** buttons",
+        "Each row lets you set: **Target (M index)** - which internal relay the generator drives (0-15), and **Frequency (Hz)** - between 0.1 and 50.0 Hz, in steps of 0.1 Hz",
+        "The configured bit can be used as a contact in any ladder, FBD, or HMI element, exactly like any other internal relay",
+        "The program does not allow two generators to target the same M bit (it rejects the save with an error message)"
+      ],
+      "note": "IMPORTANT: do not let any other coil, Set/Reset, or FBD Output block write to the selected M bit, either in the ladder diagram or in the FBD - if this happens, whichever is evaluated last in the scan cycle will overwrite the other, and the bit will appear not to blink. This conflict is automatically flagged by the Program check feature (Chapter 15). When choosing a new M bit, it is advisable to pick a high-numbered bit not yet used elsewhere in the program (e.g. M1.6, M1.7). The setting only takes effect while the simulation is running (Start or Step) - closing the dialog by itself does not start the blinking."
+    },
+    {
+      "num": "15",
+      "title": "Program check",
+      "intro": "Using **Check program...** in the **Check** menu, the program automatically scans the entire project for typical sources of error and displays the problems found in a scrollable list.",
+      "items": [
+        "**Multiple direct writes to the same output (Error)**: flags a Q or M address that is written directly from more than one place - a ladder coil, an FBD Output block, or a clock-pulse generator all count - because in each scan cycle only the one evaluated last takes effect",
+        "**Multiple controls on the same timer/counter (Error)**: flags a T or C index that is driven by more than one network or FBD block",
+        "**FBD open inputs (Warning)**: flags an FBD block with an unconnected input (it reads as false while running)",
+        "**FBD self-reference (Error)**: flags a block whose input refers (directly or indirectly) back to itself"
+      ],
+      "note": "If no problem is found, the program reports back with the message “No reference problems found.” The intentional multiple use of Set/Reset-type outputs (for example, in state machines, as used in the Traffic light sample) is NOT flagged as an error by the check - only unconditional, direct (coil-style) writes are."
+    },
+    {
+      "num": "16",
+      "title": "Cross-reference search",
+      "intro": "Using **Find references...** in the **Check** menu, you can find every place in the project where a given address occurs - especially useful for keeping larger, heavily edited programs understandable.",
+      "items": [
+        "Select the address you are looking for from the drop-down list (its assigned tag name is also shown, if there is one)",
+        "The program lists every occurrence: in the ladder diagram (per network, indicating whether it appears in the prefix, a branch, the suffix, or as an output), in the FBD (per block, with its type and caption), and on every HMI screen (with element type and caption)",
+        "The list automatically refreshes whenever the selection changes"
+      ]
+    },
+    {
+      "num": "17",
+      "title": "Machine code export",
+      "intro": "Using **View machine code...** in the **Machine code** menu, the written ladder program can be automatically translated into the instruction-list dialect of several industrial manufacturers.",
+      "items": [
+        "**Instruction List (IEC 61131-3)**: for Omron, Hitachi, Schneider Electric, Beckhoff, Keyence, Panasonic, and Delta controllers",
+        "**Siemens STL (AWL)**: for Siemens S7-200 / 300 / 400 / 1200 / 1500 controllers",
+        "**Mitsubishi FX/Q instruction list**: for Mitsubishi Electric FX, Q, L, iQ-F, and iQ-R controllers",
+        "**Allen-Bradley (SLC-500) instruction set**: for Rockwell MicroLogix, SLC-500, and CompactLogix/ControlLogix controllers",
+        "The **Copy to clipboard** and **Save to .txt file...** buttons let you export the generated code for further use",
+        "**Vendor compatibility...** button: a complete overview table of industrial PLC manufacturers and their programming languages, including unsupported robot-controller languages"
+      ],
+      "table": {
+        "header": [
+          "Manufacturer",
+          "Typical PLCs",
+          "Language",
+          "Status in this simulator"
+        ],
+        "col_widths": [
+          0.22,
+          0.3,
+          0.2,
+          0.28
+        ],
+        "rows": [
+          [
+            "Siemens",
+            "S7-200/300/400/1200/1500",
+            "STL / AWL",
+            "Fully supported"
+          ],
+          [
+            "Mitsubishi Electric",
+            "FX, Q, L, iQ-F, iQ-R",
+            "IL",
+            "Compatible with the IEC IL view"
+          ],
+          [
+            "Omron",
+            "CP, CJ, CS, NX",
+            "IL",
+            "Compatible with the IEC IL view"
+          ],
+          [
+            "Hitachi",
+            "EH, H-series",
+            "Instruction List",
+            "Compatible with the IEC IL view"
+          ],
+          [
+            "Allen-Bradley / Rockwell",
+            "MicroLogix, CompactLogix, ControlLogix",
+            "Instruction List / SLC",
+            "Fully supported"
+          ],
+          [
+            "Schneider Electric",
+            "Modicon M340/M580/Premium",
+            "IL",
+            "Compatible with the IEC IL view"
+          ],
+          [
+            "Beckhoff",
+            "TwinCAT / IPC",
+            "IL, ST",
+            "Compatible with the IEC IL view"
+          ],
+          [
+            "Keyence",
+            "KV series",
+            "Instruction / mnemonic",
+            "Compatible with the IEC IL view"
+          ],
+          [
+            "Panasonic",
+            "FP series",
+            "FP Instruction List",
+            "Compatible with the IEC IL view"
+          ],
+          [
+            "Delta",
+            "DVP, AS series",
+            "Instruction List",
+            "Compatible with the IEC IL view"
+          ],
+          [
+            "Yaskawa",
+            "MPiec, VIPA etc.",
+            "vendor-specific",
+            "Not supported - proprietary format"
+          ],
+          [
+            "FANUC",
+            "CNC / robot controllers",
+            "proprietary control languages",
+            "Not supported - robot language"
+          ],
+          [
+            "Kawasaki",
+            "robot controllers",
+            "AS language",
+            "Not supported - robot language"
+          ],
+          [
+            "ABB",
+            "robot controllers",
+            "RAPID",
+            "Not supported - robot language"
+          ]
+        ]
+      },
+      "note": "Function block (FBD) logic is only included in the machine code export in the IEC Instruction List and Siemens STL views. The robot-arm widgets shown on the HMI (Fanuc, Kuka) are purely visual illustrations - export of their corresponding robot-controller languages has not been implemented."
+    },
+    {
+      "num": "18",
+      "title": "Printing and project documentation",
+      "intro": "The program works through the operating system's native print dialog; to save as a PDF, select Windows' built-in **“Microsoft Print to PDF”** virtual printer.",
+      "subsections": [
+        {
+          "title": "18.1 Print / PDF export",
+          "intro": "Under **File → Print / PDF export...**, four buttons are available, each printing the full content of the given view (not just the visible, scrolled portion) in landscape orientation, scaled proportionally to fit a single page:",
+          "items": [
+            "Print ladder diagram...",
+            "Print HMI... (prints the currently selected HMI screen)",
+            "Print function block (FBD)...",
+            "Print GRAFCET..."
+          ]
+        },
+        {
+          "title": "18.2 Printing project documentation",
+          "intro": "**File → Print project documentation...** generates a complete, finished project documentation in a single print job, in portrait orientation, across multiple pages:",
+          "items": [
+            "Cover page - the project's file name and the date/time of creation",
+            "Tag list - only the I/Q/M/T/C addresses that have actually been named, with Address / Name / Comment columns, split across multiple pages if necessary",
+            "The entire ladder diagram, fitted to one page",
+            "The entire HMI screen, fitted to one page",
+            "The function block diagram - only if the project contains at least one FBD block",
+            "The GRAFCET diagram - only if the project contains at least one GRAFCET step"
+          ]
+        }
+      ]
+    },
+    {
+      "num": "19",
+      "title": "I/O addressing system",
+      "intro": "The simulator follows the classic byte.bit-format PLC addressing scheme, with a fixed memory range.",
+      "table": {
+        "header": [
+          "Memory area",
+          "Quantity",
+          "Address range"
+        ],
+        "col_widths": [
+          0.3,
+          0.2,
+          0.5
+        ],
+        "rows": [
+          [
+            "Inputs (I)",
+            "16 bits",
+            "I0.0 - I0.7, I1.0 - I1.7"
+          ],
+          [
+            "Outputs (Q)",
+            "16 bits",
+            "Q0.0 - Q0.7, Q1.0 - Q1.7"
+          ],
+          [
+            "Internal relays (M)",
+            "16 bits",
+            "M0.0 - M0.7, M1.0 - M1.7"
+          ],
+          [
+            "Timers (T)",
+            "8 units",
+            "T0 - T7 (done bit: T.DN)"
+          ],
+          [
+            "Counters (C)",
+            "8 units",
+            "C0 - C7 (done bit: C.DN)"
+          ]
+        ]
+      },
+      "note": "In the machine code export, addressing follows the convention of the given manufacturer: %IX0.0 / %QX0.0 / %MX0.0 format in the IEC Instruction List view, I:0/N / O:0/N / B3:0/N / T4:N / C5:N format in the Allen-Bradley view, and simple decimal X/Y/M/T/C indexing in the Mitsubishi view."
+    },
+    {
+      "num": "20",
+      "title": "Zoom and other convenience features",
+      "items": [
+        "**Zoom**: set via the toolbar drop-down to 50%, 75%, 100%, 125%, 150%, or 200%; applies simultaneously to the ladder diagram, the HMI, and the function block view (the GRAFCET view also follows, with its own internal scaling)",
+        "The ladder diagram, HMI, FBD, and GRAFCET canvases can each be scrolled independently when their content is larger than the visible area",
+        "**Keyboard shortcuts**: Ctrl+Z - Undo, Ctrl+Y - Redo; both work in the main window as well as in the detached HMI window"
+      ]
+    },
+    {
+      "num": "21",
+      "title": "About and license",
+      "intro": "This program was created by Sisak László (helmetsoft.com) specifically for PLC educational use.",
+      "items": [
+        "Use of the program is **FREE**",
+        "It may not be sold or placed into commercial distribution",
+        "This information can be displayed at any time from within the program via **About** in the **Help** menu",
+        "The built-in **Help → Usage** window summarizes the basic handling of ladder-diagram editing, simulation, and the function block diagram directly within the program; this manual is far more detailed, and also covers GRAFCET, clock pulses, sample programs, and the printing/documentation features"
+      ]
+    }
+  ]
+}

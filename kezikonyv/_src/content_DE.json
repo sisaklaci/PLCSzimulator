@@ -1,0 +1,675 @@
+{
+  "lang_code": "DE",
+  "footer_title": "PLC-Simulator - Benutzerhandbuch",
+  "doc_title": "PLC-Simulator",
+  "doc_subtitle": "Benutzerhandbuch",
+  "author_line": "Erstellt von: Sisak László (helmetsoft.com)",
+  "disclaimer": "KOSTENLOS zur Nutzung im Unterricht - nicht für den gewerblichen Verkauf bestimmt",
+  "version_line": "2. Ausgabe - erweitert um die Kapitel Beispielprogramme, GRAFCET, Taktimpulse (Clock-Bits) sowie Drucken/Dokumentation",
+  "toc_heading": "Inhaltsverzeichnis",
+  "sections": [
+    {
+      "num": "1",
+      "title": "Einführung",
+      "intro": "Der PLC-Simulator ist eine kostenlose Anwendung für den Unterricht, die die Funktionsweise speicherprogrammierbarer Steuerungen (SPS) anhand von vier frei miteinander kombinierbaren Programmiersichten demonstriert: Kontaktplan (Ladder, LD), Funktionsbausteinsprache (FBD), Ablaufsprache (GRAFCET/SFC) sowie eine frei gestaltbare, anschauliche Bedienoberfläche (HMI). Das Programm simuliert den Betrieb der SPS durch eine echtzeitfähige, zyklische (scan-basierte) Auswertung und übersetzt die erstellte Logik zusätzlich in das Maschinencode-Format (Anweisungsliste) der verbreitetsten Industriehersteller - so kann das im Simulator erstellte Programm unmittelbar als Lehrmaterial, als Demonstration oder sogar als Grundlage für die Übertragung auf eine reale SPS dienen.",
+      "items": [
+        "**Kontaktplan-Editor**: Kontakte, Spulen, Set/Reset, Zeitglieder (TON), Zähler (CTU), parallele Zweige",
+        "**Funktionsbausteinsprache (FBD)**: AND/OR/NOT/XOR, SR-Speicherglied, TON, CTU, Flankenerkennung für steigende/fallende Flanken (R_TRIG/F_TRIG)",
+        "**GRAFCET (Ablaufsprache)**: Schritte, Transitionen, Weiterschaltbedingungen, Aktionen - und als Besonderheit die automatische Generierung eines Kontaktplan-Programms aus der entworfenen Sequenz",
+        "**Taktimpulse (Clock-Bits)**: blinkende Merker mit beliebiger Frequenz und 50 % Tastverhältnis, für Blinkfunktionen und Taktgebung",
+        "Frei gestaltbare, mehrseitige HMI-Oberfläche mit 12 verschiedenen Elementtypen und Echtzeit-Animation",
+        "**Bibliothek mit Beispielprogrammen**: 9 fertige, sofort ladbare Demonstrationen aus Industrie und Unterricht",
+        "**Maschinencode-Export**: IEC Instruction List, Siemens STL, Mitsubishi, Allen-Bradley - mit vollständiger Herstellerkompatibilitätstabelle",
+        "Automatische **Programmprüfung** und **Verweissuche** zur Erkennung typischer Fehler",
+        "**Drucken und PDF-Export** sowie ein Generator für die vollständige Projektdokumentation per Knopfdruck",
+        "Mehrstufiges **Rückgängig/Wiederholen** für das gesamte Projekt (Kontaktplan, HMI, FBD, GRAFCET, Taktimpulse, Tags)",
+        "Die Benutzeroberfläche ist in 6 Sprachen verfügbar: Ungarisch, Englisch, Deutsch, Spanisch, Französisch, Polnisch"
+      ]
+    },
+    {
+      "num": "2",
+      "title": "Systemanforderungen und Programmstart",
+      "intro": "Das Programm verfügt über eine eigene, integrierte Java-Laufzeitumgebung (JRE); eine separate Java-Installation ist nicht erforderlich.",
+      "items": [
+        "Start: Doppelklicken Sie auf die Datei **PlcSzimulator.exe**",
+        "Es ist keine Internetverbindung erforderlich - das Programm läuft vollständig lokal auf dem Computer",
+        "Das Fenster lässt sich wie jede andere Windows-Anwendung in der Größe ändern und verschieben",
+        "Projektdateien werden mit der Erweiterung **.plc** gespeichert und geöffnet",
+        "Während der Ausführung sendet und empfängt das Programm keine Daten über das Netzwerk"
+      ]
+    },
+    {
+      "num": "3",
+      "title": "Überblick über die Benutzeroberfläche",
+      "intro": "Am oberen Rand des Fensters befindet sich eine Leiste mit Flaggen zur Sprachauswahl, darunter die Haupt-Symbolleiste, in der Mitte die Reiter Kontaktplan / HMI / Funktionsbaustein (FBD) / GRAFCET, rechts das I/O-Panel (Zustand von Eingängen, Ausgängen, Zeitgliedern und Zählern) und unten die Statuszeile.",
+      "items": [
+        "**Menüleiste**: Datei, Bearbeiten, Maschinencode, Prüfung, Hilfe",
+        "**Symbolleiste**: Schaltflächen Start / Stopp / Schritt / Zurücksetzen, Rückgängig / Wiederholen, Auswahl der Zykluszeit, Schaltflächen zur Netzwerkverwaltung, Zoomauswahl",
+        {
+          "text": "**Reiter**: Sie können frei zwischen vier Ansichten wechseln, die alle mit demselben I/Q/M/T/C-Speicher arbeiten:",
+          "sub": [
+            "**Kontaktplan** - der klassische relaislogische (Ladder-)Editor",
+            "**HMI** - der Editor für die Bedienoberfläche mit Live-Visualisierung",
+            "**Funktionsbaustein (FBD)** - der blockbasierte Logik-Editor",
+            "**GRAFCET** - der Editor für die Ablaufsprache (SFC)"
+          ]
+        },
+        "**I/O-Panel**: aktueller Zustand der Eingänge (I), Ausgänge (Q), Merker (M) sowie der Zeitglieder (T) und Zähler (C), live aktualisiert während der Ausführung",
+        "**Statuszeile**: zeigt das Ergebnis der letzten Aktion sowie während der Ausführung die Anzahl der durchlaufenen Scan-Zyklen an"
+      ]
+    },
+    {
+      "num": "4",
+      "title": "Sprache wechseln",
+      "intro": "Durch Klicken auf die handgezeichneten Länderflaggen am oberen Rand des Fensters können Sie die Programmsprache sofort wechseln: Ungarisch, Englisch, Deutsch, Spanisch, Französisch oder Polnisch.",
+      "items": [
+        "Die Flagge der aktuell eingestellten Sprache ist mit einem blauen Rahmen gekennzeichnet",
+        "Beim Sprachwechsel baut das Programm das Fenster vollständig neu auf, behält jedoch das geladene Projekt bei: die Netzwerke, die HMI-Bildschirme, die FBD-Blöcke, das GRAFCET-Diagramm und die Einstellungen der Taktimpulse",
+        "Handelt es sich beim geladenen Programm noch um die anfängliche Standarddemo oder um ein noch nicht bearbeitetes integriertes Beispiel, werden die zugehörigen erläuternden Texte (Netzwerkkommentare, HMI-Beschriftungen) automatisch in der gewählten Sprache neu angezeigt",
+        "Sobald der Benutzer tatsächlich etwas im Programm bearbeitet (auch nur ein einzelnes Netzwerk), behält das Programm von diesem Zeitpunkt an seine eigenen, unter Umständen sprachlich gemischten Texte bei - ein Sprachwechsel übersetzt diese nicht mehr, sondern ändert nur noch die Sprache der fertigen Oberflächenelemente des Programms (Menüs, Schaltflächen, Dialoge)",
+        "Beim Sprachwechsel bleiben stets erhalten: die vergebenen Tag-Namen und Kommentare, der Pfad der aktuellen Datei, der Laufzeitzustand der SPS, die Zykluszeit, der Scan-Zähler und der Zoomfaktor"
+      ]
+    },
+    {
+      "num": "5",
+      "title": "Dateioperationen",
+      "intro": "Das Menü **Datei** enthält die folgenden Funktionen:",
+      "items": [
+        "**Neues Programm**: löscht die aktuellen Netzwerke, das HMI, das FBD, das GRAFCET, die Taktimpulse und die Tags (erfordert eine Bestätigung)",
+        "**Öffnen...**: Laden eines zuvor gespeicherten .plc-Projekts",
+        "**Speichern** / **Speichern als...**: Speichern des gesamten Projekts (Kontaktplan-Programm, Tags, alle HMI-Bildschirme, FBD-Blöcke, GRAFCET-Diagramm, Taktimpulse) in einer einzigen .plc-Datei",
+        "Untermenü **Beispielprogramme**: die integrierte Programmbibliothek, siehe Kapitel 6",
+        "**Drucken / PDF-Export...** und **Projektdokumentation drucken...**: siehe Kapitel 18",
+        "**Beenden**: schließt das Programm"
+      ],
+      "note": "Die .plc-Datei liegt im Java-Serialisierungsformat vor (kein Textformat, kein XML) und kann ausschließlich mit diesem Programm geöffnet werden. Das Programm ist abwärtskompatibel sowohl zum früheren einseitigen HMI-Format als auch zu älteren Dateien, die ausschließlich ein Kontaktplan-Programm ohne HMI/FBD/GRAFCET enthalten - die darin fehlenden Teile werden dabei im leeren Ausgangszustand geladen."
+    },
+    {
+      "num": "6",
+      "title": "Beispielprogramme (Programmbibliothek)",
+      "intro": "Im Untermenü **Datei → Beispielprogramme** stehen 9 fertige, sofort ladbare Demonstrationsprogramme zur Verfügung. Jedes Beispiel baut gleichzeitig ein vollständiges Kontaktplan-Programm, einen passenden HMI-Bildschirm sowie einen kleinen illustrativen Funktionsbaustein-Ausschnitt und ein illustratives GRAFCET-Diagramm auf - diese beiden Letzteren dienen der Veranschaulichung des jeweiligen Blocktyps bzw. Konzepts, arbeiten auf separaten, von den tatsächlichen Ausgängen unabhängigen Bits und beeinflussen daher nicht die Hauptfunktion des Beispiels. Das Laden eines Beispiels löscht das aktuelle Programm (erfordert eine Bestätigung).",
+      "table": {
+        "header": [
+          "Name des Beispiels",
+          "Was es demonstriert"
+        ],
+        "col_widths": [
+          0.3,
+          0.7
+        ],
+        "rows": [
+          [
+            "Motorstart (Standarddemo)",
+            "Selbsthaltender Motorstart; 3-Sekunden-Einschaltverzögerung (TON); Meldeleuchte nach Ablauf der Verzögerung; Zählung der Starts (CTU) mit Meldung nach 5 Starts"
+          ],
+          [
+            "Stern-Dreieck-Motorstart",
+            "Klassische Stern-Dreieck-Anlaufschaltung: Hauptschütz, 3-Sekunden-Umschaltzeit, Ansteuerung von Stern- und anschließend Dreieckschütz"
+          ],
+          [
+            "Förderband-Reihenfolgestart",
+            "Zeitlich gestaffelter, nacheinander erfolgender Start von drei Förderbändern (sequenzielle Startlogik)"
+          ],
+          [
+            "Roboterzelle (Ein- und Auslagern eines Motorblocks)",
+            "Dieselbe Steuerungslogik wie beim Förderband-Beispiel, jedoch mit anschaulicher HMI: Animation von Fanuc- und Kuka-Roboterarmen, Förderbändern und Werkstücken"
+          ],
+          [
+            "Ampelsteuerung (Zustandsautomat)",
+            "Klassischer Set/Reset-basierter Zustandsautomat: Rot (4 s) - Gelb (1 s) - Grün (3 s) - Rot ... zyklischer Phasenwechsel"
+          ],
+          [
+            "Aufzug (2 Stockwerke)",
+            "Vollständige Aufzugssteuerung: Rufknöpfe, Türöffnungszeiten, Fahrzeit, Türanimation und Anzeige der Kabinenbewegung"
+          ],
+          [
+            "Straßenkreuzung mit Fußgängerübergang",
+            "Ampelphasenwechsel mit Anforderungstaster für Fußgänger: Fußgänger-Grün schaltet sich nur bei Anforderung während der Rotphase für den Fahrzeugverkehr ein"
+          ],
+          [
+            "Blinklampe (mit Taktimpuls)",
+            "Die einfachste Taktimpuls-Demonstration: ein einziges Netzwerk, das das 1-Hz-Clock-Bit direkt auf eine HMI-Leuchte legt"
+          ],
+          [
+            "Lauflicht (mit Taktimpuls)",
+            "Umlaufendes Lichtband mit 8 Positionen (sogenannte „Johnson-Counter”-Anordnung), das von einem Taktimpuls (Clock-Bit) weitergeschaltet wird - Details siehe Kapitel 14"
+          ]
+        ]
+      },
+      "note": "Die Beispiele „Villogó lámpa” und „Futófény” wurden eigens zur Veranschaulichung der Funktion Taktimpulse (Clock-Bits) erstellt - es empfiehlt sich, mit diesen beiden zu beginnen, wenn Sie sich mit dieser Funktion vertraut machen möchten."
+    },
+    {
+      "num": "7",
+      "title": "Bearbeiten des Kontaktplans",
+      "intro": "Der Kontaktplan setzt sich aus Netzwerken (Rungs) zusammen. Jedes Netzwerk besteht aus einer in Reihe geschalteten Vorkette, optionalen parallelen Zweigen, einer in Reihe geschalteten Nachkette und einem Ausgang.",
+      "items": [
+        "**Neuer Kontakt**: Klicken Sie auf eine gestrichelte „+”-Stelle",
+        "**Kontakt bearbeiten / löschen**: Klicken Sie auf einen vorhandenen Kontakt. Typ: Schließer (NO) oder Öffner (NC); Operandentyp: Eingang (I), Ausgang (Q), Merker (M), Zeitglied fertig (T.DN) oder Zähler fertig (C.DN); Index: bei I/Q/M 0-15, bei T.DN/C.DN 0-7",
+        "**Parallelen Zweig hinzufügen**: Klicken Sie auf die gestrichelte Zeile „+ Zweig” unterhalb des Netzwerks",
+        "**Zweig löschen**: Klicken Sie auf das rote X am Anfang des Zweigs",
+        {
+          "text": "**Ausgang bearbeiten**: Klicken Sie auf den Ausgang (Spule / Zeitglied / Zähler). Als Ziel kommt sowohl Ausgang (Q) als auch Merker (M) in Frage, die Typen sind:",
+          "sub": [
+            "**Spule** - optional negierbar (NOT-Spule)",
+            "**Set** - setzt das Zielbit (schaltet es auf wahr), solange die Bedingung erfüllt ist",
+            "**Reset** - setzt das Zielbit zurück (schaltet es auf falsch), solange die Bedingung erfüllt ist",
+            "**Zeitglied (TON)** - T-Index (0-7) und voreingestellte Zeit (Preset, 0-3.600.000 ms, in Schritten von 100 ms)",
+            "**Zähler (CTU)** - C-Index (0-7) und voreingestellter Zählwert (Preset, 1-100.000)"
+          ]
+        },
+        "**Netzwerk auswählen**: Klicken Sie auf die Leiste am linken Rand des Netzwerks",
+        "**Netzwerkkommentar**: durch Doppelklick auf die Leiste bearbeitbar; beim Anlegen eines neuen Netzwerks fragt das Programm auch danach",
+        "**Netzwerke verschieben**: Mit den Schaltflächen **▲ Hoch** / **▼ Runter** der Symbolleiste lässt sich das ausgewählte Netzwerk positionieren",
+        "**Netzwerk kopieren / einfügen**: Mit den Schaltflächen **Netzwerk kopieren** / **Netzwerk einfügen** lässt sich ein komplettes Netzwerk kopieren (es wird stets nach dem ausgewählten Netzwerk eingefügt)",
+        "**Kontakt kopieren / einfügen**: Strg+Klick auf einen vorhandenen Kontakt kopiert ihn in die Zwischenablage; Strg+Klick auf eine leere „+”-Stelle fügt ihn ein",
+        "**Neues Netzwerk hinzufügen**: über die Schaltfläche **+ Netzwerk** oder die gestrichelte Zeile am Ende der Liste; beim Anlegen eines neuen Ausgangs schlägt das Programm automatisch den ersten freien Q-Index als Ziel vor",
+        "**Netzwerk löschen**: Wählen Sie das Netzwerk aus und klicken Sie dann auf die Schaltfläche **Netzwerk löschen**"
+      ],
+      "note": "Der Zoomfaktor (siehe Kapitel 20) wirkt sich auch auf den Kontaktplan aus - bei größeren Projekten empfiehlt es sich, zur besseren Übersicht zu verkleinern."
+    },
+    {
+      "num": "8",
+      "title": "Tags",
+      "intro": "Jede I/Q/M/T/C-Adresse kann mit einem aussagekräftigen Namen und einem Kommentar versehen werden, damit das Programm leichter lesbar und dokumentierbar ist.",
+      "items": [
+        "Öffnen: Menü **Bearbeiten** → **Tags bearbeiten...**",
+        "Die angezeigte Tabelle listet alle 64 Speicheradressen auf (16 Eingänge, 16 Ausgänge, 16 Merker, 8 Zeitglieder, 8 Zähler); zu jeder Zeile können ein Name und ein Kommentar angegeben werden",
+        "Die vergebenen Namen erscheinen im Kontaktplan, im I/O-Panel, im HMI, im FBD, im Maschinencode-Export (als Zeilenendkommentar), in der Auswahlliste der Verweissuche sowie in der gedruckten Projektdokumentation",
+        "Wenn Sie den Mauszeiger über ein Element halten (Tooltip), werden die vollständige Adresse, der vergebene Name und der Kommentar angezeigt",
+        "Leer gelassene Namen bzw. Kommentare werden beim Speichern aus der Liste entfernt"
+      ]
+    },
+    {
+      "num": "9",
+      "title": "Steuerung der Simulation",
+      "intro": "Die Simulation läuft mit zyklischer (scan-basierter) Auswertung ab, genau wie eine reale SPS: Das Programm wertet in jedem Zyklus (Scan) die gesamte Logik der Reihe nach aus und beginnt anschließend erneut.",
+      "items": [
+        "**Start**: startet die zyklische Auswertung mit der eingestellten Zykluszeit",
+        "**Stopp**: hält die Simulation an",
+        "**Schritt**: führt im angehaltenen Zustand genau einen Scan-Zyklus aus - nützlich, um die Logik Schritt für Schritt nachzuvollziehen",
+        "**Zurücksetzen**: löscht den Zustand der Ausgänge, Merker, Zeitglieder und Zähler, setzt die interne Phase der Taktimpulsgeneratoren zurück und versetzt die GRAFCET-Schritte in ihren Ausgangszustand",
+        "**Zykluszeit**: in der Symbolleiste wählbar zwischen 50, 100, 150, 250, 500 oder 1000 Millisekunden (Standard: 150 ms)",
+        "Durch Klicken auf die Eingangsschaltflächen (I/O-Panel) lassen sich die Eingänge auch während der Ausführung ein- und ausschalten",
+        "Während der Ausführung zeigen Leitungen und Kontakte den energisierten (stromführenden) Zustand farblich an",
+        {
+          "text": "Ein Scan-Zyklus läuft in einer genauen, festen Reihenfolge ab:",
+          "sub": [
+            "1. Auswertung der Taktimpulsgeneratoren (siehe Kapitel 14)",
+            "2. Auswertung der Kontaktplan-Netzwerke von oben nach unten",
+            "3. Auswertung der Funktionsbausteinsprache (FBD) in der Reihenfolge der Blöcke in der Liste",
+            "4. Auswertung des GRAFCET",
+            "5. Abtastung der HMI-Trends, Aktualisierung der Anzeigen"
+          ]
+        }
+      ],
+      "note": "Da die Auswertung in einer festen Reihenfolge erfolgt, wirkt sich eine „vorwärts” verweisende Verbindung (z. B. ein FBD-Block, der den Ausgang eines in der Liste später stehenden Blocks verwendet) erst mit einer Verzögerung von einem vollen Scan-Zyklus aus. Dasselbe gilt für Taktimpulse: Die Wirkung des davon gesteuerten Bits zeigt sich im Kontaktplan und im FBD erst in den folgenden Zyklen."
+    },
+    {
+      "num": "10",
+      "title": "Rückgängig und Wiederholen",
+      "intro": "Das Programm führt einen vollständigen Verlauf der Bearbeitungsvorgänge für das gesamte Projekt.",
+      "items": [
+        "**Strg+Z**: Rückgängig, **Strg+Y**: Wiederholen - ebenfalls über die Schaltflächen der Symbolleiste erreichbar, funktioniert sowohl im Hauptfenster als auch im abgedockten HMI-Fenster",
+        "Die Funktion gilt einheitlich für den Kontaktplan, die Tags, alle HMI-Bildschirme, das FBD, das GRAFCET und die Einstellungen der Taktimpulse - ein einziger gemeinsamer Rückgängig-Stapel verwaltet all dies",
+        "Die Tiefe des Verlaufs beträgt 60 Schritte",
+        "Das Anlegen eines neuen Programms oder das Öffnen einer Datei löscht den bisherigen Verlauf"
+      ],
+      "note": "Das Rückgängig-Machen erstreckt sich NICHT auf den Laufzeitzustand der SPS (die aktuellen Werte von I/Q/M/T/C), die Zykluszeit, den Zoomfaktor und den Status Lauf/Halt - dies sind keine Bearbeitungs-, sondern Laufzeiteinstellungen. Jede tatsächliche Bearbeitung (auch die Änderung eines einzigen Kontakts) „löst” das Programm vom geladenen Beispielprogramm, selbst wenn die Änderung anschließend rückgängig gemacht wird."
+    },
+    {
+      "num": "11",
+      "title": "HMI-Oberfläche",
+      "intro": "Im Reiter **HMI** (Human-Machine Interface) lässt sich mithilfe von 12 verschiedenen Elementtypen eine frei gestaltbare, anschauliche Bedienoberfläche für das laufende SPS-Programm aufbauen.",
+      "items": [
+        "**Bearbeitungsmodus**: über die Umschaltfläche **HMI bearbeiten** ein- bzw. auszuschalten",
+        "**Neues Element platzieren**: Wählen Sie den Typ aus der Dropdown-Liste aus und klicken Sie dann auf die Zeichenfläche",
+        "**Element verschieben / Größe ändern**: Ziehen Sie das Element bzw. dessen rechte untere Ecke",
+        "**Eigenschaften bearbeiten**: durch Doppelklick auf das Element - bei jedem Elementtyp lassen sich die zugeordnete I/Q/M/T/C-Adresse, zwei frei wählbare Farben (Zustand Ein / Aus), die Schriftgröße (8-48 pt) sowie die für den jeweiligen Typ spezifischen Einstellungen festlegen (siehe nachstehende Tabelle)",
+        "Schaltfläche **Ausgewähltes Element löschen** in der Bearbeitungsleiste",
+        {
+          "text": "**Verwaltung mehrerer Bildschirme**: Über das Dropdown-Menü Bildschirm können Sie zwischen den HMI-Bildschirmen wechseln; Bedienschaltflächen:",
+          "sub": [
+            "**+ Neuer Bildschirm** - Anlegen eines neuen, leeren Bildschirms über einen Dialog zur Namensabfrage",
+            "**Umbenennen...** - Umbenennen des ausgewählten Bildschirms",
+            "**Bildschirm löschen** - mindestens ein Bildschirm muss stets erhalten bleiben"
+          ]
+        },
+        "Umschaltfläche **In separatem Fenster**: verschiebt das HMI in ein eigenständiges, verschiebbares Fenster, sodass es gleichzeitig neben dem Kontaktplan (oder einer anderen Ansicht) sichtbar ist - beim Schließen des Fensters kehrt das HMI wieder in den ursprünglichen Reiter zurück",
+        "Während der Ausführung reagieren die Schaltflächen OHNE Bearbeitungsmodus live auf Klicks, während Leuchten, Anzeigen und animierte Elemente die SPS-Logik live widerspiegeln"
+      ],
+      "table": {
+        "header": [
+          "Elementtyp",
+          "Beschreibung und wichtigste Eigenschaften"
+        ],
+        "col_widths": [
+          0.22,
+          0.78
+        ],
+        "rows": [
+          [
+            "Leuchte",
+            "Runde Meldeleuchte: leuchtet in der Ein-Farbe, wenn das zugeordnete Bit wahr ist, andernfalls in der Aus-Farbe"
+          ],
+          [
+            "Taste",
+            "Klickbare Taste mit zwei Modi: **Umschaltend** - schaltet das Bit bei jedem Klick um; **Tastend** - das Bit ist nur wahr, solange die Taste gedrückt gehalten wird. Sinnvoll nur als Ziel Eingang (I) oder Merker (M)"
+          ],
+          [
+            "Anzeige",
+            "„LCD”-ähnliche Ziffernanzeige: zeigt im Normalfall den Wert 0/1 des Bits; im Modus „Zahlenwert” wird bei Zeitglied/Zähler statt des Fertig-Bits der aktuelle/eingestellte Wert angezeigt (z. B. „1234 / 2000 ms”)"
+          ],
+          [
+            "Beschriftung",
+            "Einfacher, statischer Text für dekorative oder erläuternde Zwecke"
+          ],
+          [
+            "Rechteck",
+            "Gefülltes, umrahmtes Rechteck zur Dekoration bzw. Gruppierung, mit optionaler Beschriftung"
+          ],
+          [
+            "Trend",
+            "Zeitlicher Verlauf, der die letzten 120 Abtastpunkte als Liniendiagramm darstellt (Bitzustand oder aktueller Wert von Zeitglied/Zähler)"
+          ],
+          [
+            "Zebrastreifen",
+            "Gestreiftes Fußgängerüberweg-Muster; rein dekoratives Element mit automatischer horizontaler oder vertikaler Streifung je nach Seitenverhältnis"
+          ],
+          [
+            "Tür",
+            "Tür aus zwei Schiebepaneelen, die sich je nach Zustand des zugeordneten Bits animiert in rund einer halben Sekunde öffnet und schließt"
+          ],
+          [
+            "Förderband",
+            "Realistische Förderband-Animation mit laufendem Muster und während des Betriebs über das Band wandernden Werkstück-Symbolen"
+          ],
+          [
+            "Sensor",
+            "Darstellung eines optischen Näherungsschalters mit pulsierendem Lichtkegel und leuchtender LED im aktiven Zustand; drehbar um 0/90/180/270 Grad"
+          ],
+          [
+            "Fanuc-Roboter",
+            "Animation eines zweiarmigen, gegliederten Industrieroboterarms (gelbe Farbgebung) mit kontinuierlicher Schwenkbewegung, solange das zugeordnete Bit wahr ist; horizontal spiegelbar"
+          ],
+          [
+            "Kuka-Roboter",
+            "Dieselbe Bewegungsanimation mit Kuka-typischer orangefarbener Farbgebung"
+          ]
+        ]
+      },
+      "note": "Tür, Förderband, Sensor und die beiden Roboterarm-Widgets bewegen sich nach einem kontinuierlichen, vom Scan-Zyklus unabhängigen Animationstimer (40 ms) - diese Elemente werden auch animiert, wenn die SPS-Simulation gerade angehalten ist, solange das zugeordnete Bit wahr ist."
+    },
+    {
+      "num": "12",
+      "title": "Funktionsbausteinsprache (FBD)",
+      "intro": "Im Reiter **Funktionsbaustein (FBD)** lässt sich eine vom Kontaktplan abweichende, blockbasierte Logik aufbauen, die denselben I/Q/M/T/C-Speicher liest und schreibt wie der Kontaktplan - die beiden Ansichten lassen sich innerhalb desselben Projekts frei kombinieren.",
+      "items": [
+        "**Bearbeitungsmodus**: über die Umschaltfläche **FBD bearbeiten** aktivierbar; ein neuer Block wird durch Auswahl aus dem Dropdown-Menü und anschließendes Klicken auf die Zeichenfläche platziert - das Programm öffnet daraufhin sofort den Eigenschaften-Dialog des Blocks",
+        "**Block verschieben**: Ziehen Sie vom Inneren des Blocks aus (nicht von den Ein-/Ausgangspunkten)",
+        "**Verdrahtung**: Klicken Sie auf den Ausgangspunkt eines Blocks (rechter Kreis) und anschließend auf den Zieleingang (linker Kreis); ein erneuter Klick auf einen Eingangspunkt überschreibt jederzeit die vorherige Verbindung",
+        "**Verbindung trennen**: Klicken Sie auf einen bereits verbundenen Eingangspunkt (wenn gerade keine Verdrahtung im Gange ist)",
+        "**Blockeigenschaften**: durch Doppelklick bearbeitbar (Typ, Beschriftung, bei AND/OR die Anzahl der Eingänge zwischen 2 und 8, zugeordnete I/Q/M/T.DN/C.DN-Adresse, bei TON T-Index und Preset, bei CTU C-Index und Preset)",
+        "Schaltfläche **Ausgewählten Block löschen** in der Bearbeitungsleiste"
+      ],
+      "table": {
+        "header": [
+          "Blocktyp",
+          "Funktionsweise"
+        ],
+        "col_widths": [
+          0.22,
+          0.78
+        ],
+        "rows": [
+          [
+            "Eingang",
+            "Hat keinen Eingang; sein Ausgang ist der aktuelle Wert des zugeordneten I/Q/M/T.DN/C.DN-Bits"
+          ],
+          [
+            "Ausgang",
+            "Hat einen Eingang; schreibt dessen Wert auf ein Ausgangs- (Q) oder Merker-Bit (M)"
+          ],
+          [
+            "AND",
+            "2-8 Eingänge, logische UND-Verknüpfung"
+          ],
+          [
+            "OR",
+            "2-8 Eingänge, logische ODER-Verknüpfung"
+          ],
+          [
+            "NOT",
+            "Ein Eingang, Negation"
+          ],
+          [
+            "XOR",
+            "Genau 2 Eingänge, Exklusiv-ODER-Verknüpfung"
+          ],
+          [
+            "SR-Speicherglied",
+            "Zwei Eingänge (S, R); rücksetzdominantes Speicherglied: Ist R wahr, ist der Ausgang falsch; andernfalls, wenn S wahr ist, ist der Ausgang wahr; sind beide falsch, behält der Ausgang seinen vorherigen Wert"
+          ],
+          [
+            "TON",
+            "Einschaltverzögerndes Zeitglied mit eigenem T-Index (0-7) und einstellbarer voreingestellter Zeit (ms)"
+          ],
+          [
+            "CTU",
+            "Aufwärtszähler mit den Eingängen CU (Zählen) und R (Rücksetzen), eigenem C-Index (0-7) und einstellbarem voreingestelltem Zählwert"
+          ],
+          [
+            "R_TRIG (P)",
+            "Erkennung der steigenden Flanke: beim Übergang des Eingangs von 0→1 genau einen Scan-Zyklus lang wahr"
+          ],
+          [
+            "F_TRIG (N)",
+            "Erkennung der fallenden Flanke: beim Übergang des Eingangs von 1→0 genau einen Scan-Zyklus lang wahr"
+          ]
+        ]
+      },
+      "note": "Die TON- und CTU-Blöcke verwenden denselben Zeitglied- bzw. Zähler-Speicher (T0-T7, C0-C7) wie die entsprechenden Ausgänge im Kontaktplan - steuern Sie denselben Index in beiden Ansichten an, meldet die Funktion Programmprüfung (Kapitel 15) diesen Konflikt. Die Blöcke werden pro Scan-Zyklus stets in der Reihenfolge ausgewertet, in der sie auf der Zeichenfläche angelegt wurden."
+    },
+    {
+      "num": "13",
+      "title": "GRAFCET (Ablaufsprache)",
+      "intro": "Im Reiter **GRAFCET** lassen sich sequenzielle, schrittweise ablaufende Prozesse mit der anschaulichen grafischen Notation nach IEC 60848 entwerfen: Das Diagramm setzt sich aus Schritten und den dazwischenliegenden Transitionen (bedingten Weiterschaltungen) zusammen.",
+      "items": [
+        "**Bearbeitungsmodus**: über die Umschaltfläche **GRAFCET bearbeiten** aktivierbar; ein neues Element (Schritt oder Transition) wird durch Auswahl aus dem Dropdown-Menü und Klicken auf die Zeichenfläche platziert",
+        "**Schritt bearbeiten**: Angabe einer Beschriftung, Kontrollkästchen „Anfangsschritt” (der Anfangsschritt wird entsprechend der genormten Notation mit doppeltem Rahmen dargestellt) sowie eine beliebige Anzahl zugeordneter Aktionen",
+        "**Transition bearbeiten**: Die Bedingung (Weiterschaltbedingung) lässt sich aus einer beliebigen Anzahl von UND-verknüpften Kontakten zusammenstellen (derselbe Editor wie bei den Kontakten des Kontaktplans: beliebige I/Q/M/T.DN/C.DN-Adresse, Schließer oder Öffner)",
+        "**Verdrahtung**: Der Ausgangspunkt eines Schritts kann mit dem Eingangspunkt einer Transition verbunden werden, und der Ausgangspunkt einer Transition mit dem Eingangspunkt eines Schritts; eine Transition kann mehrere Quell- und mehrere Zielschritte haben, sodass sich auch verzweigende und zusammenlaufende Sequenzen aufbauen lassen",
+        "Während der Ausführung werden aktive Schritte und schaltbereite Transitionen grün (in der Energisiert-Farbe) dargestellt",
+        "**Ausgewähltes Element löschen**: löscht den Schritt bzw. die Transition sowie alle darauf verweisenden Verbindungen"
+      ],
+      "subsections": [
+        {
+          "title": "13.1 Aktionstypen",
+          "intro": "Jedem Schritt kann eine beliebige Anzahl von Aktionen zugeordnet werden, die im aktiven Zustand des Schritts die Ausgänge steuern:",
+          "table": {
+            "header": [
+              "Aktionstyp",
+              "Wirkung"
+            ],
+            "col_widths": [
+              0.25,
+              0.75
+            ],
+            "rows": [
+              [
+                "Kontinuierlich",
+                "Solange der Schritt aktiv ist, bleibt das Zielbit dauerhaft wahr; wird der Schritt inaktiv, wechselt es sofort auf falsch"
+              ],
+              [
+                "Set",
+                "Solange der Schritt aktiv ist, setzt er das Zielbit (auf wahr) - für das Zurücksetzen muss gesondert gesorgt werden, etwa durch eine Reset-Aktion eines anderen Schritts"
+              ],
+              [
+                "Reset",
+                "Solange der Schritt aktiv ist, setzt er das Zielbit zurück (auf falsch)"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "13.2 Ablauf der Auswertung",
+          "intro": "In jedem Scan-Zyklus arbeitet das Programm nach der synchronen GRAFCET-Semantik: Zunächst werden alle Transitionen ermittelt, bei denen sämtliche Quellschritte aktiv UND deren Bedingung erfüllt ist; anschließend werden - alle gleichzeitig, in einem einzigen Schritt - die betroffenen Quellschritte deaktiviert und die Zielschritte aktiviert. Die Funktion **Zurücksetzen** (Kapitel 9) versetzt alle Schritte zurück in ihre Anfangskonfiguration."
+        },
+        {
+          "title": "13.3 Generieren eines Kontaktplans aus dem GRAFCET",
+          "intro": "Eine Besonderheit des GRAFCET-Reiters ist die Schaltfläche **Kontaktplan generieren...**: Sie wandelt die entworfene Sequenz automatisch in echte, ausführbare Kontaktplan-Netzwerke um.",
+          "items": [
+            "Die Funktion weist jedem GRAFCET-Schritt automatisch ein freies (an keiner anderen Stelle verwendetes) Merker-Bit (M) zu und fordert unter Anzeige der Zuordnungstabelle eine Bestätigung an",
+            "Für jeden Schritt werden ein Aktivierungsnetzwerk (setzt das M-Bit des Schritts, wenn die eingehenden Transitionen erfüllt sind), ein Deaktivierungsnetzwerk (löscht das M-Bit des Schritts, wenn der Austritt erfolgt) sowie jeweils ein weiteres Netzwerk pro dem Schritt zugeordneter Aktion erzeugt",
+            "Die generierten Netzwerke werden an das Ende des Kontaktplan-Programms angehängt",
+            "Nach der Generierung wird der GRAFCET-Reiter zu einer reinen visuellen Vorschau - ab diesem Zeitpunkt übernehmen die generierten Kontaktplan-Netzwerke die tatsächliche Steuerung, damit die beiden Darstellungen nicht um denselben Ausgang konkurrieren"
+          ],
+          "note": "Die Funktion erfordert mindestens einen Schritt und genau einen als „Anfangsschritt” gekennzeichneten Schritt. Bei mehr als 16 Schritten kann es vorkommen, dass nicht genügend freie Merker-Bits (M) für die Zuordnung zur Verfügung stehen; in diesem Fall meldet das Programm einen Fehler."
+        }
+      ]
+    },
+    {
+      "num": "14",
+      "title": "Taktimpulse (Clock-Bits)",
+      "intro": "Die Taktimpulsgeneratoren erzeugen Merker-Bits (M), die das Programm automatisch mit der eingestellten Frequenz und einem exakten Tastverhältnis von 50 % (symmetrisches Rechtecksignal) umschaltet - typische Anwendungen sind blinkende Meldeleuchten, Taktsignale oder schrittweise fortschreitende (lauflicht-ähnliche) Logiken.",
+      "items": [
+        "Öffnen: Menü **Bearbeiten** → **Taktimpulse (Clock-Bits) bearbeiten...**",
+        "In der angezeigten Liste steht jede Zeile für einen Generator im Format „M-Adresse - Frequenz Hz” (z. B. „M1.7 - 1,0 Hz”)",
+        "Die Liste wird über die Schaltflächen **+ Hinzufügen** / **Bearbeiten...** / **Löschen** verwaltet",
+        "Pro Zeile einstellbar: **Ziel (M-Index)** - welchen Merker der Generator schaltet (0-15), und **Frequenz (Hz)** - zwischen 0,1 und 50,0 Hz, in Schritten von 0,1 Hz",
+        "Das eingestellte Bit kann in jedem Kontaktplan-, FBD- oder HMI-Element genauso als Kontakt verwendet werden wie jeder andere Merker",
+        "Das Programm lässt nicht zu, dass zwei Generatoren dasselbe M-Bit ansteuern (es verweigert das Speichern mit einer Fehlermeldung)"
+      ],
+      "note": "WICHTIG: Das gewählte M-Bit darf weder im Kontaktplan noch im FBD von einer anderen Spule, einem Set/Reset oder einem FBD-Ausgangsblock beschrieben werden - geschieht dies trotzdem, überschreibt die pro Scan-Zyklus zuletzt ausgewertete Schreibung die andere, und das Bit blinkt scheinbar nicht. Dieser Konflikt wird von der Programmprüfung (Kapitel 15) automatisch gemeldet. Bei der Auswahl eines neuen M-Bits empfiehlt es sich, ein im Programm noch nicht verwendetes Bit mit hohem Index zu wählen (z. B. M1.6, M1.7). Die Einstellung wirkt sich nur bei laufender Simulation (Start oder Schritt) aus - das bloße Schließen des Dialogs startet das Blinken nicht."
+    },
+    {
+      "num": "15",
+      "title": "Programmprüfung",
+      "intro": "Über den Menüpunkt **Prüfung → Programm prüfen...** durchsucht das Programm automatisch das gesamte Projekt nach typischen Fehlerquellen und zeigt die gefundenen Probleme in einer scrollbaren Liste an.",
+      "items": [
+        "**Mehrfaches direktes Schreiben auf denselben Ausgang (Fehler)**: meldet, wenn eine Q- oder M-Adresse von mehreren Stellen direkt beschrieben wird - Kontaktplan-Spule, FBD-Ausgangsblock und Taktimpulsgenerator zählen dabei gleichermaßen -, da pro Scan-Zyklus nur die zuletzt ausgewertete Schreibung wirksam wird",
+        "**Mehrfache Steuerung desselben Zeitglieds/Zählers (Fehler)**: meldet, wenn denselben T- oder C-Index mehrere Netzwerke oder FBD-Blöcke ansteuern",
+        "**Offene FBD-Eingänge (Warnung)**: meldet, wenn einer der Eingänge eines FBD-Blocks nicht verbunden ist (nimmt während der Ausführung den Wert falsch an)",
+        "**FBD-Selbstreferenz (Fehler)**: meldet, wenn der Eingang eines Blocks (mittelbar oder unmittelbar) auf sich selbst verweist"
+      ],
+      "note": "Wird kein Problem gefunden, meldet das Programm „Keine Verweisprobleme gefunden.” zurück. Die absichtliche Mehrfachverwendung von Set/Reset-Ausgängen (z. B. in Zustandsautomaten, wie auch das Beispiel Ampelsteuerung aufgebaut ist) wird von der Prüfung NICHT als Fehler gemeldet, sondern nur die bedingungslosen, direkten (spulenartigen) Schreibzugriffe."
+    },
+    {
+      "num": "16",
+      "title": "Verweissuche",
+      "intro": "Über den Menüpunkt **Prüfung → Verweise suchen...** lässt sich ermitteln, an welchen Stellen des Projekts eine bestimmte Adresse vorkommt - besonders nützlich für die Übersichtlichkeit größerer, bereits umfangreich bearbeiteter Programme.",
+      "items": [
+        "Wählen Sie die gesuchte Adresse aus der Dropdown-Liste aus (der zugeordnete Tag-Name wird, falls vorhanden, ebenfalls angezeigt)",
+        "Das Programm listet alle Vorkommen auf: im Kontaktplan (pro Netzwerk, mit Angabe, ob in der Vorkette, einem Zweig, der Nachkette oder als Ausgang), im FBD (pro Block, mit Typ und Beschriftung) sowie auf allen HMI-Bildschirmen (mit Elementtyp und Beschriftung)",
+        "Bei einer Änderung der Auswahl wird die Liste automatisch aktualisiert"
+      ]
+    },
+    {
+      "num": "17",
+      "title": "Maschinencode-Export",
+      "intro": "Über den Menüpunkt **Maschinencode → Maschinencode anzeigen...** lässt sich das erstellte Kontaktplan-Programm automatisch in die Anweisungslisten-Dialekte mehrerer Industriehersteller übersetzen.",
+      "items": [
+        "**Instruction List (IEC 61131-3)**: für Steuerungen von Omron, Hitachi, Schneider Electric, Beckhoff, Keyence, Panasonic, Delta",
+        "**Siemens STL (AWL)**: für Siemens-Steuerungen S7-200 / 300 / 400 / 1200 / 1500",
+        "**Mitsubishi FX/Q-Anweisungsliste**: für Steuerungen von Mitsubishi Electric FX, Q, L, iQ-F, iQ-R",
+        "**Allen-Bradley-Befehlssatz (SLC-500)**: für Rockwell-Steuerungen MicroLogix, SLC-500, CompactLogix/ControlLogix",
+        "Mit den Schaltflächen **In die Zwischenablage kopieren** und **Als .txt-Datei speichern...** lässt sich der generierte Code für die weitere Verwendung exportieren",
+        "Schaltfläche **Herstellerkompatibilität...**: vollständige Übersichtstabelle der industriellen SPS-Hersteller und ihrer Programmiersprachen, einschließlich der nicht unterstützten Robotersteuerungssprachen"
+      ],
+      "table": {
+        "header": [
+          "Hersteller",
+          "Typische SPS",
+          "Sprache",
+          "Status in diesem Simulator"
+        ],
+        "col_widths": [
+          0.22,
+          0.3,
+          0.2,
+          0.28
+        ],
+        "rows": [
+          [
+            "Siemens",
+            "S7-200/300/400/1200/1500",
+            "STL / AWL",
+            "Vollständig unterstützt"
+          ],
+          [
+            "Mitsubishi Electric",
+            "FX, Q, L, iQ-F, iQ-R",
+            "IL",
+            "Vollständig unterstützt"
+          ],
+          [
+            "Omron",
+            "CP, CJ, CS, NX",
+            "IL",
+            "Kompatibel mit der IEC-IL-Ansicht"
+          ],
+          [
+            "Hitachi",
+            "EH, H-Serie",
+            "Instruction List",
+            "Kompatibel mit der IEC-IL-Ansicht"
+          ],
+          [
+            "Allen-Bradley / Rockwell",
+            "MicroLogix, CompactLogix, ControlLogix",
+            "Instruction List / SLC",
+            "Vollständig unterstützt"
+          ],
+          [
+            "Schneider Electric",
+            "Modicon M340/M580/Premium",
+            "IL",
+            "Kompatibel mit der IEC-IL-Ansicht"
+          ],
+          [
+            "Beckhoff",
+            "TwinCAT / IPC",
+            "IL, ST",
+            "Kompatibel mit der IEC-IL-Ansicht"
+          ],
+          [
+            "Keyence",
+            "KV-Serie",
+            "Instruction / Mnemonic",
+            "Kompatibel mit der IEC-IL-Ansicht"
+          ],
+          [
+            "Panasonic",
+            "FP-Serie",
+            "FP Instruction List",
+            "Kompatibel mit der IEC-IL-Ansicht"
+          ],
+          [
+            "Delta",
+            "DVP, AS-Serie",
+            "Instruction List",
+            "Kompatibel mit der IEC-IL-Ansicht"
+          ],
+          [
+            "Yaskawa",
+            "MPiec, VIPA usw.",
+            "herstellerspezifisch",
+            "Nicht unterstützt - proprietäres Format"
+          ],
+          [
+            "FANUC",
+            "CNC / Robotersteuerungen",
+            "eigene Steuerungssprachen",
+            "Nicht unterstützt - Robotersprache"
+          ],
+          [
+            "Kawasaki",
+            "Robotersteuerungen",
+            "AS-Sprache",
+            "Nicht unterstützt - Robotersprache"
+          ],
+          [
+            "ABB",
+            "Robotersteuerungen",
+            "RAPID",
+            "Nicht unterstützt - Robotersprache"
+          ]
+        ]
+      },
+      "note": "Die Funktionsbaustein-Logik (FBD) erscheint im Maschinencode-Export nur in der IEC-Instruction-List- und der Siemens-STL-Ansicht. Die im HMI sichtbaren Roboterarm-Widgets (Fanuc, Kuka) sind ausschließlich visuelle Illustrationen - der Export der zugehörigen Robotersteuerungssprachen ist nicht implementiert."
+    },
+    {
+      "num": "18",
+      "title": "Drucken und Projektdokumentation",
+      "intro": "Das Programm arbeitet über den systemeigenen Druckdialog; um als PDF zu speichern, wählen Sie als Drucker den in Windows integrierten virtuellen Drucker **„Microsoft Print to PDF”**.",
+      "subsections": [
+        {
+          "title": "18.1 Drucken / PDF-Export",
+          "intro": "Im Menüpunkt **Datei → Drucken / PDF-Export...** stehen vier Schaltflächen zur Verfügung, die jeweils den vollständigen Inhalt der jeweiligen Ansicht (nicht nur den sichtbaren, gescrollten Bereich) im Querformat (Landscape) proportional verkleinert auf ein Blatt drucken:",
+          "items": [
+            "Kontaktplan drucken...",
+            "HMI drucken... (druckt den aktuell ausgewählten HMI-Bildschirm)",
+            "Funktionsbaustein (FBD) drucken...",
+            "GRAFCET drucken..."
+          ]
+        },
+        {
+          "title": "18.2 Drucken der Projektdokumentation",
+          "intro": "Der Menüpunkt **Datei → Projektdokumentation drucken...** erzeugt in einem einzigen Druckauftrag, im Hochformat (Portrait), auf mehreren Seiten eine vollständige, fertige Projektdokumentation:",
+          "items": [
+            "Titelseite - Dateiname des Projekts sowie Datum und Uhrzeit der Erstellung",
+            "Tag-Liste - nur die tatsächlich benannten I/Q/M/T/C-Adressen, mit den Spalten Adresse / Name / Kommentar, bei Bedarf auf mehrere Seiten umbrochen",
+            "Der vollständige Kontaktplan, auf eine Seite angepasst",
+            "Der vollständige HMI-Bildschirm, auf eine Seite angepasst",
+            "Die Funktionsbausteinsprache - nur wenn das Projekt mindestens einen FBD-Block enthält",
+            "Das GRAFCET-Diagramm - nur wenn das Projekt mindestens einen GRAFCET-Schritt enthält"
+          ]
+        }
+      ]
+    },
+    {
+      "num": "19",
+      "title": "I/O-Adressierungssystem",
+      "intro": "Der Simulator folgt der klassischen SPS-Adressierung im Format Byte.Bit mit einem festen Speicherumfang.",
+      "table": {
+        "header": [
+          "Speicherbereich",
+          "Anzahl",
+          "Adressbereich"
+        ],
+        "col_widths": [
+          0.3,
+          0.2,
+          0.5
+        ],
+        "rows": [
+          [
+            "Eingänge (I)",
+            "16 Bit",
+            "I0.0 - I0.7, I1.0 - I1.7"
+          ],
+          [
+            "Ausgänge (Q)",
+            "16 Bit",
+            "Q0.0 - Q0.7, Q1.0 - Q1.7"
+          ],
+          [
+            "Merker (M)",
+            "16 Bit",
+            "M0.0 - M0.7, M1.0 - M1.7"
+          ],
+          [
+            "Zeitglieder (T)",
+            "8 Stück",
+            "T0 - T7 (Fertig-Bit: T.DN)"
+          ],
+          [
+            "Zähler (C)",
+            "8 Stück",
+            "C0 - C7 (Fertig-Bit: C.DN)"
+          ]
+        ]
+      },
+      "note": "Im Maschinencode-Export richtet sich die Adressierung nach der Konvention des jeweiligen Herstellers: in der IEC-Instruction-List-Ansicht im Format %IX0.0 / %QX0.0 / %MX0.0, in der Allen-Bradley-Ansicht im Format I:0/N / O:0/N / B3:0/N / T4:N / C5:N und in der Mitsubishi-Ansicht mit einfacher dezimaler X/Y/M/T/C-Indexierung."
+    },
+    {
+      "num": "20",
+      "title": "Zoom und weitere Komfortfunktionen",
+      "items": [
+        "**Zoom**: über das Dropdown-Menü der Symbolleiste einstellbar auf 50 %, 75 %, 100 %, 125 %, 150 % oder 200 %; wirkt gleichzeitig auf den Kontaktplan, das HMI und die Funktionsbaustein-Ansicht (auch die GRAFCET-Ansicht folgt, mit eigener interner Skalierung)",
+        "Die Zeichenflächen von Kontaktplan, HMI, FBD und GRAFCET lassen sich jeweils einzeln scrollen, wenn der Inhalt größer als der sichtbare Bereich ist",
+        "**Tastenkombinationen**: Strg+Z - Rückgängig, Strg+Y - Wiederholen; beide funktionieren sowohl im Hauptfenster als auch im abgedockten HMI-Fenster"
+      ]
+    },
+    {
+      "num": "21",
+      "title": "Info und Lizenz",
+      "intro": "Das Programm wurde von Sisak László (helmetsoft.com) eigens für den Einsatz im PLC-Unterricht entwickelt.",
+      "items": [
+        "Die Nutzung des Programms ist **KOSTENLOS**",
+        "Es darf nicht gewerblich vertrieben oder verkauft werden",
+        "Über den Menüpunkt **Hilfe → Info** lässt sich diese Information jederzeit direkt aus dem Programm aufrufen",
+        "Das integrierte Fenster **Hilfe → Bedienung** fasst direkt im Programm die grundlegende Handhabung der Kontaktplan-Bearbeitung, der Simulation und der Funktionsbausteinsprache zusammen; das vorliegende Handbuch ist wesentlich ausführlicher und behandelt zusätzlich GRAFCET, Taktimpulse, Beispielprogramme sowie die Funktionen für Drucken/Dokumentation."
+      ]
+    }
+  ]
+}

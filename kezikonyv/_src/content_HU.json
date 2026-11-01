@@ -1,0 +1,675 @@
+{
+  "lang_code": "HU",
+  "footer_title": "PLC-szimulator - Felhasználói kézikönyv",
+  "doc_title": "PLC-szimulator",
+  "doc_subtitle": "Felhasználói kézikönyv",
+  "author_line": "Készítette: Sisak László (helmetsoft.com)",
+  "disclaimer": "INGYENES oktatási célú felhasználásra - kereskedelmi forgalomba nem hozható",
+  "version_line": "2. kiadás - kibővítve a Mintaprogramok, a GRAFCET, az Óraimpulzusok (clock bitek) és a Nyomtatás/dokumentáció fejezetekkel",
+  "toc_heading": "Tartalomjegyzék",
+  "sections": [
+    {
+      "num": "1",
+      "title": "Bevezetés",
+      "intro": "A PLC-szimulátor egy oktatási célú, ingyenes alkalmazás, amely programozható logikai vezérlők (PLC-k) működését mutatja be négyféle, egymással szabadon kombinálható programozási nézettel: létradiagram (ladder, LD), funkcióblokk-diagram (FBD), szekvenciális funkcióséma (GRAFCET/SFC) és egy szabadon tervezhető, látványos kezelőfelület (HMI) segítségével. A program valós idejű, ciklikus (scan-alapú) kiértékeléssel szimulálja a PLC működését, és a megírt logikát a legelterjedtebb ipari gyártók gépi kód (utasításlista) formátumára is lefordítja - így a szimulátorban megírt program közvetlenül szolgálhat tananyagként, demonstrációként vagy akár valódi PLC-re történő átültetés alapjául.",
+      "items": [
+        "**Létradiagram szerkesztő**: érintkezők, tekercsek, Set/Reset, időzítők (TON), számlálók (CTU), párhuzamos ágak",
+        "**Funkcióblokk-diagram (FBD)**: AND/OR/NOT/XOR, SR-tároló, TON, CTU, felfutó/lefutó élfigyelők (R_TRIG/F_TRIG)",
+        "**GRAFCET (szekvenciális funkcióséma)**: lépések, átmenetek, receptivitások, akciók - és egyedülálló módon automatikus létraprogram-generálás a megtervezett szekvenciából",
+        "**Óraimpulzusok (clock bitek)**: tetszőleges frekvenciájú, 50%-os kitöltésű villogó belső relék, villogtatáshoz és ütemezéshez",
+        "Szabadon tervezhető, több képernyős HMI felület, 12 különböző elemtípussal, valós idejű animációval",
+        "**Mintaprogramok könyvtára**: 9 kész, azonnal betölthető ipari és oktatási demonstráció",
+        "**Gépi kód export**: IEC Instruction List, Siemens STL, Mitsubishi, Allen-Bradley - teljes gyártói kompatibilitási táblázattal",
+        "Automatikus **programellenőrzés** és **kereszthivatkozás-keresés** a tipikus hibák kiszűrésére",
+        "**Nyomtatás és PDF export**, valamint egy gombnyomásos, teljes projektdokumentáció-generátor",
+        "Többlépéses **Visszavonás/Ismét** a teljes projektre (létra, HMI, FBD, GRAFCET, óraimpulzusok, címkék)",
+        "A felhasználói felület 6 nyelven használható: magyar, angol, német, spanyol, francia, lengyel"
+      ]
+    },
+    {
+      "num": "2",
+      "title": "Rendszerkövetelmények és indítás",
+      "intro": "A program saját, beépített Java futtatókörnyezettel (JRE) rendelkezik, külön Java-telepítés nem szükséges.",
+      "items": [
+        "Indítás: kattintson duplán a **PlcSzimulator.exe** fájlra",
+        "Nincs szükség internetkapcsolatra, a program teljes mértékben helyben, a számítógépen fut",
+        "Az ablak méretezhető és mozgatható, mint bármely Windows-alkalmazás",
+        "A projektfájlok **.plc** kiterjesztéssel menthetők és nyithatók meg",
+        "A program futása közben nem küld és nem fogad adatot a hálózaton keresztül"
+      ]
+    },
+    {
+      "num": "3",
+      "title": "A felhasználói felület áttekintése",
+      "intro": "Az ablak tetején egy nyelvválasztó zászlósor, alatta a fő eszköztár, középen a Létradiagram / HMI / Funkcióblokk (FBD) / GRAFCET fülek, jobb oldalon az I/O panel (bemenetek, kimenetek, időzítők, számlálók állapota), alul pedig a státuszsor található.",
+      "items": [
+        "**Menüsor**: Fájl, Szerkesztés, Gépi kód, Ellenőrzés, Súgó",
+        "**Eszköztár**: Indítás / Leállítás / Lépés / Nullázás gombok, Visszavonás / Ismét, ciklusidő-választó, hálózatkezelő gombok, nagyítás-választó",
+        {
+          "text": "**Fülek**: négy nézet között válthat szabadon, ugyanazon az I/Q/M/T/C memórián dolgozva:",
+          "sub": [
+            "**Létradiagram** - a hagyományos relés-logikai (ladder) szerkesztő",
+            "**HMI** - a kezelőfelület-tervező és élő vizualizáció",
+            "**Funkcióblokk (FBD)** - a blokk-alapú logikai szerkesztő",
+            "**GRAFCET** - a szekvenciális funkcióséma (SFC) szerkesztő"
+          ]
+        },
+        "**I/O panel**: Bemenetek (I), Kimenetek (Q), Belső relék (M), valamint az Időzítők (T) és Számlálók (C) aktuális állapota, élőben frissülve futás közben",
+        "**Státuszsor**: az utolsó művelet eredményét és a lefutott scan-ciklusok számát mutatja futás közben"
+      ]
+    },
+    {
+      "num": "4",
+      "title": "Nyelv váltása",
+      "intro": "Az ablak tetején látható, kézzel rajzolt országzászlókra kattintva azonnal válthat a program nyelvét: magyar, angol, német, spanyol, francia vagy lengyel közül.",
+      "items": [
+        "A jelenlegi nyelv zászlóját kék keret jelzi",
+        "Nyelvváltáskor a program teljesen újraépíti az ablakot, de megtartja a betöltött projektet: a hálózatokat, a HMI-képernyőket, az FBD-blokkokat, a GRAFCET-diagramot és az óraimpulzus-beállításokat",
+        "Ha a betöltött program még a kezdeti alapértelmezett demó, vagy egy még nem szerkesztett beépített minta, a hozzá tartozó magyarázó szövegek (hálózat-megjegyzések, HMI-feliratok) automatikusan a kiválasztott nyelven jelennek meg újra",
+        "Amint a felhasználó bármit ténylegesen szerkeszt a programban (akár egyetlen hálózatot is), a program attól kezdve a saját, esetleg vegyes nyelvű szövegeit megtartja - ezeket nyelvváltás többé nem fordítja le, csak a program kész kezelőfelületi elemeinek (menük, gombok, dialógusok) nyelve vált",
+        "Mindig megmaradnak nyelvváltáskor: a kiosztott címkenevek és megjegyzések, az aktuális fájl útvonala, a PLC futásidejű állapota, a ciklusidő, a scan-számláló és a nagyítás mértéke"
+      ]
+    },
+    {
+      "num": "5",
+      "title": "Fájlműveletek",
+      "intro": "A **Fájl** menü az alábbi műveleteket tartalmazza:",
+      "items": [
+        "**Új program**: törli az aktuális hálózatokat, a HMI-t, az FBD-t, a GRAFCET-et, az óraimpulzusokat és a címkéket (megerősítést kér)",
+        "**Megnyitás...**: korábban mentett .plc projekt betöltése",
+        "**Mentés** / **Mentés másként...**: a teljes projekt (létraprogram, címkék, az összes HMI-képernyő, FBD-blokkok, GRAFCET-diagram, óraimpulzusok) mentése egyetlen .plc fájlba",
+        "**Minta programok** almenü: a beépített programkönyvtár, lásd a 6. fejezetet",
+        "**Nyomtatás / PDF export...** és **Projekt dokumentáció nyomtatása...**: lásd a 18. fejezetet",
+        "**Kilépés**: bezárja a programot"
+      ],
+      "note": "A .plc fájl Java-szerializációs formátum (nem szöveges, nem XML), kizárólag ezzel a programmal nyitható meg. A program visszafelé kompatibilis a korábbi, egy képernyős HMI-formátummal és a HMI/FBD/GRAFCET nélküli, pusztán létraprogramot tartalmazó régi fájlokkal is - ezekből a hiányzó részek üres alapállapotban töltődnek be."
+    },
+    {
+      "num": "6",
+      "title": "Mintaprogramok (programkönyvtár)",
+      "intro": "A **Fájl → Minta programok** almenüben 9 kész, azonnal betölthető demonstrációs program található. Mindegyik minta egyszerre épít fel egy teljes létraprogramot, egy hozzá illő HMI-képernyőt, egy kis illusztratív funkcióblokk-részletet és egy illusztratív GRAFCET-diagramot is - ez utóbbi kettő a program adott blokktípusának/koncepciójának bemutatására szolgál, külön, a tényleges kimenetektől független biteken, ezért nem befolyásolja a minta fő működését. Egy minta betöltése törli az aktuális programot (megerősítést kér).",
+      "table": {
+        "header": [
+          "Minta neve",
+          "Mit demonstrál"
+        ],
+        "col_widths": [
+          0.3,
+          0.7
+        ],
+        "rows": [
+          [
+            "Motorindítás (alapértelmezett demó)",
+            "Önfenntartó motorindítás; 3 mp-es bekapcsolás-késleltetés (TON); jelzőlámpa a késleltetés lejártakor; indítások számlálása (CTU) és jelzés 5 indítás után"
+          ],
+          [
+            "Csillag-delta motorindítás",
+            "Klasszikus csillag-delta indítási kapcsolás: fő kontaktor, 3 mp-es átkapcsolási idő, csillag- majd delta-kontaktor vezérlése"
+          ],
+          [
+            "Szállítószalag sorrendindítás",
+            "Három szállítószalag egymás utáni, késleltetett indítása (szekvenciális indítási logika)"
+          ],
+          [
+            "Robotcella (motorblokk be- és kirakás)",
+            "Ugyanaz a vezérlési logika, mint a szállítószalag mintánál, de látványos HMI-vel: Fanuc és Kuka robotkarok, szállítószalagok és munkadarabok animációjával"
+          ],
+          [
+            "Közlekedési lámpa (állapotgép)",
+            "Klasszikus Set/Reset-alapú állapotgép: piros (4 mp) - sárga (1 mp) - zöld (3 mp) - piros... ciklikus fázisváltás"
+          ],
+          [
+            "Lift (2 szintes)",
+            "Teljes liftvezérlés: hívásgombok, ajtónyitási idők, haladási idő, ajtóanimáció és kabinmozgás-jelzés"
+          ],
+          [
+            "Útkereszteződés gyalogátkelővel",
+            "Jelzőlámpa-fázisváltás gyalogos hívásgombbal: a gyalogos zöld csak hívás esetén, az autós piros fázisban kapcsol be"
+          ],
+          [
+            "Villogó lámpa (óraimpulzussal)",
+            "A legegyszerűbb óraimpulzus-demonstráció: egyetlen hálózat, amely közvetlenül az 1 Hz-es clock bitet vezeti ki egy HMI-lámpára"
+          ],
+          [
+            "Futófény (óraimpulzussal)",
+            "8 pozíciós, körbefutó fénysor (ún. „Johnson-counter” elrendezés), amelyet egy óraimpulzus (clock bit) léptet - részletesen lásd a 14. fejezetet"
+          ]
+        ]
+      },
+      "note": "A „Villogó lámpa” és a „Futófény” minták kifejezetten az Óraimpulzusok (clock bitek) funkció bemutatására készültek - érdemes ezekből kiindulni, ha ezt a funkciót szeretné megismerni."
+    },
+    {
+      "num": "7",
+      "title": "Létradiagram szerkesztése",
+      "intro": "A létradiagram hálózatokból (rungs) épül fel. Minden hálózat egy sorba kapcsolt előtagból, opcionális párhuzamos ágakból, egy sorba kapcsolt utótagból és egy kimenetből áll.",
+      "items": [
+        "**Új érintkező**: kattintson egy szaggatott „+” helyre",
+        "**Érintkező szerkesztése / törlése**: kattintson egy meglévő érintkezőre. Típus: Záró (NO) vagy Nyitó (NC); operandus típusa: Bemenet (I), Kimenet (Q), Belső relé (M), Időzítő kész (T.DN) vagy Számláló kész (C.DN); index: I/Q/M esetén 0-15, T.DN/C.DN esetén 0-7",
+        "**Párhuzamos ág felvétele**: kattintson a „+ ág” szaggatott sorra a hálózat alatt",
+        "**Ág törlése**: kattintson az ág elején látható piros X jelre",
+        {
+          "text": "**Kimenet szerkesztése**: kattintson a kimenetre (tekercs / időzítő / számláló). A cél lehet Kimenet (Q) vagy Belső relé (M) is, a típusok:",
+          "sub": [
+            "**Tekercs** - opcionálisan negálható (NOT tekercs)",
+            "**Set** - a cél bitet bekapcsolja (igazra állítja), amíg a feltétel teljesül",
+            "**Reset** - a cél bitet kikapcsolja (hamisra állítja), amíg a feltétel teljesül",
+            "**Időzítő (TON)** - T-index (0-7) és előválasztott idő (preset, 0-3 600 000 ms, 100 ms-os lépésközzel)",
+            "**Számláló (CTU)** - C-index (0-7) és előválasztott darabszám (preset, 1-100 000)"
+          ]
+        },
+        "**Hálózat kijelölése**: kattintson a hálózat bal oldali sávjára",
+        "**Hálózat megjegyzése**: duplán kattintva a sávra szerkeszthető; új hálózat létrehozásakor a program rá is kérdez",
+        "**Hálózatok mozgatása**: az eszköztár **▲ Fel** / **▼ Le** gombjaival pozicionálható a kijelölt hálózat",
+        "**Hálózat másolása / beillesztése**: a **Hálózat másolása** / **Hálózat beillesztése** gombokkal egy teljes hálózat átmásolható (mindig a kijelölt hálózat után szúródik be)",
+        "**Kontaktus másolása / beillesztése**: Ctrl+kattintás egy meglévő kontaktuson vágólapra másolja; Ctrl+kattintás egy üres „+” helyen beilleszti",
+        "**Új hálózat hozzáadása**: a **+ Hálózat** gombbal, vagy a lista alján látható szaggatott sorral; új kimenet felvételekor a program automatikusan a legelső szabad Q-indexet ajánlja fel célként",
+        "**Hálózat törlése**: jelölje ki a hálózatot, majd kattintson a **Hálózat törlése** gombra"
+      ],
+      "note": "A nagyítás (lásd 20. fejezet) a létradiagramra is hat - nagyobb projekteknél érdemes kicsinyíteni az áttekinthetőség kedvéért."
+    },
+    {
+      "num": "8",
+      "title": "Címkék (tag-ek)",
+      "intro": "Minden I/Q/M/T/C cím ellátható beszédes névvel és megjegyzéssel, hogy a program könnyebben olvasható és dokumentálható legyen.",
+      "items": [
+        "Megnyitás: **Szerkesztés** menü → **Címkék (tag-ek) szerkesztése...**",
+        "A megjelenő táblázat mind a 64 memóriacímet felsorolja (16 bemenet, 16 kimenet, 16 belső relé, 8 időzítő, 8 számláló); minden sorhoz megadható Név és Megjegyzés",
+        "A megadott nevek megjelennek a létradiagramon, az I/O panelen, a HMI-n, az FBD-ben, a gépi kód exportban (sorvégi megjegyzésként), a kereszthivatkozás-keresés legördülőjében és a nyomtatott projektdokumentációban is",
+        "Egérrel az elemek fölött időzve (eszköz-leírás, tooltip) a teljes cím, a megadott név és a megjegyzés is megjelenik",
+        "Üresen hagyott név/megjegyzés mentéskor törlődik a listából"
+      ]
+    },
+    {
+      "num": "9",
+      "title": "Szimuláció vezérlése",
+      "intro": "A szimuláció ciklikus (scan-alapú) kiértékeléssel fut, ahogy egy valódi PLC is működik: a program minden egyes ciklusban (scan) sorban kiértékeli a teljes logikát, majd újrakezdi.",
+      "items": [
+        "**Indítás**: elindítja a ciklikus kiértékelést a beállított ciklusidővel",
+        "**Leállítás**: megállítja a szimulációt",
+        "**Lépés**: leállított állapotban egyetlen scan-ciklust hajt végre - hasznos a logika lépésenkénti nyomon követésére",
+        "**Nullázás**: törli a kimenetek, belső relék, időzítők és számlálók állapotát, valamint az óraimpulzus-generátorok belső fázisát és a GRAFCET lépéseket a kezdeti állapotukba állítja",
+        "**Ciklusidő**: 50, 100, 150, 250, 500 vagy 1000 ezredmásodperc közül választható az eszköztáron (alapértelmezett: 150 ms)",
+        "A bemenet gombokra kattintva (I/O panel) a bemenetek be- és kikapcsolhatók, futás közben is",
+        "Futás közben a vezetékek és kontaktusok színnel jelzik az energizált (vezető) állapotot",
+        {
+          "text": "Egy scan-ciklus pontos, rögzített sorrendben zajlik le:",
+          "sub": [
+            "1. Óraimpulzus-generátorok kiértékelése (lásd 14. fejezet)",
+            "2. A létradiagram hálózatainak kiértékelése, felülről lefelé",
+            "3. A funkcióblokk-diagram (FBD) kiértékelése, a blokkok listában szereplő sorrendjében",
+            "4. A GRAFCET kiértékelése",
+            "5. HMI-trendek mintavételezése, kijelzők frissítése"
+          ]
+        }
+      ],
+      "note": "Mivel a kiértékelés rögzített sorrendben történik, egy „előre” hivatkozó összeköttetés (pl. egy FBD-blokk, amely egy a listában később szereplő blokk kimenetét használja) egy teljes scan-ciklus késéssel érvényesül. Ugyanez igaz az óraimpulzusra is: a vele vezérelt bit hatása csak a következő ciklusokban jelenik meg a létrán és az FBD-n."
+    },
+    {
+      "num": "10",
+      "title": "Visszavonás és Ismét",
+      "intro": "A program teljes körű visszavonás-előzményt vezet a szerkesztési műveletekről, a projekt egészére kiterjedően.",
+      "items": [
+        "**Ctrl+Z**: visszavonás, **Ctrl+Y**: ismét - az eszköztár gombjaival is elérhető, és mind a főablakban, mind a levált HMI-ablakban működik",
+        "A funkció egységesen vonatkozik a létrára, a címkékre, az összes HMI-képernyőre, az FBD-re, a GRAFCET-re és az óraimpulzus-beállításokra - egyetlen közös visszavonási verem kezeli mindet",
+        "Az előzmények mélysége 60 lépés",
+        "Új program létrehozása vagy fájl megnyitása törli az addigi előzményeket"
+      ],
+      "note": "A visszavonás NEM terjed ki a futásidejű PLC-állapotra (az I/Q/M/T/C aktuális értékeire), a ciklusidőre, a nagyításra és a fut/leáll állapotra - ezek nem szerkesztési, hanem futtatási jellegű beállítások. Bármely tényleges szerkesztés (akár egyetlen kontaktus módosítása is) a programot „leválasztja” a betöltött mintaprogramtól, még akkor is, ha a módosítást utólag visszavonja."
+    },
+    {
+      "num": "11",
+      "title": "HMI felület",
+      "intro": "A **HMI** (Human-Machine Interface) fülön szabadon megtervezhető, látványos kezelőfelület építhető a futó PLC-programhoz, 12 különböző elemtípus felhasználásával.",
+      "items": [
+        "**Szerkesztés mód**: a **HMI szerkesztés** váltógombbal kapcsolható be / ki",
+        "**Új elem elhelyezése**: válassza ki a típust a legördülő listából, majd kattintson a vászonra",
+        "**Elem mozgatása / átméretezése**: húzza az elemet, illetve annak jobb alsó sarkát",
+        "**Tulajdonságok szerkesztése**: duplán kattintva az elemre - minden elemtípusnál beállítható a kötött I/Q/M/T/C cím, a két szabadon választható szín (bekapcsolt / kikapcsolt állapot), a betűméret (8-48 pt), valamint az adott típusra jellemző egyedi beállítások (lásd az alábbi táblázatot)",
+        "**Kijelölt elem törlése** gomb a szerkesztősávon",
+        {
+          "text": "**Több képernyő kezelése**: a Képernyő legördülővel válthat a HMI-képernyők között; kezelőgombok:",
+          "sub": [
+            "**+ Új képernyő** - új, üres képernyő létrehozása névkérő dialógussal",
+            "**Átnevezés...** - a kiválasztott képernyő átnevezése",
+            "**Képernyő törlése** - legalább egy képernyőnek mindig meg kell maradnia"
+          ]
+        },
+        "**Külön ablakban** váltógomb: a HMI-t önálló, mozgatható ablakba helyezi ki, így a létradiagrammal (vagy bármely más nézettel) egyszerre, egymás mellett is látható - az ablak bezárásakor a HMI visszakerül az eredeti fülre",
+        "Futás közben, szerkesztés mód NÉLKÜL a gombok élőben reagálnak a kattintásra, a lámpák, kijelzők és animált elemek pedig élőben követik a PLC logikáját"
+      ],
+      "table": {
+        "header": [
+          "Elemtípus",
+          "Leírás és fontosabb tulajdonságok"
+        ],
+        "col_widths": [
+          0.22,
+          0.78
+        ],
+        "rows": [
+          [
+            "Lámpa",
+            "Kör alakú jelzőlámpa: a bekapcsolt színnel világít, ha a kötött bit igaz, egyébként a kikapcsolt színnel"
+          ],
+          [
+            "Gomb",
+            "Kattintható gomb, két módban: **Váltó** - kattintásra átkapcsolja a bitet; **Pillanat** - csak addig igaz a bit, amíg a gombot lenyomva tartják. Csak Bemenet (I) vagy Belső relé (M) célra van értelme"
+          ],
+          [
+            "Kijelző",
+            "„LCD”-szerű számkijelző: alapesetben a bit 0/1 értékét mutatja; „Számérték” módban Időzítő/Számláló esetén az aktuális/beállított értéket (pl. „1234 / 2000 ms”) jeleníti meg a kész-bit helyett"
+          ],
+          [
+            "Felirat",
+            "Egyszerű, statikus szöveg, dekorációs vagy magyarázó célra"
+          ],
+          [
+            "Téglalap",
+            "Kitöltött, kerettel rendelkező díszítő/csoportosító téglalap, opcionális felirattal"
+          ],
+          [
+            "Trend",
+            "Időbeli grafikon, amely az utolsó 120 mintavételi pontot ábrázolja vonaldiagramon (bit-állapot vagy Időzítő/Számláló aktuális értéke)"
+          ],
+          [
+            "Zebra",
+            "Csíkos gyalogátkelő-minta; tisztán díszítő elem, automatikusan vízszintes vagy függőleges csíkozással a méretarány szerint"
+          ],
+          [
+            "Ajtó",
+            "Két csúszó panelből álló ajtó, amely a kötött bit állapota szerint animáltan, kb. fél másodperc alatt nyit és csukódik"
+          ],
+          [
+            "Szállítószalag",
+            "Realisztikus szállítószalag-animáció futó mintázattal, és működés közben a szalagon haladó munkadarab-ikonokkal"
+          ],
+          [
+            "Érzékelő",
+            "Optikai közelítéskapcsoló rajza, aktív állapotban pulzáló fénykúppal és világító LED-del; elforgatható 0/90/180/270 fokkal"
+          ],
+          [
+            "Fanuc robot",
+            "Kétkarú, csuklós ipari robotkar animáció (sárga színezés), folyamatos lengő mozgással, amíg a kötött bit igaz; vízszintesen tükrözhető"
+          ],
+          [
+            "Kuka robot",
+            "Ugyanaz a mozgásanimáció, Kuka-jellegű narancssárga színezéssel"
+          ]
+        ]
+      },
+      "note": "Az Ajtó, a Szállítószalag, az Érzékelő és a két robotkar-widget folyamatos, a scan-ciklustól független (40 ms-os) animációs időzítő szerint mozog - ezek az elemek akkor is animálódnak, ha a PLC-szimuláció éppen le van állítva, amíg a kötött bit igaz."
+    },
+    {
+      "num": "12",
+      "title": "Funkcióblokk diagram (FBD)",
+      "intro": "A **Funkcióblokk (FBD)** fülön a létrától eltérő, blokk-alapú logika építhető, amely ugyanazt az I/Q/M/T/C memóriát használja és olvassa/írja, mint a létradiagram - a két nézet szabadon kombinálható ugyanazon a projekten belül.",
+      "items": [
+        "**Szerkesztés mód**: a **FBD szerkesztés** váltógombbal kapcsolható be; új blokk a legördülőből választva, majd a vászonra kattintva helyezhető el - a program azonnal megnyitja a blokk tulajdonság-dialógusát",
+        "**Blokk mozgatása**: húzza a blokk belsejéből (nem a bemeneti/kimeneti pontokról)",
+        "**Huzalozás**: kattintson egy blokk kimeneti pontjára (jobb oldali kör), majd a célbemenetre (bal oldali kör); egy bemeneti pontra adott új kattintás bármikor felülírja a korábbi bekötést",
+        "**Huzal bontása**: kattintson egy már kötött bemeneti pontra (ha nincs éppen huzalozás folyamatban)",
+        "**Blokk tulajdonságai**: duplán kattintva szerkeszthető (típus, felirat, AND/OR esetén a bemenetek száma 2-8 között, kötött I/Q/M/T.DN/C.DN cím, TON esetén T-index és preset, CTU esetén C-index és preset)",
+        "**Kijelölt blokk törlése** gomb a szerkesztősávon"
+      ],
+      "table": {
+        "header": [
+          "Blokktípus",
+          "Működés"
+        ],
+        "col_widths": [
+          0.22,
+          0.78
+        ],
+        "rows": [
+          [
+            "Bemenet",
+            "Nincs bemenete; kimenete a kötött I/Q/M/T.DN/C.DN bit aktuális értéke"
+          ],
+          [
+            "Kimenet",
+            "Egy bemenete van; az értékét Kimenet (Q) vagy Belső relé (M) bitre írja ki"
+          ],
+          [
+            "AND",
+            "2-8 bemenet, logikai ÉS kapcsolat"
+          ],
+          [
+            "OR",
+            "2-8 bemenet, logikai VAGY kapcsolat"
+          ],
+          [
+            "NOT",
+            "Egy bemenet, negálás"
+          ],
+          [
+            "XOR",
+            "Pontosan 2 bemenet, kizáró VAGY kapcsolat"
+          ],
+          [
+            "SR tároló",
+            "Két bemenet (S, R); Reset-domináns tároló: ha R igaz, a kimenet hamis; egyébként ha S igaz, a kimenet igaz; ha mindkettő hamis, a kimenet megtartja az előző értékét"
+          ],
+          [
+            "TON",
+            "Bekapcsolás-késleltetésű időzítő, saját T-index (0-7) és előválasztott idő (ms) beállítással"
+          ],
+          [
+            "CTU",
+            "Felfelé számláló, CU (számlálás) és R (nullázás) bemenettel, saját C-index (0-7) és előválasztott darabszám beállítással"
+          ],
+          [
+            "R_TRIG (P)",
+            "Felfutó él detektor: a bemenet 0→1 átmenetekor pontosan egy scan-ciklusig igaz"
+          ],
+          [
+            "F_TRIG (N)",
+            "Lefutó él detektor: a bemenet 1→0 átmenetekor pontosan egy scan-ciklusig igaz"
+          ]
+        ]
+      },
+      "note": "A TON és a CTU blokkok ugyanazt az időzítő-, illetve számláló-memóriát (T0-T7, C0-C7) használják, mint a létradiagram megfelelő kimenetei - ha ugyanazt az indexet mindkét nézetben vezérli, az ütközést a Program ellenőrzése funkció (15. fejezet) jelzi. A blokkok mindig a vásznon felvett sorrendjükben kerülnek kiértékelésre scan-ciklusonként."
+    },
+    {
+      "num": "13",
+      "title": "GRAFCET (szekvenciális funkcióséma)",
+      "intro": "A **GRAFCET** fülön a szekvenciális, lépésről lépésre haladó folyamatok IEC 60848 szerinti, szemléletes grafikus jelöléssel tervezhetők meg: lépésekből és a köztük lévő átmenetekből (feltételes váltásokból) épül fel a diagram.",
+      "items": [
+        "**Szerkesztés mód**: a **GRAFCET szerkesztés** váltógombbal kapcsolható be; új elem (Lépés vagy Átmenet) a legördülőből választva, a vászonra kattintva helyezhető el",
+        "**Lépés szerkesztése**: felirat megadása, „Kezdeti lépés” jelölőnégyzet (a kezdeti lépés kettős kerettel rajzolódik, a szabványos jelölésnek megfelelően), valamint tetszőleges számú hozzárendelt akció",
+        "**Átmenet szerkesztése**: a feltétel (receptivitás) tetszőleges számú, egymással ÉS kapcsolatban lévő kontaktusból állítható össze (ugyanaz a szerkesztő, mint a létra érintkezőinél: bármely I/Q/M/T.DN/C.DN, Záró vagy Nyitó)",
+        "**Huzalozás**: egy lépés kimeneti pontja köthető egy átmenet bemeneti pontjára, és egy átmenet kimeneti pontja köthető egy lépés bemeneti pontjára; egy átmenetnek több forrás- és több cél-lépése is lehet, így elágazó és összefutó szekvenciák is építhetők",
+        "Futás közben az aktív lépések és a tüzelésre kész átmenetek zölden (energizált színnel) jelennek meg",
+        "**Kijelölt elem törlése**: törli a lépést/átmenetet és minden rá mutató kapcsolatot is"
+      ],
+      "subsections": [
+        {
+          "title": "13.1 Akciótípusok",
+          "intro": "Minden lépéshez tetszőleges számú akció rendelhető, amelyek a lépés aktív állapotában vezérlik a kimeneteket:",
+          "table": {
+            "header": [
+              "Akciótípus",
+              "Hatás"
+            ],
+            "col_widths": [
+              0.25,
+              0.75
+            ],
+            "rows": [
+              [
+                "Folyamatos",
+                "Amíg a lépés aktív, a cél bit folyamatosan igaz; a lépés inaktívvá válásakor azonnal hamisra vált"
+              ],
+              [
+                "Set",
+                "Amíg a lépés aktív, a cél bitet beállítja (igazra) - a visszaállításról külön kell gondoskodni, akár egy másik lépés Reset akciójával"
+              ],
+              [
+                "Reset",
+                "Amíg a lépés aktív, a cél bitet visszaállítja (hamisra)"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "13.2 Kiértékelés menete",
+          "intro": "Minden scan-ciklusban a program szinkron GRAFCET-szemantika szerint dolgozik: először megkeresi az összes olyan átmenetet, amelynek minden forrás-lépése aktív ÉS a feltétele igaz, majd - mindezeket egyszerre, egy lépésben - deaktiválja az érintett forrás-lépéseket és aktiválja a cél-lépéseket. A **Nullázás** (9. fejezet) minden lépést visszaállít a kezdeti konfigurációjára."
+        },
+        {
+          "title": "13.3 Létra generálása GRAFCET-ből",
+          "intro": "A GRAFCET fül egyik egyedi funkciója a **Létra generálása...** gomb: ez a megtervezett szekvenciát automatikusan valódi, futtatható létradiagram-hálózatokká alakítja.",
+          "items": [
+            "A funkció minden GRAFCET-lépéshez automatikusan egy szabad (sehol máshol nem használt) Belső relé (M) bitet rendel, és megerősítést kér a hozzárendelés táblázatának bemutatásával",
+            "Minden lépéshez generálódik egy aktiváló hálózat (a lépés M-bitjét beállítja, ha a bejövő átmenetek teljesülnek), egy deaktiváló hálózat (a lépés M-bitjét törli, ha a kilépés megtörténik), valamint a lépéshez rendelt akciónkénti egy-egy további hálózat",
+            "A generált hálózatok a létraprogram végéhez fűződnek hozzá",
+            "A generálás után a GRAFCET fül kizárólag vizuális előnézetté válik - onnantól a tényleges vezérlést a legenerált létrahálózatok végzik, hogy a két reprezentáció ne versenyezzen ugyanazért a kimenetért"
+          ],
+          "note": "A funkció legalább egy lépést és pontosan egy kijelölt „Kezdeti lépést” igényel. 16-nál több lépés esetén előfordulhat, hogy nincs elég szabad belső relé (M) bit a hozzárendeléshez, ekkor a program hibát jelez."
+        }
+      ]
+    },
+    {
+      "num": "14",
+      "title": "Óraimpulzusok (clock bitek)",
+      "intro": "Az óraimpulzus-generátorok olyan belső relé (M) biteket hoznak létre, amelyeket a program automatikusan, a beállított frekvencián, pontosan 50%-os kitöltési tényezővel (szimmetrikus négyszögjellel) kapcsolgat - tipikus felhasználása villogó jelzőlámpák, ütemadó jelek vagy lépésről lépésre haladó (futófény-szerű) logikák megvalósítása.",
+      "items": [
+        "Megnyitás: **Szerkesztés** menü → **Óraimpulzusok (clock bitek) szerkesztése...**",
+        "A megjelenő listában minden sor egy generátor „M-cím - frekvencia Hz” formátumban (pl. „M1.7 - 1.0 Hz”)",
+        "**+ Hozzáad** / **Szerkesztés...** / **Törlés** gombokkal kezelhető a lista",
+        "Soronként beállítható: **Cél (M index)** - melyik belső relét kapcsolja a generátor (0-15), és **Frekvencia (Hz)** - 0,1 és 50,0 Hz között, 0,1 Hz-es lépésközzel",
+        "A beállított bit bármely létra-, FBD- vagy HMI-elemben felhasználható kontaktusként, pontosan úgy, mint bármelyik másik belső relé",
+        "A program nem engedi, hogy két generátor ugyanazt az M-bitet célozza (hibaüzenettel elutasítja a mentést)"
+      ],
+      "note": "FONTOS: a kiválasztott M-bitet NE írja semmilyen más tekercs, Set/Reset vagy FBD Kimenet blokk sem a létrában, sem az FBD-ben - ha mégis, a scan-ciklusonként utoljára kiértékelt felülírja a másikat, és a bit nem fog látszólag villogni. Ezt az ütközést a Program ellenőrzése (15. fejezet) automatikusan jelzi. Új M-bit kiválasztásakor célszerű a programban még nem használt, magas indexű bitet (pl. M1.6, M1.7) választani. A beállítás hatása csak futó szimuláció mellett (Indítás vagy Lépés) érvényesül - önmagában a dialógus bezárása nem indítja el a villogást."
+    },
+    {
+      "num": "15",
+      "title": "Program ellenőrzése",
+      "intro": "Az **Ellenőrzés** menü **Program ellenőrzése...** pontjával a program automatikusan átvizsgálja a teljes projektet tipikus hibalehetőségek után kutatva, és a talált problémákat egy görgethető listában mutatja be.",
+      "items": [
+        "**Többszörös közvetlen írás ugyanarra a kimenetre (Hiba)**: jelzi, ha egy Q vagy M címet több hely is közvetlenül ír - létra tekercs, FBD Kimenet blokk vagy óraimpulzus-generátor egyaránt számít -, mert scan-ciklusonként csak az utoljára kiértékelt érvényesül",
+        "**Többszörös vezérlés ugyanazon az időzítőn/számlálón (Hiba)**: jelzi, ha ugyanazt a T- vagy C-indexet több hálózat vagy FBD-blokk is vezérli",
+        "**FBD nyitott bemenetek (Figyelmeztetés)**: jelzi, ha egy FBD-blokk valamelyik bemenete nincs bekötve (futás közben hamis értéket vesz fel)",
+        "**FBD önhivatkozás (Hiba)**: jelzi, ha egy blokk bemenete (közvetve vagy közvetlenül) saját magára hivatkozik"
+      ],
+      "note": "Ha nem talál problémát, a program „Nem találtam hivatkozási problémát.” üzenettel visszajelez. A Set/Reset típusú kimenetek szándékos többszörös használatát (pl. állapotgépekben, ahogy a Közlekedési lámpa minta is építkezik) az ellenőrzés NEM jelzi hibaként, csak a feltétel nélküli, közvetlen (tekercs-jellegű) írásokat."
+    },
+    {
+      "num": "16",
+      "title": "Kereszthivatkozás-keresés",
+      "intro": "Az **Ellenőrzés** menü **Hivatkozások keresése...** pontjával megkereshető, hogy egy adott cím a projekt mely pontjain fordul elő - különösen hasznos nagyobb, már sokat szerkesztett programok átláthatóságához.",
+      "items": [
+        "Válassza ki a keresett címet a legördülő listából (a hozzá rendelt címke neve is megjelenik, ha van)",
+        "A program felsorolja az összes előfordulást: a létradiagramban (hálózatonként, jelezve, hogy előtagban, ágban, utótagban vagy kimenetként szerepel-e), az FBD-ben (blokkonként, típussal és felirattal), valamint a HMI minden képernyőjén (elemtípussal és felirattal)",
+        "A kiválasztás módosításakor a lista automatikusan frissül"
+      ]
+    },
+    {
+      "num": "17",
+      "title": "Gépi kód export",
+      "intro": "A **Gépi kód** menü **Gépi kód megtekintése...** pontjával a megírt létraprogram automatikusan lefordítható több ipari gyártó utasításlista-dialektusára.",
+      "items": [
+        "**Instruction List (IEC 61131-3)**: Omron, Hitachi, Schneider Electric, Beckhoff, Keyence, Panasonic, Delta vezérlőkhöz",
+        "**Siemens STL (AWL)**: Siemens S7-200 / 300 / 400 / 1200 / 1500 vezérlőkhöz",
+        "**Mitsubishi FX/Q utasításlista**: Mitsubishi Electric FX, Q, L, iQ-F, iQ-R vezérlőkhöz",
+        "**Allen-Bradley (SLC-500) utasításkészlet**: Rockwell MicroLogix, SLC-500, CompactLogix/ControlLogix vezérlőkhöz",
+        "A **Vágólapra másolás** és **Mentés .txt fájlba...** gombokkal a generált kód exportálható további felhasználásra",
+        "**Gyártói kompatibilitás...** gomb: teljes áttekintő táblázat az ipari PLC-gyártókról és azok programozási nyelvéről, beleértve a nem támogatott robotvezérlő-nyelveket is"
+      ],
+      "table": {
+        "header": [
+          "Gyártó",
+          "Jellemző PLC-k",
+          "Nyelv",
+          "Állapot ebben a szimulátorban"
+        ],
+        "col_widths": [
+          0.22,
+          0.3,
+          0.2,
+          0.28
+        ],
+        "rows": [
+          [
+            "Siemens",
+            "S7-200/300/400/1200/1500",
+            "STL / AWL",
+            "Teljes körűen támogatott"
+          ],
+          [
+            "Mitsubishi Electric",
+            "FX, Q, L, iQ-F, iQ-R",
+            "IL",
+            "Teljes körűen támogatott"
+          ],
+          [
+            "Omron",
+            "CP, CJ, CS, NX",
+            "IL",
+            "IEC IL-nézettel kompatibilis"
+          ],
+          [
+            "Hitachi",
+            "EH, H-series",
+            "Instruction List",
+            "IEC IL-nézettel kompatibilis"
+          ],
+          [
+            "Allen-Bradley / Rockwell",
+            "MicroLogix, CompactLogix, ControlLogix",
+            "Instruction List / SLC",
+            "Teljes körűen támogatott"
+          ],
+          [
+            "Schneider Electric",
+            "Modicon M340/M580/Premium",
+            "IL",
+            "IEC IL-nézettel kompatibilis"
+          ],
+          [
+            "Beckhoff",
+            "TwinCAT / IPC",
+            "IL, ST",
+            "IEC IL-nézettel kompatibilis"
+          ],
+          [
+            "Keyence",
+            "KV series",
+            "Instruction / mnemonic",
+            "IEC IL-nézettel kompatibilis"
+          ],
+          [
+            "Panasonic",
+            "FP series",
+            "FP Instruction List",
+            "IEC IL-nézettel kompatibilis"
+          ],
+          [
+            "Delta",
+            "DVP, AS series",
+            "Instruction List",
+            "IEC IL-nézettel kompatibilis"
+          ],
+          [
+            "Yaskawa",
+            "MPiec, VIPA stb.",
+            "gyártóspecifikus",
+            "Nem támogatott - egyedi formátum"
+          ],
+          [
+            "FANUC",
+            "CNC / robotvezérlők",
+            "saját vezérlési nyelvek",
+            "Nem támogatott - robotnyelv"
+          ],
+          [
+            "Kawasaki",
+            "robotvezérlők",
+            "AS nyelv",
+            "Nem támogatott - robotnyelv"
+          ],
+          [
+            "ABB",
+            "robotvezérlők",
+            "RAPID",
+            "Nem támogatott - robotnyelv"
+          ]
+        ]
+      },
+      "note": "A funkcióblokk (FBD) logika csak az IEC Instruction List és a Siemens STL nézetben szerepel a gépi kód exportban. A HMI-n látható robotkar-widgetek (Fanuc, Kuka) kizárólag vizuális illusztrációk - a hozzájuk tartozó robotvezérlő-nyelvek exportja nincs implementálva."
+    },
+    {
+      "num": "18",
+      "title": "Nyomtatás és projektdokumentáció",
+      "intro": "A program a rendszer natív nyomtatási párbeszédablakán keresztül dolgozik; PDF-be mentéshez válassza nyomtatóként a Windows beépített **„Microsoft Print to PDF”** virtuális nyomtatóját.",
+      "subsections": [
+        {
+          "title": "18.1 Nyomtatás / PDF export",
+          "intro": "A **Fájl → Nyomtatás / PDF export...** pontban négy gomb érhető el, mindegyik az adott nézet teljes (nem csak a látható, görgetett) tartalmát fekvő (landscape) tájolásban, egyetlen lapra arányosan kicsinyítve nyomtatja ki:",
+          "items": [
+            "Létradiagram nyomtatása...",
+            "HMI nyomtatása... (az aktuálisan kiválasztott HMI-képernyőt nyomtatja)",
+            "Funkcióblokk (FBD) nyomtatása...",
+            "GRAFCET nyomtatása..."
+          ]
+        },
+        {
+          "title": "18.2 Projekt dokumentáció nyomtatása",
+          "intro": "A **Fájl → Projekt dokumentáció nyomtatása...** pont egyetlen nyomtatási feladatban, álló (portrait) tájolásban, több lapon generál egy teljes, kész projektdokumentációt:",
+          "items": [
+            "Címlap - a projekt fájlneve és a létrehozás dátuma/időpontja",
+            "Címke lista - csak a ténylegesen elnevezett I/Q/M/T/C címek, Cím / Név / Megjegyzés oszlopokkal, szükség esetén több lapra törve",
+            "A teljes létradiagram egy lapra illesztve",
+            "A teljes HMI-képernyő egy lapra illesztve",
+            "A funkcióblokk diagram - csak akkor, ha a projektben van legalább egy FBD-blokk",
+            "A GRAFCET-diagram - csak akkor, ha a projektben van legalább egy GRAFCET-lépés"
+          ]
+        }
+      ]
+    },
+    {
+      "num": "19",
+      "title": "I/O címzési rendszer",
+      "intro": "A szimulátor a klasszikus, byte.bit formátumú PLC-címzést követi, rögzített memóriaterjedelemmel.",
+      "table": {
+        "header": [
+          "Memóriaterület",
+          "Mennyiség",
+          "Címtartomány"
+        ],
+        "col_widths": [
+          0.3,
+          0.2,
+          0.5
+        ],
+        "rows": [
+          [
+            "Bemenetek (I)",
+            "16 bit",
+            "I0.0 - I0.7, I1.0 - I1.7"
+          ],
+          [
+            "Kimenetek (Q)",
+            "16 bit",
+            "Q0.0 - Q0.7, Q1.0 - Q1.7"
+          ],
+          [
+            "Belső relék (M)",
+            "16 bit",
+            "M0.0 - M0.7, M1.0 - M1.7"
+          ],
+          [
+            "Időzítők (T)",
+            "8 db",
+            "T0 - T7 (kész bit: T.DN)"
+          ],
+          [
+            "Számlálók (C)",
+            "8 db",
+            "C0 - C7 (kész bit: C.DN)"
+          ]
+        ]
+      },
+      "note": "A gépi kód exportban a címzés az adott gyártó konvencióját követi: az IEC Instruction List nézetben %IX0.0 / %QX0.0 / %MX0.0 formátumban, az Allen-Bradley nézetben I:0/N / O:0/N / B3:0/N / T4:N / C5:N formátumban, a Mitsubishi nézetben pedig egyszerű decimális X/Y/M/T/C indexeléssel jelenik meg."
+    },
+    {
+      "num": "20",
+      "title": "Nagyítás és egyéb kényelmi funkciók",
+      "items": [
+        "**Nagyítás**: az eszköztár legördülőjével 50%, 75%, 100%, 125%, 150% vagy 200% állítható be; egyszerre vonatkozik a létradiagramra, a HMI-re és a funkcióblokk nézetre (a GRAFCET nézet is követi, saját belső méretezéssel)",
+        "A létradiagram, a HMI, az FBD és a GRAFCET vászon is külön-külön görgethető, ha a tartalom nagyobb a látható területnél",
+        "**Billentyűparancsok**: Ctrl+Z - Visszavonás, Ctrl+Y - Ismét; mindkettő a főablakban és a levált HMI-ablakban egyaránt működik"
+      ]
+    },
+    {
+      "num": "21",
+      "title": "Névjegy és licenc",
+      "intro": "A programot Sisak László (helmetsoft.com) készítette kifejezetten PLC oktatási célú felhasználásra.",
+      "items": [
+        "A program használata **INGYENES**",
+        "Kereskedelmi forgalomba nem hozható, nem értékesíthető",
+        "A **Súgó** menü **Névjegy** pontjával ez az információ a programból bármikor megjeleníthető",
+        "A beépített **Súgó → Használat** ablak a létradiagram-szerkesztés, a szimuláció és a funkcióblokk diagram alapvető kezelését foglalja össze közvetlenül a programban; a jelen kézikönyv ennél jóval részletesebb, és a GRAFCET, az óraimpulzusok, a mintaprogramok, valamint a nyomtatás/dokumentáció funkcióit is tárgyalja"
+      ]
+    }
+  ]
+}

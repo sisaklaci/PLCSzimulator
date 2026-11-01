@@ -1,0 +1,675 @@
+{
+  "lang_code": "ES",
+  "footer_title": "PLC-szimulator - Manual de usuario",
+  "doc_title": "PLC-szimulator",
+  "doc_subtitle": "Manual de usuario",
+  "author_line": "Creado por: Sisak László (helmetsoft.com)",
+  "disclaimer": "GRATUITO para uso educativo - no puede comercializarse",
+  "version_line": "2.ª edición - ampliada con los capítulos de Programas de ejemplo, GRAFCET, Impulsos de reloj (bits de reloj) e Impresión/documentación",
+  "toc_heading": "Índice",
+  "sections": [
+    {
+      "num": "1",
+      "title": "Introducción",
+      "intro": "El PLC-szimulator es una aplicación gratuita de carácter educativo que muestra el funcionamiento de los controladores lógicos programables (PLC) mediante cuatro tipos de vista de programación que se pueden combinar libremente entre sí: diagrama de contactos (ladder, LD), diagrama de bloques funcionales (FBD), diagrama funcional secuencial (GRAFCET/SFC) y una interfaz de usuario (HMI) totalmente configurable y de aspecto realista. El programa simula el funcionamiento del PLC mediante una evaluación cíclica en tiempo real (basada en scans) y, además, traduce la lógica creada al formato de código máquina (lista de instrucciones) de los fabricantes industriales más extendidos - de modo que el programa elaborado en el simulador puede servir directamente como material didáctico, como demostración o incluso como base para su traslado a un PLC real.",
+      "items": [
+        "**Editor de diagrama de contactos**: contactos, bobinas, Set/Reset, temporizadores (TON), contadores (CTU), ramas en paralelo",
+        "**Diagrama de bloques funcionales (FBD)**: AND/OR/NOT/XOR, biestable SR, TON, CTU, detectores de flanco ascendente/descendente (R_TRIG/F_TRIG)",
+        "**GRAFCET (diagrama funcional secuencial)**: pasos, transiciones, receptividades, acciones - y, de forma única, generación automática de un programa en diagrama de contactos a partir de la secuencia diseñada",
+        "**Impulsos de reloj (bits de reloj)**: relés internos parpadeantes con frecuencia configurable y un ciclo de trabajo del 50%, para efectos de parpadeo y temporización",
+        "Interfaz HMI de varias pantallas, totalmente configurable, con 12 tipos de elementos distintos y animación en tiempo real",
+        "**Biblioteca de programas de ejemplo**: 9 demostraciones industriales y educativas ya preparadas y listas para cargar",
+        "**Exportación de código máquina**: lista de instrucciones IEC, Siemens STL, Mitsubishi, Allen-Bradley - con una tabla completa de compatibilidad entre fabricantes",
+        "**Comprobación automática del programa** y **búsqueda de referencias cruzadas** para detectar los errores más habituales",
+        "**Impresión y exportación a PDF**, además de un generador de documentación completa del proyecto con un solo clic",
+        "**Deshacer/Rehacer** de varios pasos para todo el proyecto (diagrama de contactos, HMI, FBD, GRAFCET, impulsos de reloj, etiquetas)",
+        "La interfaz de usuario está disponible en 6 idiomas: húngaro, inglés, alemán, español, francés y polaco"
+      ]
+    },
+    {
+      "num": "2",
+      "title": "Requisitos del sistema e inicio",
+      "intro": "El programa incluye su propio entorno de ejecución de Java (JRE) integrado, por lo que no es necesario instalar Java por separado.",
+      "items": [
+        "Inicio: haga doble clic en el archivo **PlcSzimulator.exe**",
+        "No se necesita conexión a internet: el programa se ejecuta por completo de forma local en el ordenador",
+        "La ventana se puede redimensionar y mover como cualquier aplicación de Windows",
+        "Los archivos de proyecto se guardan y se abren con la extensión **.plc**",
+        "Mientras se ejecuta, el programa no envía ni recibe datos a través de la red"
+      ]
+    },
+    {
+      "num": "3",
+      "title": "Descripción general de la interfaz de usuario",
+      "intro": "En la parte superior de la ventana se encuentra una fila de banderas para seleccionar el idioma, debajo la barra de herramientas principal, en el centro las pestañas Diagrama de contactos / HMI / Bloque de función (FBD) / GRAFCET, a la derecha el panel de E/S (estado de las entradas, salidas, temporizadores y contadores) y, en la parte inferior, la barra de estado.",
+      "items": [
+        "**Barra de menús**: Archivo, Editar, Código máquina, Comprobación, Ayuda",
+        "**Barra de herramientas**: botones Iniciar / Detener / Paso / Reiniciar, Deshacer / Rehacer, selector de tiempo de ciclo, botones de gestión de redes, selector de zoom",
+        {
+          "text": "**Pestañas**: puede alternar libremente entre cuatro vistas, todas trabajando sobre la misma memoria I/Q/M/T/C:",
+          "sub": [
+            "**Diagrama de contactos** - el editor tradicional de lógica de relés (ladder)",
+            "**HMI** - el diseñador de la interfaz de usuario y la visualización en vivo",
+            "**Bloque de función (FBD)** - el editor de lógica basado en bloques",
+            "**GRAFCET** - el editor del diagrama funcional secuencial (SFC)"
+          ]
+        },
+        "**Panel de E/S**: estado actual de las Entradas (I), Salidas (Q), Relés internos (M), así como de los Temporizadores (T) y Contadores (C), actualizado en vivo durante la ejecución",
+        "**Barra de estado**: muestra el resultado de la última operación y, durante la ejecución, el número de ciclos de escaneo realizados"
+      ]
+    },
+    {
+      "num": "4",
+      "title": "Cambio de idioma",
+      "intro": "Haciendo clic en las banderas de países dibujadas a mano que aparecen en la parte superior de la ventana, puede cambiar de inmediato el idioma del programa entre húngaro, inglés, alemán, español, francés o polaco.",
+      "items": [
+        "Un marco azul indica la bandera del idioma actualmente seleccionado",
+        "Al cambiar de idioma, el programa reconstruye por completo la ventana, pero conserva el proyecto cargado: las redes, las pantallas HMI, los bloques FBD, el diagrama GRAFCET y la configuración de los impulsos de reloj",
+        "Si el programa cargado es todavía la demostración predeterminada inicial, o un ejemplo integrado que aún no se ha modificado, los textos explicativos correspondientes (comentarios de red, etiquetas de la HMI) se vuelven a mostrar automáticamente en el idioma seleccionado",
+        "En cuanto el usuario modifica realmente algo en el programa (aunque sea una sola red), a partir de ese momento el programa conserva sus propios textos, posiblemente en varios idiomas - el cambio de idioma ya no los traduce, y solo cambia el idioma de los elementos propios de la interfaz (menús, botones, cuadros de diálogo)",
+        "Lo siguiente se conserva siempre al cambiar de idioma: los nombres y comentarios asignados a las etiquetas, la ruta del archivo actual, el estado de ejecución del PLC, el tiempo de ciclo, el contador de escaneos y el nivel de zoom"
+      ]
+    },
+    {
+      "num": "5",
+      "title": "Operaciones con archivos",
+      "intro": "El menú **Archivo** contiene las siguientes operaciones:",
+      "items": [
+        "**Nuevo programa**: elimina las redes actuales, la HMI, el FBD, el GRAFCET, los impulsos de reloj y las etiquetas (solicita confirmación)",
+        "**Abrir...**: carga un proyecto .plc guardado anteriormente",
+        "**Guardar** / **Guardar como...**: guarda todo el proyecto (programa en diagrama de contactos, etiquetas, todas las pantallas HMI, bloques FBD, diagrama GRAFCET, impulsos de reloj) en un único archivo .plc",
+        "Submenú **Programas de ejemplo**: la biblioteca de programas integrada, véase el capítulo 6",
+        "**Imprimir / exportar a PDF...** y **Imprimir documentación del proyecto...**: véase el capítulo 18",
+        "**Salir**: cierra el programa"
+      ],
+      "note": "El archivo .plc utiliza un formato de serialización de Java (no es un archivo de texto ni XML) y solo puede abrirse con este programa. El programa es retrocompatible tanto con el antiguo formato de HMI de una sola pantalla como con los archivos antiguos que contienen únicamente un programa en diagrama de contactos, sin HMI/FBD/GRAFCET - en estos casos, las partes que faltan se cargan en su estado inicial vacío."
+    },
+    {
+      "num": "6",
+      "title": "Programas de ejemplo (biblioteca de programas)",
+      "intro": "En el submenú **Archivo → Programas de ejemplo** se encuentran 9 programas de demostración ya preparados y listos para cargar. Cada ejemplo construye simultáneamente un programa completo en diagrama de contactos, una pantalla HMI a juego, un pequeño fragmento ilustrativo de bloques de función y un diagrama GRAFCET ilustrativo - estos dos últimos sirven para mostrar un tipo de bloque o un concepto concreto del programa, sobre bits independientes de las salidas reales, por lo que no afectan al funcionamiento principal del ejemplo. Cargar un ejemplo elimina el programa actual (se solicita confirmación).",
+      "table": {
+        "header": [
+          "Nombre del ejemplo",
+          "Qué demuestra"
+        ],
+        "col_widths": [
+          0.3,
+          0.7
+        ],
+        "rows": [
+          [
+            "Arranque de motor (demo predeterminada)",
+            "Arranque de motor autorretenido; retardo a la conexión de 3 s (TON); lámpara indicadora al expirar el retardo; conteo de arranques (CTU) y señal tras 5 arranques"
+          ],
+          [
+            "Arranque de motor estrella-triángulo",
+            "Circuito clásico de arranque estrella-triángulo: contactor principal, tiempo de conmutación de 3 s, control del contactor de estrella y después del de triángulo"
+          ],
+          [
+            "Arranque secuencial de cintas transportadoras",
+            "Arranque sucesivo y retardado de tres cintas transportadoras (lógica de arranque secuencial)"
+          ],
+          [
+            "Célula robótica (carga y descarga de bloques de motor)",
+            "La misma lógica de control que en el ejemplo de las cintas transportadoras, pero con una HMI de aspecto realista: animación de brazos robóticos Fanuc y Kuka, cintas transportadoras y piezas de trabajo"
+          ],
+          [
+            "Semáforo (máquina de estados)",
+            "Máquina de estados clásica basada en Set/Reset: rojo (4 s) - amarillo (1 s) - verde (3 s) - rojo... cambio cíclico de fases"
+          ],
+          [
+            "Ascensor (2 plantas)",
+            "Control completo del ascensor: botones de llamada, tiempos de apertura de puerta, tiempo de desplazamiento, animación de la puerta e indicación de movimiento de la cabina"
+          ],
+          [
+            "Intersección con paso de peatones",
+            "Cambio de fases del semáforo con botón de llamada peatonal: el verde de peatones solo se activa si hubo una llamada, durante la fase roja de los vehículos"
+          ],
+          [
+            "Lámpara intermitente (con impulso de reloj)",
+            "La demostración más sencilla de impulsos de reloj: una única red que conecta directamente el bit de reloj de 1 Hz a una lámpara de la HMI"
+          ],
+          [
+            "Luz secuencial (con impulso de reloj)",
+            "Una hilera de luces giratoria de 8 posiciones (la llamada disposición «contador de Johnson»), desplazada por un impulso de reloj (clock bit) - véase en detalle el capítulo 14"
+          ]
+        ]
+      },
+      "note": "Los ejemplos «Villogó lámpa» y «Futófény» se crearon específicamente para mostrar la función de Impulsos de reloj (bits de reloj) - resulta recomendable partir de ellos si desea familiarizarse con esta función."
+    },
+    {
+      "num": "7",
+      "title": "Edición del diagrama de contactos",
+      "intro": "El diagrama de contactos se compone de redes (rungs). Cada red consta de un bloque inicial en serie, ramas en paralelo opcionales, un bloque final en serie y una salida.",
+      "items": [
+        "**Nuevo contacto**: haga clic en una casilla de puntos con «+»",
+        "**Editar / eliminar un contacto**: haga clic en un contacto existente. Tipo: Normalmente abierto (NO) o Normalmente cerrado (NC); tipo de operando: Entrada (I), Salida (Q), Relé interno (M), Temporizador terminado (T.DN) o Contador terminado (C.DN); índice: de 0 a 15 para I/Q/M, de 0 a 7 para T.DN/C.DN",
+        "**Añadir una rama en paralelo**: haga clic en la línea de puntos «+ rama» situada debajo de la red",
+        "**Eliminar una rama**: haga clic en la marca roja «X» que aparece al principio de la rama",
+        {
+          "text": "**Editar la salida**: haga clic en la salida (bobina / temporizador / contador). El destino puede ser tanto una Salida (Q) como un Relé interno (M); los tipos son:",
+          "sub": [
+            "**Bobina** - se puede negar opcionalmente (bobina NOT)",
+            "**Set** - activa el bit de destino (lo pone a verdadero) mientras se cumple la condición",
+            "**Reset** - desactiva el bit de destino (lo pone a falso) mientras se cumple la condición",
+            "**Temporizador (TON)** - índice T (0-7) y tiempo preestablecido (preset, de 0 a 3 600 000 ms, en pasos de 100 ms)",
+            "**Contador (CTU)** - índice C (0-7) y valor preestablecido (preset, de 1 a 100 000)"
+          ]
+        },
+        "**Seleccionar una red**: haga clic en la franja situada a la izquierda de la red",
+        "**Comentario de la red**: se puede editar haciendo doble clic en la franja; al crear una red nueva, el programa también lo pregunta",
+        "**Mover redes**: la red seleccionada se puede reposicionar con los botones **▲ Arriba** / **▼ Abajo** de la barra de herramientas",
+        "**Copiar / pegar una red**: con los botones **Copiar red** / **Pegar red** se puede copiar una red completa (siempre se inserta después de la red seleccionada)",
+        "**Copiar / pegar un contacto**: Ctrl+clic sobre un contacto existente lo copia al portapapeles; Ctrl+clic sobre una casilla vacía «+» lo pega",
+        "**Añadir una red nueva**: con el botón **+ Red** o con la línea de puntos que aparece al final de la lista; al crear una salida nueva, el programa propone automáticamente como destino el primer índice Q libre",
+        "**Eliminar una red**: seleccione la red y después haga clic en el botón **Eliminar red**"
+      ],
+      "note": "El zoom (véase el capítulo 20) también afecta al diagrama de contactos - en proyectos más grandes conviene reducirlo para mejorar la claridad visual."
+    },
+    {
+      "num": "8",
+      "title": "Etiquetas (tags)",
+      "intro": "Todas las direcciones I/Q/M/T/C se pueden dotar de un nombre descriptivo y un comentario, para que el programa resulte más fácil de leer y documentar.",
+      "items": [
+        "Apertura: menú **Editar** → **Editar etiquetas...**",
+        "La tabla que aparece enumera las 64 direcciones de memoria (16 entradas, 16 salidas, 16 relés internos, 8 temporizadores, 8 contadores); en cada fila se puede indicar un Nombre y un Comentario",
+        "Los nombres indicados aparecen en el diagrama de contactos, en el panel de E/S, en la HMI, en el FBD, en la exportación de código máquina (como comentario al final de línea), en la lista desplegable de la búsqueda de referencias cruzadas y también en la documentación impresa del proyecto",
+        "Al mantener el puntero del ratón sobre los elementos (información sobre herramientas, tooltip) se muestran la dirección completa, el nombre indicado y el comentario",
+        "Un nombre o comentario que se deje vacío se elimina de la lista al guardar"
+      ]
+    },
+    {
+      "num": "9",
+      "title": "Control de la simulación",
+      "intro": "La simulación se ejecuta mediante una evaluación cíclica (basada en scans), tal como funciona un PLC real: en cada ciclo (scan) el programa evalúa en orden toda la lógica y, a continuación, vuelve a empezar.",
+      "items": [
+        "**Iniciar**: pone en marcha la evaluación cíclica con el tiempo de ciclo configurado",
+        "**Detener**: detiene la simulación",
+        "**Paso**: en estado detenido, ejecuta un único ciclo de escaneo - útil para seguir la lógica paso a paso",
+        "**Reiniciar**: borra el estado de las salidas, los relés internos, los temporizadores y los contadores, y devuelve a su estado inicial tanto la fase interna de los generadores de impulsos de reloj como los pasos del GRAFCET",
+        "**Tiempo de ciclo**: se puede elegir entre 50, 100, 150, 250, 500 o 1000 milisegundos en la barra de herramientas (valor predeterminado: 150 ms)",
+        "Haciendo clic en los botones de entrada (panel de E/S) se pueden activar y desactivar las entradas, incluso durante la ejecución",
+        "Durante la ejecución, los cables y los contactos indican con color el estado energizado (conductor)",
+        {
+          "text": "Un ciclo de escaneo se desarrolla siempre en un orden fijo y exacto:",
+          "sub": [
+            "1. Evaluación de los generadores de impulsos de reloj (véase el capítulo 14)",
+            "2. Evaluación de las redes del diagrama de contactos, de arriba hacia abajo",
+            "3. Evaluación del diagrama de bloques funcionales (FBD), en el orden en que los bloques aparecen en la lista",
+            "4. Evaluación del GRAFCET",
+            "5. Muestreo de las tendencias de la HMI y actualización de los indicadores"
+          ]
+        }
+      ],
+      "note": "Dado que la evaluación se realiza en un orden fijo, una conexión que haga referencia «hacia delante» (por ejemplo, un bloque FBD que utilice la salida de otro bloque situado más adelante en la lista) solo tendrá efecto con un retraso de un ciclo de escaneo completo. Lo mismo ocurre con los impulsos de reloj: el efecto del bit que controlan solo se refleja en el diagrama de contactos y en el FBD a partir de los ciclos siguientes."
+    },
+    {
+      "num": "10",
+      "title": "Deshacer y Rehacer",
+      "intro": "El programa mantiene un historial de deshacer completo de las operaciones de edición, que abarca el proyecto entero.",
+      "items": [
+        "**Ctrl+Z**: deshacer, **Ctrl+Y**: rehacer - también están disponibles con los botones de la barra de herramientas, y funcionan tanto en la ventana principal como en la ventana HMI independiente",
+        "La función se aplica de manera uniforme al diagrama de contactos, a las etiquetas, a todas las pantallas HMI, al FBD, al GRAFCET y a la configuración de los impulsos de reloj - una única pila de deshacer común gestiona todos ellos",
+        "La profundidad del historial es de 60 pasos",
+        "Crear un programa nuevo o abrir un archivo borra el historial acumulado hasta ese momento"
+      ],
+      "note": "La función de deshacer NO abarca el estado de ejecución del PLC (los valores actuales de I/Q/M/T/C), el tiempo de ciclo, el zoom ni el estado de ejecución/detención - estos son ajustes de funcionamiento, no de edición. Cualquier modificación real (aunque sea cambiar un único contacto) «desvincula» el programa del ejemplo cargado, incluso si posteriormente se deshace esa modificación."
+    },
+    {
+      "num": "11",
+      "title": "Interfaz HMI",
+      "intro": "En la pestaña **HMI** (Human-Machine Interface, interfaz hombre-máquina) se puede diseñar libremente una interfaz de usuario de aspecto realista para el programa de PLC en ejecución, utilizando 12 tipos de elementos distintos.",
+      "items": [
+        "**Modo de edición**: se activa y desactiva con el botón conmutador **Editar HMI**",
+        "**Colocar un elemento nuevo**: seleccione el tipo en la lista desplegable y, a continuación, haga clic en el lienzo",
+        "**Mover / redimensionar un elemento**: arrastre el elemento, o bien su esquina inferior derecha",
+        "**Editar propiedades**: haciendo doble clic en el elemento - en todos los tipos de elemento se puede configurar la dirección I/Q/M/T/C asociada, los dos colores de libre elección (estado activado / desactivado), el tamaño de fuente (8-48 pt) y los ajustes propios de cada tipo (véase la tabla siguiente)",
+        "Botón **Eliminar elemento seleccionado** en la barra de edición",
+        {
+          "text": "**Gestión de varias pantallas**: con la lista desplegable Pantalla puede alternar entre las distintas pantallas HMI; botones de gestión:",
+          "sub": [
+            "**+ Nueva pantalla** - crea una pantalla nueva y vacía mediante un cuadro de diálogo que solicita el nombre",
+            "**Renombrar...** - cambia el nombre de la pantalla seleccionada",
+            "**Eliminar pantalla** - siempre debe quedar al menos una pantalla"
+          ]
+        },
+        "Botón conmutador **En ventana separada**: traslada la HMI a una ventana independiente y movible, de modo que se puede ver simultáneamente junto al diagrama de contactos (o cualquier otra vista) - al cerrar la ventana, la HMI vuelve a su pestaña original",
+        "Durante la ejecución, SIN el modo de edición activado, los botones reaccionan al clic en tiempo real, y las lámparas, pantallas y elementos animados siguen la lógica del PLC en vivo"
+      ],
+      "table": {
+        "header": [
+          "Tipo de elemento",
+          "Descripción y propiedades principales"
+        ],
+        "col_widths": [
+          0.22,
+          0.78
+        ],
+        "rows": [
+          [
+            "Lámpara",
+            "Lámpara indicadora circular: se ilumina con el color de encendido cuando el bit asociado es verdadero, y con el color de apagado en caso contrario"
+          ],
+          [
+            "Botón",
+            "Botón pulsable, con dos modos: **Conmutador** - cambia el estado del bit al hacer clic; **Momentáneo** - el bit solo es verdadero mientras se mantiene pulsado el botón. Solo tiene sentido con una Entrada (I) o un Relé interno (M) como destino"
+          ],
+          [
+            "Pantalla",
+            "Visor numérico de tipo «LCD»: por defecto muestra el valor 0/1 del bit; en el modo «Valor numérico», para un Temporizador o Contador, muestra el valor actual/preestablecido (p. ej. «1234 / 2000 ms») en lugar del bit de terminado"
+          ],
+          [
+            "Etiqueta",
+            "Texto estático simple, con fines decorativos o explicativos"
+          ],
+          [
+            "Rectángulo",
+            "Rectángulo decorativo o de agrupación, rellenado y con borde, con una etiqueta opcional"
+          ],
+          [
+            "Trend",
+            "Gráfico temporal que representa los últimos 120 puntos de muestreo en un diagrama de líneas (estado del bit o valor actual de un Temporizador/Contador)"
+          ],
+          [
+            "Paso de peatones",
+            "Patrón de paso de peatones a rayas; elemento puramente decorativo, con rayas horizontales o verticales automáticas según la proporción"
+          ],
+          [
+            "Puerta",
+            "Puerta compuesta por dos paneles correderos, que se abre y cierra de forma animada, en aproximadamente medio segundo, según el estado del bit asociado"
+          ],
+          [
+            "Cinta transportadora",
+            "Animación realista de una cinta transportadora con patrón en movimiento, y con iconos de piezas de trabajo desplazándose sobre la cinta durante el funcionamiento"
+          ],
+          [
+            "Sensor",
+            "Dibujo de un sensor óptico de proximidad, con un cono de luz pulsante y un LED iluminado en estado activo; se puede girar 0°/90°/180°/270°"
+          ],
+          [
+            "Robot Fanuc",
+            "Animación de un brazo robótico industrial articulado de dos brazos (de color amarillo), con un movimiento de vaivén continuo mientras el bit asociado es verdadero; se puede reflejar horizontalmente"
+          ],
+          [
+            "Robot Kuka",
+            "La misma animación de movimiento, con una coloración naranja característica de Kuka"
+          ]
+        ]
+      },
+      "note": "La Puerta, la Cinta transportadora, el Sensor y los dos widgets de brazo robótico se mueven según un temporizador de animación continuo e independiente del ciclo de escaneo (40 ms) - estos elementos se siguen animando incluso si la simulación del PLC está detenida, mientras el bit asociado sea verdadero."
+    },
+    {
+      "num": "12",
+      "title": "Diagrama de bloques funcionales (FBD)",
+      "intro": "En la pestaña **Bloque de función (FBD)** se puede construir una lógica basada en bloques, distinta de la del diagrama de contactos, que utiliza y lee/escribe la misma memoria I/Q/M/T/C que este - ambas vistas se pueden combinar libremente dentro de un mismo proyecto.",
+      "items": [
+        "**Modo de edición**: se activa con el botón conmutador **Editar FBD**; un bloque nuevo se coloca seleccionándolo en la lista desplegable y haciendo clic en el lienzo - el programa abre de inmediato el cuadro de diálogo de propiedades del bloque",
+        "**Mover un bloque**: arrástrelo desde su interior (no desde los puntos de entrada/salida)",
+        "**Cableado**: haga clic en el punto de salida de un bloque (círculo de la derecha) y después en la entrada de destino (círculo de la izquierda); un nuevo clic en un punto de entrada sobrescribe en cualquier momento la conexión anterior",
+        "**Desconectar un cable**: haga clic en un punto de entrada ya conectado (si no hay ningún cableado en curso)",
+        "**Propiedades del bloque**: se editan haciendo doble clic (tipo, etiqueta, número de entradas entre 2 y 8 en AND/OR, dirección I/Q/M/T.DN/C.DN asociada, índice T y preset en el caso de TON, índice C y preset en el caso de CTU)",
+        "Botón **Eliminar bloque seleccionado** en la barra de edición"
+      ],
+      "table": {
+        "header": [
+          "Tipo de bloque",
+          "Funcionamiento"
+        ],
+        "col_widths": [
+          0.22,
+          0.78
+        ],
+        "rows": [
+          [
+            "Entrada",
+            "No tiene entrada; su salida es el valor actual del bit I/Q/M/T.DN/C.DN asociado"
+          ],
+          [
+            "Salida",
+            "Tiene una entrada; escribe su valor en un bit de Salida (Q) o Relé interno (M)"
+          ],
+          [
+            "AND",
+            "2-8 entradas, función lógica Y"
+          ],
+          [
+            "OR",
+            "2-8 entradas, función lógica O"
+          ],
+          [
+            "NOT",
+            "Una entrada, negación"
+          ],
+          [
+            "XOR",
+            "Exactamente 2 entradas, función O exclusiva"
+          ],
+          [
+            "Biestable SR",
+            "Dos entradas (S, R); biestable dominante en reset: si R es verdadero, la salida es falsa; en caso contrario, si S es verdadero, la salida es verdadera; si ambas son falsas, la salida mantiene su valor anterior"
+          ],
+          [
+            "TON",
+            "Temporizador de retardo a la conexión, con su propio índice T (0-7) y un tiempo preestablecido (ms)"
+          ],
+          [
+            "CTU",
+            "Contador ascendente, con entradas CU (contar) y R (reiniciar), con su propio índice C (0-7) y un valor preestablecido"
+          ],
+          [
+            "R_TRIG (P)",
+            "Detector de flanco ascendente: es verdadero durante exactamente un ciclo de escaneo en la transición 0→1 de la entrada"
+          ],
+          [
+            "F_TRIG (N)",
+            "Detector de flanco descendente: es verdadero durante exactamente un ciclo de escaneo en la transición 1→0 de la entrada"
+          ]
+        ]
+      },
+      "note": "Los bloques TON y CTU utilizan la misma memoria de temporizadores y contadores (T0-T7, C0-C7) que las salidas correspondientes del diagrama de contactos - si controla el mismo índice en ambas vistas, la función Comprobación del programa (capítulo 15) señalará el conflicto. Los bloques siempre se evalúan, en cada ciclo de escaneo, en el orden en que se colocaron en el lienzo."
+    },
+    {
+      "num": "13",
+      "title": "GRAFCET (diagrama funcional secuencial)",
+      "intro": "En la pestaña **GRAFCET** se pueden diseñar los procesos secuenciales, que avanzan paso a paso, mediante la notación gráfica intuitiva de la norma IEC 60848: el diagrama se compone de pasos y de las transiciones (cambios condicionales) existentes entre ellos.",
+      "items": [
+        "**Modo de edición**: se activa con el botón conmutador **Editar GRAFCET**; un elemento nuevo (Paso o Transición) se coloca seleccionándolo en la lista desplegable y haciendo clic en el lienzo",
+        "**Editar un paso**: indicación de la etiqueta, casilla «Paso inicial» (el paso inicial se dibuja con un doble marco, conforme a la notación estándar) y un número cualquiera de acciones asociadas",
+        "**Editar una transición**: la condición (receptividad) se compone de un número cualquiera de contactos unidos por una función Y (se utiliza el mismo editor que para los contactos del diagrama de contactos: cualquier I/Q/M/T.DN/C.DN, Normalmente abierto o Normalmente cerrado)",
+        "**Cableado**: el punto de salida de un paso se puede conectar al punto de entrada de una transición, y el punto de salida de una transición al punto de entrada de un paso; una transición puede tener varios pasos de origen y varios pasos de destino, de modo que también se pueden construir secuencias divergentes y convergentes",
+        "Durante la ejecución, los pasos activos y las transiciones listas para dispararse se muestran en verde (color de energizado)",
+        "**Eliminar elemento seleccionado**: elimina el paso o la transición junto con todas las conexiones que apuntan a él"
+      ],
+      "subsections": [
+        {
+          "title": "13.1 Tipos de acción",
+          "intro": "A cada paso se le puede asignar un número cualquiera de acciones, que controlan las salidas mientras el paso está activo:",
+          "table": {
+            "header": [
+              "Tipo de acción",
+              "Efecto"
+            ],
+            "col_widths": [
+              0.25,
+              0.75
+            ],
+            "rows": [
+              [
+                "Continua",
+                "Mientras el paso está activo, el bit de destino es continuamente verdadero; en cuanto el paso se desactiva, pasa de inmediato a falso"
+              ],
+              [
+                "Set",
+                "Mientras el paso está activo, activa el bit de destino (lo pone a verdadero) - la desactivación debe gestionarse por separado, por ejemplo mediante la acción Reset de otro paso"
+              ],
+              [
+                "Reset",
+                "Mientras el paso está activo, restablece el bit de destino (lo pone a falso)"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "13.2 Proceso de evaluación",
+          "intro": "En cada ciclo de escaneo, el programa trabaja según la semántica síncrona del GRAFCET: primero busca todas las transiciones cuyos pasos de origen estén todos activos Y cuya condición sea verdadera, y después - todas a la vez, en un único paso - desactiva los pasos de origen afectados y activa los pasos de destino. La función **Reiniciar** (capítulo 9) devuelve todos los pasos a su configuración inicial."
+        },
+        {
+          "title": "13.3 Generación del diagrama de contactos a partir del GRAFCET",
+          "intro": "Una de las funciones exclusivas de la pestaña GRAFCET es el botón **Generar diagrama de contactos...**: convierte automáticamente la secuencia diseñada en redes reales y ejecutables del diagrama de contactos.",
+          "items": [
+            "La función asigna automáticamente a cada paso del GRAFCET un bit de Relé interno (M) libre (no utilizado en ningún otro lugar) y solicita confirmación mostrando la tabla de asignaciones",
+            "Para cada paso se genera una red de activación (activa el bit M del paso cuando se cumplen las transiciones entrantes), una red de desactivación (desactiva el bit M del paso cuando se produce la salida) y una red adicional por cada acción asignada al paso",
+            "Las redes generadas se añaden al final del programa en diagrama de contactos",
+            "Tras la generación, la pestaña GRAFCET pasa a ser únicamente una vista previa visual - a partir de ese momento, el control real lo ejercen las redes de contactos generadas, de modo que las dos representaciones no compitan por la misma salida"
+          ],
+          "note": "La función requiere al menos un paso y exactamente un «Paso inicial» marcado. Si hay más de 16 pasos, puede ocurrir que no haya suficientes bits de relé interno (M) libres para la asignación, en cuyo caso el programa mostrará un error."
+        }
+      ]
+    },
+    {
+      "num": "14",
+      "title": "Impulsos de reloj (bits de reloj)",
+      "intro": "Los generadores de impulsos de reloj crean bits de relé interno (M) que el programa conmuta automáticamente, a la frecuencia configurada, con un ciclo de trabajo exactamente del 50% (una onda cuadrada simétrica) - su uso típico es la implementación de lámparas indicadoras parpadeantes, señales de temporización o lógicas que avanzan paso a paso (del tipo hilera de luces giratoria).",
+      "items": [
+        "Apertura: menú **Editar** → **Editar impulsos de reloj (bits de reloj)...**",
+        "En la lista que aparece, cada fila representa un generador con el formato «dirección M - frecuencia Hz» (p. ej. «M1.7 - 1.0 Hz»)",
+        "La lista se gestiona con los botones **+ Añadir** / **Editar...** / **Eliminar**",
+        "En cada fila se puede configurar: **Destino (índice M)** - qué relé interno conmuta el generador (0-15), y **Frecuencia (Hz)** - entre 0,1 y 50,0 Hz, en pasos de 0,1 Hz",
+        "El bit configurado se puede utilizar como contacto en cualquier elemento del diagrama de contactos, del FBD o de la HMI, exactamente igual que cualquier otro relé interno",
+        "El programa no permite que dos generadores apunten al mismo bit M (rechaza el guardado con un mensaje de error)"
+      ],
+      "note": "IMPORTANTE: el bit M seleccionado NO debe ser escrito por ninguna otra bobina, bloque Set/Reset o bloque de Salida FBD, ni en el diagrama de contactos ni en el FBD - si esto ocurre, en cada ciclo de escaneo la última evaluación sobrescribirá a la otra, y el bit dará la impresión de no parpadear. La función Comprobación del programa (capítulo 15) señala automáticamente este conflicto. Al elegir un nuevo bit M, conviene seleccionar un bit de índice alto que todavía no se utilice en el programa (p. ej., M1.6, M1.7). El efecto de la configuración solo se aplica con la simulación en marcha (Iniciar o Paso) - cerrar el cuadro de diálogo por sí solo no pone en marcha el parpadeo."
+    },
+    {
+      "num": "15",
+      "title": "Comprobación del programa",
+      "intro": "Con la opción **Comprobar programa...** del menú **Comprobación**, el programa examina automáticamente todo el proyecto en busca de los errores más habituales y muestra los problemas encontrados en una lista desplazable.",
+      "items": [
+        "**Escritura directa múltiple en la misma salida (Error)**: se indica cuando una dirección Q o M es escrita directamente desde varios lugares - cuentan por igual una bobina del diagrama de contactos, un bloque de Salida FBD o un generador de impulsos de reloj -, ya que en cada ciclo de escaneo solo prevalece la última evaluación",
+        "**Control múltiple del mismo temporizador/contador (Error)**: se indica cuando el mismo índice T o C es controlado por varias redes o bloques FBD",
+        "**Entradas abiertas en el FBD (Advertencia)**: se indica cuando alguna entrada de un bloque FBD no está conectada (durante la ejecución tomará el valor falso)",
+        "**Autorreferencia en el FBD (Error)**: se indica cuando la entrada de un bloque se referencia a sí misma, directa o indirectamente"
+      ],
+      "note": "Si no se encuentra ningún problema, el programa responde con el mensaje «No se encontraron problemas de referencia.». La comprobación NO señala como error el uso múltiple intencionado de salidas de tipo Set/Reset (por ejemplo, en máquinas de estados, tal como se construye el ejemplo del Semáforo); solo señala las escrituras directas e incondicionales (de tipo bobina)."
+    },
+    {
+      "num": "16",
+      "title": "Búsqueda de referencias cruzadas",
+      "intro": "Con la opción **Buscar referencias...** del menú **Comprobación** se puede localizar en qué puntos del proyecto aparece una dirección determinada - resulta especialmente útil para mantener la claridad en programas grandes que ya se han editado mucho.",
+      "items": [
+        "Seleccione la dirección buscada en la lista desplegable (también se muestra el nombre de la etiqueta asociada, si la tiene)",
+        "El programa enumera todas las apariciones: en el diagrama de contactos (por red, indicando si aparece en el bloque inicial, en una rama, en el bloque final o como salida), en el FBD (por bloque, con su tipo y etiqueta) y en todas las pantallas de la HMI (con el tipo de elemento y la etiqueta)",
+        "La lista se actualiza automáticamente al cambiar la selección"
+      ]
+    },
+    {
+      "num": "17",
+      "title": "Exportación de código máquina",
+      "intro": "Con la opción **Ver código máquina...** del menú **Código máquina**, el programa en diagrama de contactos elaborado se puede traducir automáticamente a los dialectos de lista de instrucciones de varios fabricantes industriales.",
+      "items": [
+        "**Instruction List (IEC 61131-3)**: para controladores Omron, Hitachi, Schneider Electric, Beckhoff, Keyence, Panasonic y Delta",
+        "**Siemens STL (AWL)**: para controladores Siemens S7-200 / 300 / 400 / 1200 / 1500",
+        "**Lista de instrucciones Mitsubishi FX/Q**: para controladores Mitsubishi Electric FX, Q, L, iQ-F, iQ-R",
+        "**Conjunto de instrucciones Allen-Bradley (SLC-500)**: para controladores Rockwell MicroLogix, SLC-500, CompactLogix/ControlLogix",
+        "Con los botones **Copiar al portapapeles** y **Guardar en archivo .txt...** el código generado se puede exportar para su uso posterior",
+        "Botón **Compatibilidad de fabricantes...**: una tabla completa con una visión general de los fabricantes de PLC industriales y sus lenguajes de programación, incluidos los lenguajes de control de robots no compatibles"
+      ],
+      "table": {
+        "header": [
+          "Fabricante",
+          "PLC típicos",
+          "Lenguaje",
+          "Estado en este simulador"
+        ],
+        "col_widths": [
+          0.22,
+          0.3,
+          0.2,
+          0.28
+        ],
+        "rows": [
+          [
+            "Siemens",
+            "S7-200/300/400/1200/1500",
+            "STL / AWL",
+            "Totalmente compatible"
+          ],
+          [
+            "Mitsubishi Electric",
+            "FX, Q, L, iQ-F, iQ-R",
+            "IL",
+            "Totalmente compatible"
+          ],
+          [
+            "Omron",
+            "CP, CJ, CS, NX",
+            "IL",
+            "Compatible con la vista IEC IL"
+          ],
+          [
+            "Hitachi",
+            "EH, serie H",
+            "Instruction List",
+            "Compatible con la vista IEC IL"
+          ],
+          [
+            "Allen-Bradley / Rockwell",
+            "MicroLogix, CompactLogix, ControlLogix",
+            "Instruction List / SLC",
+            "Totalmente compatible"
+          ],
+          [
+            "Schneider Electric",
+            "Modicon M340/M580/Premium",
+            "IL",
+            "Compatible con la vista IEC IL"
+          ],
+          [
+            "Beckhoff",
+            "TwinCAT / IPC",
+            "IL, ST",
+            "Compatible con la vista IEC IL"
+          ],
+          [
+            "Keyence",
+            "Serie KV",
+            "Instruction / mnemonic",
+            "Compatible con la vista IEC IL"
+          ],
+          [
+            "Panasonic",
+            "Serie FP",
+            "FP Instruction List",
+            "Compatible con la vista IEC IL"
+          ],
+          [
+            "Delta",
+            "Serie DVP, AS",
+            "Instruction List",
+            "Compatible con la vista IEC IL"
+          ],
+          [
+            "Yaskawa",
+            "MPiec, VIPA, etc.",
+            "específico del fabricante",
+            "No compatible - formato propietario"
+          ],
+          [
+            "FANUC",
+            "CNC / controladores de robot",
+            "lenguajes de control propios",
+            "No compatible - lenguaje de robot"
+          ],
+          [
+            "Kawasaki",
+            "controladores de robot",
+            "lenguaje AS",
+            "No compatible - lenguaje de robot"
+          ],
+          [
+            "ABB",
+            "controladores de robot",
+            "RAPID",
+            "No compatible - lenguaje de robot"
+          ]
+        ]
+      },
+      "note": "La lógica de bloques de función (FBD) solo aparece en la exportación de código máquina en las vistas IEC Instruction List y Siemens STL. Los widgets de brazo robótico visibles en la HMI (Fanuc, Kuka) son únicamente ilustraciones visuales - la exportación a los lenguajes de control de robot correspondientes no está implementada."
+    },
+    {
+      "num": "18",
+      "title": "Impresión y documentación del proyecto",
+      "intro": "El programa funciona a través del cuadro de diálogo de impresión nativo del sistema; para guardar en PDF, seleccione como impresora la impresora virtual integrada de Windows **«Microsoft Print to PDF»**.",
+      "subsections": [
+        {
+          "title": "18.1 Impresión / exportación a PDF",
+          "intro": "En **Archivo → Imprimir / exportar a PDF...** hay disponibles cuatro botones, cada uno de los cuales imprime el contenido completo de la vista correspondiente (no solo la parte visible tras desplazarse) en orientación horizontal (apaisada), reducido proporcionalmente para que quepa en una sola hoja:",
+          "items": [
+            "Imprimir diagrama de contactos...",
+            "Imprimir HMI... (imprime la pantalla HMI seleccionada actualmente)",
+            "Imprimir bloque de función (FBD)...",
+            "Imprimir GRAFCET..."
+          ]
+        },
+        {
+          "title": "18.2 Impresión de la documentación del proyecto",
+          "intro": "La opción **Archivo → Imprimir documentación del proyecto...** genera, en un único trabajo de impresión y en orientación vertical (retrato), una documentación completa del proyecto repartida en varias hojas:",
+          "items": [
+            "Portada - el nombre del archivo del proyecto y la fecha/hora de creación",
+            "Lista de etiquetas - únicamente las direcciones I/Q/M/T/C que tienen un nombre asignado, con columnas Dirección / Nombre / Comentario, repartida en varias hojas si es necesario",
+            "El diagrama de contactos completo, ajustado a una sola hoja",
+            "La pantalla HMI completa, ajustada a una sola hoja",
+            "El diagrama de bloques de función - solo si el proyecto contiene al menos un bloque FBD",
+            "El diagrama GRAFCET - solo si el proyecto contiene al menos un paso GRAFCET"
+          ]
+        }
+      ]
+    },
+    {
+      "num": "19",
+      "title": "Sistema de direccionamiento de E/S",
+      "intro": "El simulador sigue el direccionamiento clásico de PLC en formato byte.bit, con un alcance de memoria fijo.",
+      "table": {
+        "header": [
+          "Área de memoria",
+          "Cantidad",
+          "Rango de direcciones"
+        ],
+        "col_widths": [
+          0.3,
+          0.2,
+          0.5
+        ],
+        "rows": [
+          [
+            "Entradas (I)",
+            "16 bits",
+            "I0.0 - I0.7, I1.0 - I1.7"
+          ],
+          [
+            "Salidas (Q)",
+            "16 bits",
+            "Q0.0 - Q0.7, Q1.0 - Q1.7"
+          ],
+          [
+            "Relés internos (M)",
+            "16 bits",
+            "M0.0 - M0.7, M1.0 - M1.7"
+          ],
+          [
+            "Temporizadores (T)",
+            "8 unidades",
+            "T0 - T7 (bit de terminado: T.DN)"
+          ],
+          [
+            "Contadores (C)",
+            "8 unidades",
+            "C0 - C7 (bit de terminado: C.DN)"
+          ]
+        ]
+      },
+      "note": "En la exportación de código máquina, el direccionamiento sigue la convención del fabricante correspondiente: en la vista IEC Instruction List aparece en formato %IX0.0 / %QX0.0 / %MX0.0, en la vista Allen-Bradley en formato I:0/N / O:0/N / B3:0/N / T4:N / C5:N, y en la vista Mitsubishi mediante una simple indexación decimal X/Y/M/T/C."
+    },
+    {
+      "num": "20",
+      "title": "Zoom y otras funciones de comodidad",
+      "items": [
+        "**Zoom**: se puede ajustar a 50%, 75%, 100%, 125%, 150% o 200% mediante la lista desplegable de la barra de herramientas; afecta simultáneamente al diagrama de contactos, a la HMI y a la vista de bloques de función (la vista GRAFCET también lo sigue, con su propio escalado interno)",
+        "El lienzo del diagrama de contactos, de la HMI, del FBD y del GRAFCET se puede desplazar de forma independiente cuando el contenido es más grande que el área visible",
+        "**Combinaciones de teclado**: Ctrl+Z - Deshacer, Ctrl+Y - Rehacer; ambas funcionan tanto en la ventana principal como en la ventana HMI independiente"
+      ]
+    },
+    {
+      "num": "21",
+      "title": "Acerca de y licencia",
+      "intro": "El programa ha sido creado por Sisak László (helmetsoft.com) específicamente para su uso en la enseñanza de PLC.",
+      "items": [
+        "El uso del programa es **GRATUITO**",
+        "No puede comercializarse ni venderse",
+        "Esta información se puede mostrar en cualquier momento desde el programa, con la opción **Acerca de** del menú **Ayuda**",
+        "La ventana integrada **Ayuda → Instrucciones** resume, directamente dentro del programa, el manejo básico de la edición del diagrama de contactos, la simulación y el diagrama de bloques de función; este manual es considerablemente más detallado y trata también las funciones de GRAFCET, los impulsos de reloj, los programas de ejemplo y la impresión/documentación"
+      ]
+    }
+  ]
+}
