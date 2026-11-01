@@ -64,3 +64,8 @@ Részletes felhasználói kézikönyv a [`kezikonyv/`](kezikonyv/) mappában,
 - [`PlcSzimulator.java`](PlcSzimulator.java) — a teljes alkalmazás forráskódja
 - [`dist/`](dist/) — futtatható Windows-csomag (exe + bundlingolt Java runtime)
 - [`kezikonyv/`](kezikonyv/) — felhasználói kézikönyv (PDF, 6 nyelven) és annak forrása
+
+## Licenc
+
+A projekt a [PolyForm Noncommercial 1.0.0](LICENSE) licenc alatt áll: szabadon
+nézhető, módosítható és terjeszthető, de csak nem kereskedelmi célra.
